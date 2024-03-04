@@ -6,5 +6,6 @@
   "parties": {
     "geo": "party/geo.ts"
   },
-  "serve": "public"
+  "serve": "public",
+  "domain": "party.charliegleason.com"
 }
