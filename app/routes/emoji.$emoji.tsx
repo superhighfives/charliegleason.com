@@ -1,5 +1,6 @@
 import { image } from 'remix-utils/responses'
-import { json } from '@remix-run/cloudflare'
+import type { LoaderFunctionArgs } from 'partymix'
+import { json } from 'partymix'
 
 import emojiList from '~/utils/emoji-list'
 import sampleSize from 'lodash/sampleSize'
@@ -7,7 +8,7 @@ import sampleSize from 'lodash/sampleSize'
 import EmojiRegex from 'emoji-regex'
 import GraphemeSplitter from 'grapheme-splitter'
 import * as nodeEmoji from 'node-emoji'
-import { Buffer } from '~/utils/buffer.server'
+import { Buffer } from 'node:buffer'
 
 type EmojiResponse = {
   error?: string
@@ -139,14 +140,18 @@ function generateStyles({ numImages, isAnimated = true }: GenerateStyles) {
   `
 }
 
-async function generateImage({ params, request }: any): Promise<any> {
+async function generateImage({
+  params,
+  request,
+  context,
+}: LoaderFunctionArgs): Promise<any> {
   const url = new URL(request.url)
   const animated = url.searchParams.get('animated') !== 'false'
   const detailed = url.searchParams.get('detailed') !== 'false'
 
   const emoji = params.emoji
 
-  const output = fetchEmoji(emoji)
+  const output = fetchEmoji(emoji!)
 
   const result: ResourceResponse = handleResponse(output)!
   const responseType = result.response.error ? 404 : 200
@@ -195,14 +200,17 @@ async function generateImage({ params, request }: any): Promise<any> {
 
   async function fetchImageToBase64(key: string) {
     try {
-      const response = await fetch(
-        `${url.protocol}//${url.host}/assets/emoji/${key}.png`
+      const response = await context.lobby.assets.fetch(
+        `/assets/emoji/${key}.png`
       )
+      if (!response) {
+        throw new Error(`No emoji for ${key}`)
+      }
       const arrayBuffer = Buffer.from(await response.arrayBuffer())
       const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)))
       return base64
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
 
@@ -299,7 +307,7 @@ async function generateImage({ params, request }: any): Promise<any> {
   return svg
 }
 
-export async function loader({ params, request }: any) {
+export async function loader({ params, request, context }: LoaderFunctionArgs) {
   const url = new URL(request.url)
   const detailed = url.searchParams.get('detailed') !== 'false'
 
@@ -313,7 +321,11 @@ export async function loader({ params, request }: any) {
   writer.write(encoder.encode(pre))
   writer.write(new Uint8Array(4096).fill(32))
   ;(async () => {
-    const image = await generateImage({ params, request })
+    const image = await generateImage({
+      context,
+      params,
+      request,
+    })
     writer.write(encoder.encode(image))
     writer.close()
   })()
