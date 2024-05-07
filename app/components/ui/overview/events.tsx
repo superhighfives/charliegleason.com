@@ -73,7 +73,7 @@ export default function Events() {
 
           <Block id="volunteering" title="Volunteering">
             <Items>
-              <Item title="Samaritans" date="2022 - ongoing" stack />
+              <Item title="Samaritans" date="2020 - 2024" stack />
             </Items>
           </Block>
 
