@@ -1,5 +1,3 @@
-import type { HtmlMetaDescriptor } from '@remix-run/cloudflare'
-
 type Props = {
   title?: string
   description?: string
@@ -10,12 +8,7 @@ type Props = {
 type Meta = {
   charset: string
   viewport: string
-  title?: string
-  'og:title'?: string
-  description?: string
-  'og:description'?: string
-  image?: string
-  'og:image'?: string
+  [key: string]: string
 }
 
 function Tags(props: Props) {

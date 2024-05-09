@@ -1,0 +1,17 @@
+---
+published: 2024-05-20
+handle:
+  id: id
+  title: Title
+  description: Description
+---
+
+import { requireUserId } from '~/session.server'
+export const loader = async ({request, context}) => {
+  return await requireUserId(request, context)
+}
+
+# {attributes.handle.title}
+## {attributes.handle.description}
+
+Content.

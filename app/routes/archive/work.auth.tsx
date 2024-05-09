@@ -1,31 +1,10 @@
-import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/cloudflare'
+import type { LoaderFunctionArgs } from '@remix-run/cloudflare'
 import { requireUserId } from '~/session.server'
-import { EMOJI_URL } from '~/constants'
-import tags from '~/utils/tags'
 import { useMatches } from '@remix-run/react'
 import Layout from '~/components/ui/layout'
 import Header from '~/components/ui/header'
 import Footer from '~/components/sections/footer'
-import type { MatchesData } from './_index'
-
-export const meta: MetaFunction = ({ matches }) => {
-  const parentsData = matches[0].data as MatchesData
-
-  const metatags = tags({
-    title: 'Charlie Gleason is a work in progress.',
-    image: 'https://charliegleason.com/social-default.png',
-  })
-
-  return [
-    ...metatags,
-    {
-      tagName: 'link',
-      rel: 'icon',
-      type: 'image/svg',
-      href: `${EMOJI_URL}${parentsData.symbol || '💀'}?animated=false`,
-    },
-  ]
-}
+import type { MatchesData } from '~/routes/_index'
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   return await requireUserId(request, context)

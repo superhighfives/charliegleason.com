@@ -43,7 +43,7 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction<typeof loader> = ({data}) => {
   return tags({
     title:
       'Charlie Gleason • Designer, developer, creative coder, and musician.',
@@ -79,7 +79,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 export function ErrorBoundary() {
   const error = useRouteError()
 
-  const caught = {}
+  const caught: {status?: number, statusText?: string} = {}
   caught.status = 500
   caught.statusText = 'An unknown error has occured'
 
@@ -94,6 +94,11 @@ export function ErrorBoundary() {
         <title>
           {caught.status}! Error! Charlie Gleason is having some issues!
         </title>
+        <meta charSet="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
         <Meta />
         <Links />
         <link
@@ -117,6 +122,12 @@ function App() {
     <html lang="en" className={clsx(theme)}>
       <head>
         <ThemeProviderSetup ssrTheme={Boolean(data.theme)} />
+        <meta charSet="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+        <link rel='icon' type='image/svg' href={`${EMOJI_URL}${(data as LoaderData).symbol || '💀'}?animated=false`} />
         <Meta />
         <Links />
       </head>

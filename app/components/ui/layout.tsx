@@ -6,12 +6,6 @@ type Props = {
   variant?: 'wide' | 'full'
 }
 
-// enum Style {
-//   default = 'max-w-2xl',
-//   wide = 'max-w-screen-2xl',
-//   full = 'w-full'
-// }
-
 export default function Layout({ children, variant }: Props) {
   const classes = cx({
     'max-w-2xl': !variant,
