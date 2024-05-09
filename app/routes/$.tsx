@@ -46,7 +46,7 @@ export const loader: LoaderFunction = async () => {
 export default function NotFoundRoute() {
   return (
     <>
-      <Layout wide>
+      <Layout variant="wide">
         <Header symbol="🙈" photo="01" small />
         <Sections>
           <NotFound />

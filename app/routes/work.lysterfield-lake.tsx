@@ -1,14 +1,14 @@
-import type { MetaFunction, LoaderFunctionArgs } from '@remix-run/cloudflare'
-import { requireUserId } from '~/session.server'
+import type { MetaFunction } from '@remix-run/cloudflare'
 import { EMOJI_URL } from '~/constants'
 import tags from '~/utils/tags'
 import { useMatches } from '@remix-run/react'
 import Layout from '~/components/ui/layout'
 import Header from '~/components/ui/header'
 import Footer from '~/components/sections/footer'
+import type { MatchesData } from './_index'
 
-export const meta: MetaFunction<typeof loader> = ({ matches }) => {
-  const parentsData = matches[0].data
+export const meta: MetaFunction = ({ matches }) => {
+  const parentsData = matches[0].data as MatchesData
 
   const metatags = tags({
     title: 'Charlie Gleason is a work in progress.',
@@ -26,18 +26,52 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   ]
 }
 
-export async function loader({ request, context }: LoaderFunctionArgs) {
-  return await requireUserId(request, context)
-}
-
-export default function ExamplePage() {
-  const { symbol, photo, user } = useMatches().find(
+export default function Page() {
+  const { symbol, photo, user }: MatchesData = useMatches().find(
     (route) => route.id === 'root'
   )?.data ?? { symbol: '💀', photo: '01', user: { id: 'unauthenticated' } }
 
   return (
-    <Layout wide>
-      <Header symbol={symbol} photo={photo} />
+    <>
+    <Layout variant='wide'>
+      <Header symbol={symbol!} photo={photo!} back />
+    </Layout>
+    <Layout variant='full'>
+
+      <main>
+        <img src="/assets/case-studies/lysterfield-lake/banner.jpg" width="1800" height="540" className='mx-auto rounded' alt=""></img>
+
+        <div className="max-w-screen-2xl mx-auto grid grid-cols-12 p-12 rounded-md -mt-12 bg-white">
+          <div className="grid-cols-1">
+          <img
+            src={`/assets/case-studies/lysterfield-lake/icon.png`}
+            className="rounded-lg shadow-xl w-[84px] aspect-square"
+            alt=""
+          />
+          </div>
+          <div className="grid grid-cols-subgrid gap-8 col-span-10 relative">
+            <hgroup className="col-span-10 font-display text-5xl">
+              <h1>Lysterfield Lake</h1>
+              <h2 className="text-neutral-500">An interactive, AI-generated 3D music video.</h2>
+            </hgroup>
+            <div className="col-span-7 space-y-8">
+              <div className="h-2 bg-neutral-200 rounded-full"></div>
+              <div>Copy</div>
+            </div>
+            <div className="col-span-3 space-y-4 text-xs">
+              <h3 className="font-display uppercase tracking-wider">Project Metadata</h3>
+              <dl className="grid justify-start grid-cols-2 gap-2">
+                <dt className="font-mono">Company</dt>
+                <dd>Side project</dd>
+                <dt className="font-mono">Company</dt>
+                <dd>Side project</dd>
+              </dl>
+
+            </div>
+          </div>
+        </div>
+      </main>
+
       <div>
         <h1 id="lysterfield-lake">Lysterfield Lake</h1>
         <h2 id="machine-learning-art-accelerometers-and-the-joy-of-slow-progress-and-fast-feedback-loops-or-how-i-built--lysterfield-lake">
@@ -48,13 +82,13 @@ export default function ExamplePage() {
         <hr />
         <p>
           <a href="https://wearebrightly.com/">Lysterfield Lake</a> is a song
-          about a place outside Melbourne, Australia. It’s about the endless
-          summers of your youth, and the tiny changes in you that you don’t even
-          notice adding up. It’s also about memories, which, like polaroids,
+          about a place outside Melbourne, Australia. It's about the endless
+          summers of your youth, and the tiny changes in you that you don't even
+          notice adding up. It's also about memories, which, like polaroids,
           fade and change over time.
         </p>
         <p>
-          I don’t remember exactly when I wrote it in much the same way I don’t
+          I don't remember exactly when I wrote it in much the same way I don't
           remember exactly when I started this project, which has spanned the
           better part of a year and has all but consumed the most creative bits
           of my brain.
@@ -65,8 +99,8 @@ export default function ExamplePage() {
           their open-source container for running machine learning models,{' '}
           <a href="https://github.com/replicate/cog">Cog</a>.) I was so inspired
           by their <a href="https://replicate.com/explore">Explore</a> page,
-          and, if I’m being totally honest, I was worried about the cost of
-          experimenting with AI. I’d set up a gaming PC in the weird limbo of
+          and, if I'm being totally honest, I was worried about the cost of
+          experimenting with AI. I'd set up a gaming PC in the weird limbo of
           the 2020 lockdowns, and these tools made it effortless (and for the
           most part, free) to try, and test, and many, many times, fail.
         </p>
@@ -78,17 +112,17 @@ export default function ExamplePage() {
         </p>
         <p>A selection of dreams from the final video.</p>
         <p>
-          When I decided to release new music (it’s been seven years since{' '}
+          When I decided to release new music (it's been seven years since{' '}
           <a href="https://wearebrightly.com/">the last Brightly record</a>) I
-          knew I wanted to build something with these bits and pieces I’d been
-          noodling with. I knew I wasn’t great at making traditional music
+          knew I wanted to build something with these bits and pieces I'd been
+          noodling with. I knew I wasn't great at making traditional music
           videos, and I felt empowered by the flexibility of the browsers, and
           the creative opportunties afforded by using machine learning and AI. I
           think the result is something greater than the sum of its parts.
         </p>
         <p>And there are a lot of parts.</p>
         <p>
-          (Also, if you haven’t seen the video,{' '}
+          (Also, if you haven't seen the video,{' '}
           <a href="https://lysterfieldlake.com/">
             you should go and check it out
           </a>{' '}
@@ -102,7 +136,7 @@ export default function ExamplePage() {
           />
         </p>
         <p>
-          (And if you’d{' '}
+          (And if you'd{' '}
           <a href="https://youtu.be/a-9gGCQIPo8">
             rather check out a recording, you can jump over to YouTube
           </a>{' '}
@@ -130,8 +164,8 @@ export default function ExamplePage() {
           </a>{' '}
           to stitch together seven feeds of video frame by frame, turning a
           single piece of footage shot on an iPhone into a three-dimensional
-          fever dream. It uses the accelerometer in your phone, if it’s
-          available, or your mouse if you’re on a computer. It shows and hides
+          fever dream. It uses the accelerometer in your phone, if it's
+          available, or your mouse if you're on a computer. It shows and hides
           the protagonist as you watch depending on your actions, offering a
           myriad of ways to experience it. New dreams can be added at any time.
         </p>
@@ -172,7 +206,7 @@ export default function ExamplePage() {
         </p>
         <p>
           The original footage vs the final output. Note to self: I probably
-          should’ve gotten a haircut before this.
+          should've gotten a haircut before this.
         </p>
         <h2 id="the-avatar">
           <strong>The Avatar</strong>
@@ -329,8 +363,8 @@ export default function ExamplePage() {
             <a href="https://www.dictionary.com/e/fictional-characters/waifu/">
               waifu
             </a>
-            ’s. Which, because the input clearly contains the shape of a person,
-            means a lot of waifu’s end up in the output, even when politely
+            's. Which, because the input clearly contains the shape of a person,
+            means a lot of waifu's end up in the output, even when politely
             asking Stable Diffusion not to.)
           </li>
         </ul>
@@ -364,7 +398,7 @@ export default function ExamplePage() {
           <strong>The Lyrics</strong>
         </h2>
         <p>
-          (Apologies for my handwriting. I clearly should’ve been a doctor.)
+          (Apologies for my handwriting. I clearly should've been a doctor.)
         </p>
         <p>
           <img
@@ -374,7 +408,7 @@ export default function ExamplePage() {
         </p>
         <p>
           At the same time, I recorded myself hand writing the lyrics in
-          Procreate, and then cleaned them up in Adobe’s After Effects.
+          Procreate, and then cleaned them up in Adobe's After Effects.
         </p>
         <h2 id="the-output">The output</h2>
         <p>An ultra-wide for each dream.</p>
@@ -387,9 +421,9 @@ export default function ExamplePage() {
         <p>
           This gets stitched together into an ultra-wide video with 7 square
           images side-by-side. Originally I tried using a single video for each
-          element, but it‘s impossible to guarantee frame sync across multiple
-          videos in the browser. Fortunately, much like how there’s no rule
-          against eating a candy bar on a dance floor, there’s no rule that
+          element, but it's impossible to guarantee frame sync across multiple
+          videos in the browser. Fortunately, much like how there's no rule
+          against eating a candy bar on a dance floor, there's no rule that
           videos need to be 16x9. Using custom shaders in the browser, you can
           simply grab the crop of footage you need for each element in real
           time.
@@ -408,10 +442,10 @@ export default function ExamplePage() {
         <p>An example of the 3D avatar rendering process.</p>
         <p>
           Custom shaders essentially let you paint with pixels in real time, and
-          it’s an incredibly exciting medium once you start to explore the
+          it's an incredibly exciting medium once you start to explore the
           possibilities. It is how I can use the pixels from the depth mask to
           directly impact how close or far each fragment of the 3D avatar is.
-          And, if you’d like to learn more,{' '}
+          And, if you'd like to learn more,{' '}
           <a href="https://thebookofshaders.com/">The Book of Shaders</a> is a
           great resource.
         </p>
@@ -460,15 +494,15 @@ export default function ExamplePage() {
           This is a probably a good time to mention that, while this is the
           conclusion, this project took every possible detour, hit every
           possible technical hitch, and explored every possible weird twist and
-          turn. What I’ve ended up with is absolutely nothing like what I
-          imagined, because I didn’t really know what I was going to get at the
+          turn. What I've ended up with is absolutely nothing like what I
+          imagined, because I didn't really know what I was going to get at the
           end. Which makes it a sort-of love letter to the creative process, and
           to the joys of pursing something purely for the “what-if” of it. There
           are so many ways that sticking with something can truly surprise you,
-          and that doesn’t have to involve making weird music videos — it could
+          and that doesn't have to involve making weird music videos — it could
           be baking, or cross stitch, or learning a language, or dance. Things
           you can experiment with, be creative with, grow with. Things that make
-          you feel like you did something you previously couldn’t. Maybe even
+          you feel like you did something you previously couldn't. Maybe even
           something great. That might be the greatest feeling there is.
         </p>
         <p>
@@ -479,7 +513,7 @@ export default function ExamplePage() {
         <h1 id="okay-how-do-i-find-out-more">Okay, how do I find out more?</h1>
         <h1 id="🎨-📸">🎨 📸</h1>
         <p>
-          If you’d like to check it out, you can do so here:
+          If you'd like to check it out, you can do so here:
           <br />
           <a href="https://lysterfieldlake.com/">
             https://lysterfieldlake.com/
@@ -512,11 +546,11 @@ export default function ExamplePage() {
         </p>
         <blockquote>
           <p>
-            <strong>Author’s note:</strong> Fair warning—it’s not the cleanest
-            code, and in the case of the pipeline, it’s not something that will
+            <strong>Author's note:</strong> Fair warning—it's not the cleanest
+            code, and in the case of the pipeline, it's not something that will
             work locally out of the box. I definitely intended open-sourcing
-            this to be educational, in the sense of “oh, that’s how he did
-            that!”, as opposed to aspirational, like “oh, that’s how he thinks
+            this to be educational, in the sense of “oh, that's how he did
+            that!”, as opposed to aspirational, like “oh, that's how he thinks
             React should be written??” It was a passion project, so maybe bear
             that in mind. Cheers. 😅
           </p>
@@ -530,24 +564,24 @@ export default function ExamplePage() {
         <p>The cover art for Lysterfield Lake.</p>
         <h2 id="🎵-🥁">🎵 🥁</h2>
         <p>
-          If you’d like to check out my music, you can find Brightly here:
+          If you'd like to check out my music, you can find Brightly here:
           <br />
           <a href="https://wearebrightly.com/">https://wearebrightly.com/</a>
         </p>
         <h2 id="💌-🥰">💌 🥰</h2>
         <p>
-          If you’d like to share this project, that would be greatly
+          If you'd like to share this project, that would be greatly
           appreciated.
         </p>
         <h2 id="🙏-👏">🙏 👏</h2>
         <p>
           Thanks to all my mates who came on country walks while I filmed myself
           awkwardly mouthing along to my own music. To Ian and Georgia for
-          filming the real thing in Scotland. And to everyone who told me I’m
+          filming the real thing in Scotland. And to everyone who told me I'm
           not too old to keep making things.
         </p>
         <p>
-          Also, this project wouldn’t have happened, like all my projects,
+          Also, this project wouldn't have happened, like all my projects,
           without the support and encouragement of{' '}
           <a href="https://github.com/geelen">Glen Maddern</a>. ❤️
         </p>
@@ -565,5 +599,6 @@ export default function ExamplePage() {
       </div>
       <Footer user={user} />
     </Layout>
+    </>
   )
 }

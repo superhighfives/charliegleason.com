@@ -1,3 +1,5 @@
+import type { MetaFunction } from '@remix-run/cloudflare'
+
 import Header from '~/components/ui/header'
 import Overview from '~/components/sections/overview'
 import Work from '~/components/sections/work'
@@ -12,8 +14,16 @@ import { projects, articles, features } from '~/data'
 import { useMatches } from '@remix-run/react'
 import { EMOJI_URL } from '../constants'
 
-export const meta: MetaFunction<typeof loader> = ({ matches }) => {
-  const parentsData = matches[0].data
+export type MatchesData = {
+  symbol?: string;
+  photo?: string;
+  user?: {
+    id: string
+  }
+};
+
+export const meta: MetaFunction = ({ matches }) => {
+  const parentsData = matches[0].data as MatchesData
   const parentsMeta = matches[0].meta
 
   return [
@@ -28,14 +38,14 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
 }
 
 export default function IndexRoute() {
-  const { symbol, photo, user } = useMatches().find(
+  const { symbol, photo, user }: MatchesData = useMatches().find(
     (route) => route.id === 'root'
   )?.data ?? { symbol: '💀', photo: '01', user: { id: 'unauthenticated' } }
 
   return (
     <>
-      <Layout wide>
-        <Header symbol={symbol} photo={photo} />
+      <Layout variant="wide">
+        <Header symbol={symbol!} photo={photo!} />
         <Sections>
           <Overview />
           <Work />

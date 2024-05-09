@@ -1,15 +1,27 @@
 import type { ReactNode } from 'react'
+import cx from 'classnames'
 
 type Props = {
   children: ReactNode
-  wide?: boolean
+  variant?: 'wide' | 'full'
 }
 
-export default function Layout({ children, wide }: Props) {
-  const classes = wide ? 'max-w-screen-2xl' : 'max-w-2xl'
+// enum Style {
+//   default = 'max-w-2xl',
+//   wide = 'max-w-screen-2xl',
+//   full = 'w-full'
+// }
+
+export default function Layout({ children, variant }: Props) {
+  const classes = cx({
+    'max-w-2xl': !variant,
+    'max-w-screen-2xl': variant == 'wide',
+    'w-full': variant == 'full',
+  })
+
   return (
     <div
-      className={`lg:px-10 py-8 sm:py-10 ml-auto mr-auto space-y-12 h-full ${classes}`}
+      className={`lg:px-10 py-8 sm:py-10 ml-auto mr-auto space-y-12 ${classes}`}
     >
       {children}
     </div>
