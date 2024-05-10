@@ -8,63 +8,75 @@ export default function Page() {
   const { symbol, photo, user }: MatchesData = useMatches().find(
     (route) => route.id === 'root'
   )?.data ?? { symbol: '💀', photo: '01', user: { id: 'unauthenticated' } }
-  
+
   const location = useLocation()
-  const matches: MatchesData = useMatches().find((route) => route.pathname === location.pathname)!
+  const matches: MatchesData = useMatches().find(
+    (route) => route.pathname === location.pathname
+  )!
   const content = matches.handle
 
   return (
     <>
-    <Layout variant='wide'>
-      <Header symbol={symbol!} photo={photo!} back />
-    </Layout>
-    <Layout variant='full'>
-      <main className="border-l border-r border-b pb-24 rounded">
-        <img src={`/assets/case-studies/${content.id}/banner.jpg`} width="1800" height="540" className='w-full mx-auto rounded' alt=""></img>
-        <div className="max-w-screen-2xl mx-auto grid grid-cols-prose py-12 gap-4 rounded-md -mt-12 bg-white relative">
-          <div className="col-main grid grid-cols-subgrid">
-            <div className="col-span-1">
-              <img
-                src={`/assets/case-studies/${content.id}/icon.png`}
-                className="rounded-lg shadow-xl w-[84px] aspect-square"
-                alt=""
-              />
-            </div>
-            <div className="grid grid-cols-subgrid gap-8 col-span-11 relative">
-              <hgroup className="col-span-11 font-display text-5xl">
-                <h1>{content.title}</h1>
-                <h2 className="text-neutral-500">{content.description}</h2>
-              </hgroup>
-              <div className="col-span-7 space-y-8">
-                <div className="h-2 bg-neutral-200 rounded-full"></div>
-                <p className="text-2xl leading-relaxed">{content.hero}</p>
+      <Layout variant="wide">
+        <Header symbol={symbol!} photo={photo!} back />
+      </Layout>
+      <Layout variant="full">
+        <main className="border-l border-r border-b border-neutral-300 dark:border-neutral-700 pb-24 rounded">
+          <img
+            src={`/assets/case-studies/${content.id}/banner.jpg`}
+            width="1800"
+            height="540"
+            className="w-full mx-auto rounded"
+            alt=""
+          ></img>
+          <div className="max-w-screen-2xl mx-auto grid grid-cols-prose py-12 gap-4 rounded-md -mt-12 bg-white dark:bg-neutral-900 relative">
+            <div className="col-main grid grid-cols-subgrid">
+              <div className="col-span-1">
+                <img
+                  src={`/assets/case-studies/${content.id}/icon.png`}
+                  className="rounded-lg shadow-xl w-[84px] aspect-square"
+                  alt=""
+                />
               </div>
-              {content.metadata ? 
-              <div className="col-span-3 space-y-4 text-xs">
-                <h3 className="font-display uppercase tracking-wider">Project Metadata</h3>
-                <dl className="grid justify-start grid-cols-2 gap-2">
-                  {content.metadata.map((metadata: {name: string, content: string}) => {
-                    return (
-                      <>
-                        <dt className="font-mono">{metadata.name}</dt>
-                        <dd>{metadata.content}</dd>
-                      </>
-                    )
-                  })}
-                  <dt className="font-mono">Company</dt>
-                  <dd>Side project</dd>
-                </dl>
+              <div className="grid grid-cols-subgrid gap-8 col-span-11 relative">
+                <hgroup className="col-span-11 font-display text-5xl">
+                  <h1>{content.title}</h1>
+                  <h2 className="text-neutral-500">{content.description}</h2>
+                </hgroup>
+                <div className="col-span-7 space-y-8">
+                  <div className="h-2 bg-neutral-200 rounded-full"></div>
+                  <p className="text-2xl leading-relaxed">{content.hero}</p>
+                </div>
+                {content.metadata ? (
+                  <div className="col-span-3 space-y-4 text-xs">
+                    <h3 className="font-display uppercase tracking-wider">
+                      Project Metadata
+                    </h3>
+                    <dl className="grid justify-start grid-cols-2 gap-2">
+                      {content.metadata.map(
+                        (metadata: { name: string; content: string }) => {
+                          return (
+                            <>
+                              <dt className="font-mono">{metadata.name}</dt>
+                              <dd>{metadata.content}</dd>
+                            </>
+                          )
+                        }
+                      )}
+                      <dt className="font-mono">Company</dt>
+                      <dd>Side project</dd>
+                    </dl>
+                  </div>
+                ) : null}
               </div>
-              : null}
             </div>
           </div>
-        </div>
-        <div className="grid grid-cols-prose gap-4 gap-y-8 [&>*]:col-content [&>.full]:col-full [&>.main]:col-main [&>.wide]:col-wide [&>.sidebar]:col-sidebar [&>.content]:col-content prose prose-lg max-w-none [&>*]:my-0">
-          <Outlet />
-        </div>
-      </main>
-      <Footer user={user} />
-    </Layout>
+          <div className="grid grid-cols-prose gap-4 gap-y-8 [&>*]:col-content [&>.full]:col-full [&>.main]:col-main [&>.wide]:col-wide [&>.sidebar]:col-sidebar [&>.content]:col-content prose prose-lg dark:prose-invert max-w-none [&>*]:my-0">
+            <Outlet />
+          </div>
+        </main>
+        <Footer user={user} />
+      </Layout>
     </>
   )
 }
