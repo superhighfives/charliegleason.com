@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./app/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
@@ -7,12 +8,13 @@ module.exports = {
         xxs: '.625rem',
       },
       gridTemplateColumns: {
-        'prose': '[full-start] minmax(2em, 1fr) [main-start] minmax(0, 800px) [content-start] minmax(0, 400px) [content-end] 0 [main-end] minmax(2em, 1fr) [full-end]'
+        'prose': '[full-start] minmax(2em, 1fr) [rail-start] minmax(0, 100px) [main-start] repeat(7, minmax(0, 100px)) [content-start] repeat(3, minmax(0, 100px)) [rail-end] minmax(0, 100px) [main-end] minmax(2em, 1fr) [full-end]'
       },
       gridColumn: {
-        'main': 'main-start / main-end',
+        'main': 'rail-start / main-end',
         'content': 'main-start / content-start',
-        'sidebar': 'content-start / content-end',
+        'wide': 'main-start / rail-end',
+        'sidebar': 'content-start / main-end',
         'full': 'full-start / full-end'
       }
     },
@@ -53,5 +55,8 @@ module.exports = {
       ],
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography')
+  ],
 }
