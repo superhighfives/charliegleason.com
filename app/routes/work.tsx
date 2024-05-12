@@ -21,7 +21,7 @@ export default function Page() {
         <Header symbol={symbol!} photo={photo!} back />
       </Layout>
       <Layout variant="full">
-        <main className="border-l border-r border-b border-neutral-300 dark:border-neutral-700 pb-24 rounded">
+        <main className="border-l border-r border-b border-neutral-300 dark:border-neutral-700 pb-36 rounded">
           <img
             src={`/assets/case-studies/${content.id}/banner.jpg`}
             width="1800"
@@ -29,26 +29,26 @@ export default function Page() {
             className="w-full mx-auto rounded"
             alt=""
           ></img>
-          <div className="max-w-screen-2xl mx-auto grid grid-cols-prose py-12 gap-4 rounded-md -mt-12 bg-white dark:bg-neutral-900 relative">
-            <div className="col-main grid grid-cols-subgrid">
-              <div className="col-span-1">
+          <div className="grid grid-cols-prose-sm lg:grid-cols-prose py-12 gap-8 rounded-md -mt-12 bg-white dark:bg-neutral-900 relative">
+            <div className="grid grid-cols-subgrid col-main gap-y-8">
+              <div className="col-span-full lg:col-span-1">
                 <img
                   src={`/assets/case-studies/${content.id}/icon.png`}
                   className="rounded-lg shadow-xl w-[84px] aspect-square"
                   alt=""
                 />
               </div>
-              <div className="grid grid-cols-subgrid gap-8 col-span-11 relative">
-                <hgroup className="col-span-11 font-display text-5xl">
+              <div className="grid grid-cols-subgrid gap-8 col-span-full lg:col-span-11 relative">
+                <hgroup className="col-span-full font-display text-5xl">
                   <h1>{content.title}</h1>
                   <h2 className="text-neutral-500">{content.description}</h2>
                 </hgroup>
-                <div className="col-span-7 space-y-8">
-                  <div className="h-2 bg-neutral-200 rounded-full"></div>
+                <div className="col-span-full order-1 lg:order-none lg:col-span-8 space-y-8">
+                  <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full"></div>
                   <p className="text-2xl leading-relaxed">{content.hero}</p>
                 </div>
                 {content.metadata ? (
-                  <div className="col-span-3 space-y-4 text-xs">
+                  <div className="col-span-full lg:col-span-3 space-y-4 text-xs">
                     <h3 className="font-display uppercase tracking-wider">
                       Project Metadata
                     </h3>
@@ -71,7 +71,7 @@ export default function Page() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-prose gap-4 gap-y-8 [&>*]:col-content [&>.full]:col-full [&>.main]:col-main [&>.wide]:col-wide [&>.sidebar]:col-sidebar [&>.content]:col-content prose prose-lg dark:prose-invert max-w-none [&>*]:my-0">
+          <div className="grid grid-cols-prose-sm lg:grid-cols-prose gap-8 gap-y-8 [&>*]:col-main [&>*]:lg:col-content [&>.full]:col-full [&>.main]:col-main [&>.wide]:col-wide [&>.sidebar]:col-sidebar [&>.content]:col-content prose prose-lg dark:prose-invert max-w-none [&>*]:my-0 prose-headings:font-display">
             <Outlet />
           </div>
         </main>

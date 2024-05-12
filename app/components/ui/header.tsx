@@ -21,7 +21,7 @@ export default function Header(props: Props) {
         <Toggle />
         <Avatar {...props} />
       </div>
-      <div className="space-y-4 sm:space-y-0 sm:flex justify-between items-end">
+      <div className="space-y-4 md:space-y-0 md:flex justify-between items-end">
         <hgroup className="font-display uppercase tracking-wider text-xs">
           <a
             href="/"

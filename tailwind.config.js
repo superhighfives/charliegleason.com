@@ -8,7 +8,8 @@ module.exports = {
         xxs: '.625rem',
       },
       gridTemplateColumns: {
-        'prose': '[full-start] minmax(2em, 1fr) [rail-start] minmax(0, 100px) [main-start] repeat(7, minmax(0, 100px)) [content-start] repeat(3, minmax(0, 100px)) [rail-end] minmax(0, 100px) [main-end] minmax(2em, 1fr) [full-end]'
+        'prose': '[full-start] minmax(1em, 1fr) [rail-start] minmax(84px, 100px) [main-start] repeat(7, minmax(0, 100px)) [content-start] repeat(3, minmax(0, 100px)) [rail-end] minmax(0, 100px) [main-end] minmax(1em, 1fr) [full-end]',
+        'prose-sm': '[full-start] minmax(1em, 1fr) [rail-start] minmax(0, 100px) [main-start] repeat(7, minmax(0, 100px)) [content-start] repeat(3, minmax(0, 100px)) [rail-end] minmax(0, 100px) [main-end] minmax(1em, 1fr) [full-end]'
       },
       gridColumn: {
         'main': 'rail-start / main-end',
