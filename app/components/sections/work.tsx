@@ -7,25 +7,6 @@ export default function Work() {
 
   return (
     <>
-    <div
-        id="case-studies"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12"
-      >
-        <div className="col-span-full">
-          <Title>Case Studies</Title>
-        </div>
-        <div className="sm:col-span-1">
-          <Tile
-            id="lysterfield-lake"
-            href="/work/lysterfield-lake"
-            title="Lysterfield Lake"
-            description="AI music video"
-            color="emerald"
-            viewportRef={viewportRef}
-          />
-        </div>
-      </div>
-      <hr />
       <div
         id="highlights"
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12"
@@ -39,6 +20,7 @@ export default function Work() {
             href="https://wearebrightly.com"
             title="Brightly"
             description="Music and experiments"
+            type="work"
             color="yellow"
             viewportRef={viewportRef}
           />
@@ -49,6 +31,7 @@ export default function Work() {
             href="https://superhighfives.com/pika"
             title="Pika"
             description="An open-source colour macOS app"
+            type="work"
             color="pink"
             viewportRef={viewportRef}
           />
@@ -59,6 +42,7 @@ export default function Work() {
             href="https://heroku.com/pricing"
             title="Heroku Pricing"
             description="Simple pricing for a complex product"
+            type="work"
             color="indigo"
             viewportRef={viewportRef}
           />

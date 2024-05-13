@@ -53,13 +53,15 @@ export default function Tile({
   href,
   color,
   viewportRef,
+  type,
 }: {
   id: string
   title: string
   description: string
   href: string
-  color: 'yellow' | 'indigo' | 'pink' | 'amber' | 'emerald'
+  color: 'yellow' | 'indigo' | 'pink' | 'amber' | 'emerald' | 'red' | 'rose'
   viewportRef: RefObject<HTMLDivElement>
+  type: 'case-studies' | 'work'
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const position = useMousePosition(ref)
@@ -70,6 +72,18 @@ export default function Tile({
     indigo: 'from-indigo-500 to-indigo-800 dark:to-indigo-300',
     amber: 'from-amber-500 to-amber-800 dark:to-amber-300',
     emerald: 'from-emerald-500 to-emerald-800 dark:to-emerald-300',
+    red: 'from-red-500 to-red-800 dark:to-red-300',
+    rose: 'from-rose-500 to-rose-800 dark:to-rose-300',
+  }
+
+  const outlineColors = {
+    yellow:  'group-focus:outline-yellow-600 dark:group-focus:outline-yellow-400 group-hover:outline-yellow-600 dark:group-hover:outline-yellow-400',
+    pink:    'group-focus:outline-pink-600 dark:group-focus:outline-pink-400 group-hover:outline-pink-600 dark:group-hover:outline-pink-400',
+    indigo:  'group-focus:outline-indigo-600 dark:group-focus:outline-indigo-400 group-hover:outline-indigo-600 dark:group-hover:outline-indigo-400',
+    amber:   'group-focus:outline-amber-600 dark:group-focus:outline-amber-400 group-hover:outline-amber-600 dark:group-hover:outline-amber-400',
+    emerald: 'group-focus:outline-emerald-600 dark:group-focus:outline-emerald-400 group-hover:outline-emerald-600 dark:group-hover:outline-emerald-400',
+    red:     'group-focus:outline-red-600 dark:group-focus:outline-red-400 group-hover:outline-red-600 dark:group-hover:outline-red-400',
+    rose:    'group-focus:outline-rose-600 dark:group-focus:outline-rose-400 group-hover:outline-rose-600 dark:group-hover:outline-rose-400',
   }
 
   function isTouchDevice() {
@@ -100,20 +114,21 @@ export default function Tile({
     <a
       href={href}
       ref={viewRef}
-      className={`group group:focus block space-y-4 outline-none ${
+      className={`group group:focus group:hover block space-y-4 outline-none ${
         inView && window.innerWidth < 640 ? 'inframe' : ''
       }`}
     >
       <div className="relative">
         <div
           className={`aspect-[1.72/1]
+          outline outline-2 outline-transparent
         group-focus:outline-none group-focus:shadow-outline
-        outline-offset-2 outline-4 group-focus:outline-yellow-600 dark:group-focus:outline-yellow-400
-        rounded-md`}
+        outline-offset-2 ${outlineColors[color]}
+        rounded-md transition-all duration-300`}
           ref={ref}
         >
           <img
-            src={`/assets/work/${id}/screenshot.png`}
+            src={`/assets/${type}/${id}/screenshot.png`}
             className={`absolute inset-0 z-10 left-4 grayscale pointer-events-none
             group-[.inframe]:-left-2 group-[.inframe]:grayscale-0
             group-focus:-left-2 group-focus:grayscale-0
@@ -125,7 +140,7 @@ export default function Tile({
             className={`${css.move} shadow-lg rounded-lg overflow-hidden transition-transform duration-500 ease-out pointer-events-none`}
           >
             <img
-              src={`/assets/work/${id}/tile.png`}
+              src={`/assets/${type}/${id}/tile.png`}
               className={`max-w-full w-full grayscale
               sm:group-hover:grayscale-0
               group-focus:grayscale-0
@@ -136,7 +151,7 @@ export default function Tile({
           </div>
         </div>
         <img
-          src={`/assets/work/${id}/icon.png`}
+          src={`/assets/${type}/${id}/icon.png`}
           className="w-[20%] h-auto rounded-lg shadow-xl absolute top-[50%] -left-4 pointer-events-none transform -translate-y-1/2"
           alt=""
         />

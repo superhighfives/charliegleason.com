@@ -1,6 +1,7 @@
 import Header from '~/components/ui/header'
 import Overview from '~/components/sections/overview'
 import Work from '~/components/sections/work'
+import CaseStudies from '~/components/sections/case-studies'
 import Selected from '~/components/sections/selected-redux'
 import Links from '~/components/sections/links'
 import Quotes from '~/components/sections/quotes'
@@ -32,6 +33,7 @@ export default function IndexRoute() {
         <Header symbol={symbol!} photo={photo!} />
         <Sections>
           <Overview />
+          <CaseStudies />
           <Work />
           <Selected sections={[projects, articles, features]} />
           <Quotes />
