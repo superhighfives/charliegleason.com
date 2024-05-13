@@ -10,7 +10,7 @@ export default function Layout({ children, variant }: Props) {
   const classes = cx({
     'max-w-2xl': !variant,
     'max-w-screen-2xl': variant == 'wide',
-    'w-full': variant == 'full',
+    'max-w-screen-3xl': variant == 'full',
   })
 
   return (

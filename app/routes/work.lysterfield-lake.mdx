@@ -13,18 +13,40 @@ handle:
   title: Lysterfield Lake
   description: An interactive, AI-generated 3D music video.
   hero: Lysterfield Lake is a song about a place outside Melbourne, Australia. It's about the  endless summers of your youth, and the tiny changes in you that you don't even notice adding up. It's also about memories, which, like polaroids, fade and change over time.
+  gradient:
+    forwards: "from-[#F8CD0D] to-[#E45C87]"
+    backwards: "to-[#F8CD0D] from-[#E45C87]"
   metadata:
-    - name: Something
-      content: Something else
     - name: Company
       content: Side project
+    - name: Timeline
+      content: Early 2023 - December 2023
+    - name: Platform
+      content: Web
+    - name: Industry
+      content: Music
+    - name: Team
+      content:
+        - - Charlie Gleason
+          - Everything
+        - - Tom Jones
+          - Other
 ---
 
 import Picture from '~/components/ui/case-studies/picture'
+import Metadata from '~/components/ui/case-studies/metadata'
+import Hero from '~/components/ui/case-studies/hero'
+import Intro from '~/components/ui/case-studies/intro'
 
-I don't remember exactly when I wrote it in much the same way I don't remember exactly when I started this project, which has spanned the better part of a year and has all but consumed the most creative bits of my brain.
+<Intro>
+  <Hero gradient={attributes.handle.gradient.backwards} hero={attributes.handle.hero} />
 
-I think it all began when I came across [Replicate](https://replicate.com/) (and by extention, their open-source container for running machine learning models, [Cog](https://github.com/replicate/cog).) I was so inspired by their [Explore](https://replicate.com/explore) page, and, if I'm being totally honest, I was worried about the cost of experimenting with AI. I'd set up a gaming PC in the weird limbo of the 2020 lockdowns, and these tools made it effortless (and for the most part, free) to try, and test, and many, many times, fail.
+  I don't remember exactly when I wrote it in much the same way I don't remember exactly when I started this project, which has spanned the better part of a year and has all but consumed the most creative bits of my brain.
+
+  I think it all began when I came across [Replicate](https://replicate.com/) (and by extention, their open-source container for running machine learning models, [Cog](https://github.com/replicate/cog).) I was so inspired by their [Explore](https://replicate.com/explore) page, and, if I'm being totally honest, I was worried about the cost of experimenting with AI. I'd set up a gaming PC in the weird limbo of the 2020 lockdowns, and these tools made it effortless (and for the most part, free) to try, and test, and many, many times, fail.
+</Intro>
+
+<Metadata gradient={attributes.handle.gradient.forwards} metadata={attributes.handle.metadata} />
 
 <div className="full">
   <Picture src="/assets/case-studies/lysterfield-lake/image-polaroids-full.png" alt="A selection of dreams from the final video." />

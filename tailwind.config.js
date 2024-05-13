@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./app/**/*.{js,ts,jsx,tsx}'],
+  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}'],
   darkMode: 'class',
   theme: {
     extend: {
@@ -17,6 +17,9 @@ module.exports = {
         'wide': 'main-start / rail-end',
         'sidebar': 'content-start / main-end',
         'full': 'full-start / full-end'
+      },
+      screens: {
+        '3xl': '1800px',
       }
     },
     fontFamily: {

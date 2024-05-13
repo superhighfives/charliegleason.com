@@ -52,7 +52,7 @@ export default function Header(props: Props) {
           </h2>
         </hgroup>
         {props.back
-          ? <Link icon={Back} href="/" background={false} padding="large" className="inline-block">
+          ? <Link icon={Back} href="/#case-studies" background={false} padding="large" className="inline-block">
               Back to projects
             </Link>
           

@@ -58,7 +58,7 @@ export default function Tile({
   title: string
   description: string
   href: string
-  color: 'yellow' | 'indigo' | 'pink'
+  color: 'yellow' | 'indigo' | 'pink' | 'amber' | 'emerald'
   viewportRef: RefObject<HTMLDivElement>
 }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -68,6 +68,8 @@ export default function Tile({
     yellow: 'from-yellow-500 to-yellow-800 dark:to-yellow-300',
     pink: 'from-pink-500 to-pink-800 dark:to-pink-300',
     indigo: 'from-indigo-500 to-indigo-800 dark:to-indigo-300',
+    amber: 'from-amber-500 to-amber-800 dark:to-amber-300',
+    emerald: 'from-emerald-500 to-emerald-800 dark:to-emerald-300',
   }
 
   function isTouchDevice() {
