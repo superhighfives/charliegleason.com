@@ -30,7 +30,7 @@ export default function Page() {
             alt=""
           ></img>
           <div className="grid grid-cols-prose-sm sm:grid-cols-prose pt-0 xl:pt-16 pb-8 xl:gap-x-16 gap-y-16 rounded-md sm:-mt-12 bg-white dark:bg-neutral-900 relative">
-            <div className="grid grid-cols-subgrid col-main gap-y-8 sm:-mt-10 xl:mt-0">
+            <div className="grid grid-cols-subgrid col-main gap-y-8 sm:-mt-10">
               <div className="col-span-full xl:col-span-1">
                 <img
                   src={`/assets/case-studies/${content.id}/icon.png`}
@@ -48,7 +48,7 @@ export default function Page() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-16 gap-y-4 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:sm:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.content]:sm:col-content prose prose-lg dark:prose-invert max-w-none [&>hr]:my-16 [&>*]:my-0 prose-headings:font-display">
+          <div className="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-16 gap-y-4 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:sm:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.content]:sm:col-content prose prose-lg dark:prose-invert max-w-none [&>hr]:my-16 [&>*]:my-0 prose-headings:font-display prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base">
             <Outlet />
           </div>
         </main>
