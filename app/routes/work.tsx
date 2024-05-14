@@ -29,8 +29,8 @@ export default function Page() {
             className="w-full mx-auto rounded"
             alt=""
           ></img>
-          <div className="grid grid-cols-prose-sm xl:grid-cols-prose pt-16 pb-4 gap-8 rounded-md -mt-12 bg-white dark:bg-neutral-900 relative">
-            <div className="grid grid-cols-subgrid col-main gap-y-8">
+          <div className="grid grid-cols-prose-sm xl:grid-cols-prose pt-0 xl:pt-16 pb-8 xl:gap-x-16 gap-y-16 rounded-md -mt-12 bg-white dark:bg-neutral-900 relative">
+            <div className="grid grid-cols-subgrid col-main gap-y-8 -mt-10 xl:mt-0">
               <div className="col-span-full xl:col-span-1">
                 <img
                   src={`/assets/case-studies/${content.id}/icon.png`}
@@ -38,16 +38,15 @@ export default function Page() {
                   alt=""
                 />
               </div>
-              <div className="grid grid-cols-subgrid gap-8 col-span-full xl:col-span-10 relative">
-                <hgroup className="col-span-full font-display text-5xl">
+              <div className="grid grid-cols-subgrid xl:gap-x-16 gap-y-16 col-span-full xl:col-span-10 relative">
+                <hgroup className="col-span-full font-display text-3xl xl:text-5xl">
                   <h1>{content.title}</h1>
-                  <h2 className="text-neutral-500">{content.description}</h2>
+                  <h2 className="text-neutral-500 dark:text-neutral-400">{content.description}</h2>
                 </hgroup>
-                
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-prose-sm xl:grid-cols-prose gap-8 [&>*]:col-main [&>*]:xl:col-content [&>.full]:col-full [&>.main]:col-main [&>.wide]:col-wide [&>.sidebar]:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.content]:col-content prose prose-lg dark:prose-invert max-w-none [&>*]:my-0 prose-headings:font-display">
+          <div className="grid grid-cols-prose-sm xl:grid-cols-prose xl:gap-x-16 gap-y-4 [&>*]:col-main [&>*]:xl:col-content [&>.full]:col-full [&>.main]:col-main [&>.wide]:col-wide [&>.sidebar]:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.content]:col-content prose prose-lg dark:prose-invert max-w-none [&>hr]:my-16 [&>*]:my-0 prose-headings:font-display">
             <Outlet />
           </div>
         </main>
