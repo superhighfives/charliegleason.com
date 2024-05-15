@@ -7,13 +7,15 @@ export default function Picture({
   alt: string
   themed: boolean
 }) {
+  const lightSrc = src
+  const darkSrc = src.split('.').join(themed ? '-dark.' : '.')
   return (
     <figure className="text-center space-y-2 font-mono text-gray-600 text-xs">
       <img
         className={`${
           themed ? 'dark:hidden' : ''
         } block rounded mx-auto w-full`}
-        src={src}
+        src={lightSrc}
         alt={alt}
       />
       {themed ? (
@@ -21,7 +23,7 @@ export default function Picture({
           className={`${
             themed ? 'hidden dark:block' : ''
           } rounded mx-auto w-full`}
-          src={src.split('.').join(themed ? '-dark.' : '.')}
+          src={darkSrc}
           alt={alt}
         />
       ) : null}
