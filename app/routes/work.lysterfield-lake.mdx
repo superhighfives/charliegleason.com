@@ -29,12 +29,8 @@ handle:
       content:
         - - Charlie Gleason
           - Everything
-        - - Tom Jones
-          - Other
-        - - Sarah Thompson
-          - Go go gadget
-        - - Longer Name
-          - Much longer job description
+        - - Glen Maddern
+          - Support and Encouragement
 ---
 
 import Picture from '~/components/ui/case-studies/picture'
@@ -81,7 +77,7 @@ And there are a lot of parts.
 Behind the scenes it was modelled in [Blender](https://www.blender.org/), (using a polaroid model by [Edoardo Galati](https://sketchfab.com/edoardogalati)), generated in python and shell scripts, and built in JavaScript. It is made up of entirely open-source projects that are freely available.
 
 <div className="full">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-grid.png" alt="A frame of each of the initial dreams." />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-grid.png" alt="A frame of each of the initial dreams." mobile />
 </div>
 
 ---
@@ -109,7 +105,7 @@ The original footage vs the final output. Note to self: I probably should've got
 A 3D-watercolour version of the subject matter (which is, in this case, me).
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-avatar-diagram.png" alt="A diagram of how the avatar is generated." themed />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-avatar-diagram.png" alt="A diagram of how the avatar is generated." themed mobile />
 </div>
 
 <div className="content">
@@ -119,8 +115,8 @@ A 3D-watercolour version of the subject matter (which is, in this case, me).
   - These three elements (the watercolour image, the alpha mask, and the depth mask) are used to render the avatar.
 </div>
 
-<div className="sidebar">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-avatar-preview.png" alt="A preview of the generated avatar, from frame to 3D avatar." themed />
+<div className="main">
+  <Picture src="/assets/case-studies/lysterfield-lake/image-avatar-preview.png" alt="A preview of the generated avatar, from frame to 3D avatar." themed mobile />
 </div>
 
 ---
@@ -130,7 +126,7 @@ A 3D-watercolour version of the subject matter (which is, in this case, me).
 A watercolour version of the original image, without the subject matter.
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-background-diagram.png" alt="A diagram showing how the background is generated." themed />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-background-diagram.png" alt="A diagram showing how the background is generated." themed mobile />
 </div>
 
 <div className="content">
@@ -139,8 +135,8 @@ A watercolour version of the original image, without the subject matter.
   - This element is then used to render the background.
 </div>
 
-<div className="sidebar">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-background-preview.png" alt="A preview of the background, from frame to watercolour background." themed />
+<div className="main">
+  <Picture src="/assets/case-studies/lysterfield-lake/image-background-preview.png" alt="A preview of the background, from frame to watercolour background." themed mobile />
 </div>
 
 ---
@@ -150,7 +146,7 @@ A watercolour version of the original image, without the subject matter.
 A comic-book style sketch of the subject matter.
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-outline-diagram.png" alt="A diagram showing how the outline is generated." themed />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-outline-diagram.png" alt="A diagram showing how the outline is generated." themed mobile />
 </div>
 
 <div className="content">
@@ -159,8 +155,8 @@ A comic-book style sketch of the subject matter.
   - This sketch is then overlaid on the avatar during rendering (it also uses a bit of dithering in the custom shader in [Three.js](https://threejs.org/), which is what gives it the printed ink / slight comic book style).
 </div>
 
-<div className="sidebar">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-outline-preview.png" alt="A preview of the diagram, from frame to outline." themed />
+<div className="main">
+  <Picture src="/assets/case-studies/lysterfield-lake/image-outline-preview.png" alt="A preview of the diagram, from frame to outline." themed mobile />
 </div>
 
 ---
@@ -170,25 +166,25 @@ A comic-book style sketch of the subject matter.
 Prompt-generated reinterpretations of the original image.
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-diagram.png" alt="A diagram showing the dreams." themed />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-diagram.png" alt="A diagram showing the dreams." themed mobile />
 </div>
 
 The original images are fed into [Deforum Stable Diffusion](https://replicate.com/deforum/deforum_stable_diffusion?input=form&output=preview), along with a prompt, creating unique scenes that mirror the subject matter. For example, trees and a lake that match the contours of the image.
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-preview.png" alt="A preview showing the dreams, from the original frames." themed />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-preview.png" alt="A preview showing the dreams, from the original frames." themed mobile />
 </div>
 
 Each frame is then manually reviewed one by one and removed if not appropriate. (The primary reason for this is that Stable Diffusion models are trained on image sets that include a large amount of [waifu](https://www.dictionary.com/e/fictional-characters/waifu/)'s. Which, because the input clearly contains the shape of a person, means a lot of waifu's end up in the output, even when politely asking Stable Diffusion not to.)
 
-<div className="full">
+<div className="wide">
   <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-waifu.png" alt="An example of the tendency AI has toward waifu. Turns out every creative process eventually takes a sharp detour into the uncanniest valleys." />
 </div>
 
 The remaining images are fed into [rife-ncnn-vulkan](https://github.com/nihui/rife-ncnn-vulkan), which interpolates the missing frames and generates new ones to fill the gaps.
 
 <div className="wide">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-interpolation-diagram.png" alt="A diagram showing the interpolation process." themed />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-interpolation-diagram.png" alt="A diagram showing the interpolation process." themed mobile />
 </div>
 
 ---
@@ -196,7 +192,7 @@ The remaining images are fed into [rife-ncnn-vulkan](https://github.com/nihui/ri
 ## The Lyrics
 
 <div className="full">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-lyrics.png" alt="The lyrics that are get overlaid on the polaroids." />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-lyrics.png" alt="The lyrics that are get overlaid on the polaroids." mobile />
 </div>
 
 At the same time, I recorded myself hand writing the lyrics in Procreate, and then cleaned them up in Adobe's After Effects.
@@ -208,7 +204,7 @@ At the same time, I recorded myself hand writing the lyrics in Procreate, and th
 ## The Output
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-frames-overlaid.png" alt="An example of each frame, with the different dream for each." themed />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-frames-overlaid.png" alt="An example of each frame, with the different dream for each." themed mobile />
 </div>
 
 This gets stitched together into an ultra-wide video with 7 square images side-by-side. Originally I tried using a single video for each element, but it‘s impossible to guarantee frame sync across multiple videos in the browser. Fortunately, much like how there's no rule against eating a candy bar on a dance floor, there's no rule that videos need to be 16x9. Using custom shaders in the browser, you can simply grab the crop of footage you need for each element in real time.
@@ -216,7 +212,7 @@ This gets stitched together into an ultra-wide video with 7 square images side-b
 And having all of these elements in the one shader affords new opportunities. By passing the depth mask, alpha mask, and the watercolour scene, I was able to generate a rough 3D model.
 
 <div className="wide">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-stack-diagram.png" alt="An example of how the elements of the avatar are stitched together." themed />
+  <Picture src="/assets/case-studies/lysterfield-lake/image-stack-diagram.png" alt="An example of how the elements of the avatar are stitched together." themed mobile />
 </div>
 
 Custom shaders essentially let you paint with pixels in real time, and it's an incredibly exciting medium once you start to explore the possibilities. It is how I can use the pixels from the depth mask to directly impact how close or far each fragment of the 3D avatar is. And, if you'd like to learn more, [The Book of Shaders](https://thebookofshaders.com/) is a great resource.
@@ -241,50 +237,37 @@ This is a probably a good time to mention that, while this is the conclusion, th
 
 I hope you find it inspiring, or at the very least, mildly interesting, and I appreciate you taking the time to learn more about how the project works.
 
----
-
-# Okay, how do I find out more?
-
-# 🎨 📸
-
-If you'd like to check it out, you can do so here:
-[https://lysterfieldlake.com/](https://lysterfieldlake.com/)
-
-The project itself is entirely open-source, and available at the following GitHub repositories:
-
-## 👉 [Client App](https://github.com/superhighfives/lysterfield-lake)
-
-A React app, powered by React and [react-three-fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction).
-
-## 👉 [Pipeline](https://github.com/superhighfives/lysterfield-lake-pipeline)
-
-The pipeline that generates the video used by the app, powered by python and shell-scripts.
-
-<small>(**Author's note:** Fair warning—it's not the cleanest code, and in the case of the pipeline, it's not something that will work locally out of the box. I definitely intended open-sourcing this to be educational, in the sense of “oh, that's how he did that!”, as opposed to aspirational, like “oh, that's how he thinks React should be written??” It was a passion project, so maybe bear that in mind. Cheers. 😅)</small>
-
 <div className="content">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-cover-art.jpg" alt="Brightly - Lysterfield Lake (cover art)" />
+  ---
+  
+  # Okay, how do I find out more?
+
+  If you'd like to check it out, you can do so here:
+  [https://lysterfieldlake.com/](https://lysterfieldlake.com/)
+
+  If you'd like to share this project, that would be greatly appreciated. The project itself is entirely open-source, and available at the following GitHub repositories:
+
+  👉 [**Client App**](https://github.com/superhighfives/lysterfield-lake)<br />
+    A React app, powered by React and react-three-fiber.
+
+  👉 [**Pipeline**](https://github.com/superhighfives/lysterfield-lake-pipeline)<br />
+  The pipeline that generates the video used by the app, powered by python and shell-scripts.
+
+  (**Author's note:** Fair warning—it's not the cleanest code, and in the case of the pipeline, it's not something that will work locally out of the box. I definitely intended open-sourcing this to be educational, in the sense of “oh, that's how he did that!”, as opposed to aspirational, like “oh, that's how he thinks React should be written??” It was a passion project, so maybe bear that in mind. Cheers. 😅)
 </div>
 
-The cover art for Lysterfield Lake.
+<div className="sidebar">
+  <Picture src="/assets/case-studies/lysterfield-lake/image-cover-art.jpg" alt="Brightly - Lysterfield Lake (cover art)" />
 
-## 🎵 🥁
+  <small>
+    Thanks to all my mates who came on country walks while I filmed myself awkwardly mouthing along to my own music. To Ian and Georgia for filming the real thing in Scotland. And to everyone who told me I'm not too old to keep making things.
 
-If you'd like to check out my music, you can find Brightly here:
-[https://wearebrightly.com/](https://wearebrightly.com/)
+    Also, this project wouldn't have happened, like all my projects, without the support and encouragement of [Glen Maddern](https://github.com/geelen). ❤️
 
-## 💌 🥰
+    Produced and Mixed by James Seymour in Naarm.<br />
+    Mastered by Andrei “Ony” Eremin in Philadelphia.
 
-If you'd like to share this project, that would be greatly appreciated.
-
-## 🙏 👏
-
-Thanks to all my mates who came on country walks while I filmed myself awkwardly mouthing along to my own music. To Ian and Georgia for filming the real thing in Scotland. And to everyone who told me I'm not too old to keep making things.
-
-Also, this project wouldn't have happened, like all my projects, without the support and encouragement of [Glen Maddern](https://github.com/geelen). ❤️
-
-Produced and Mixed by James Seymour in Naarm.<br />
-Mastered by Andrei “Ony” Eremin in Philadelphia.
-
-Thank you for listening.<br />
-[@wearebrightly](http://twitter.com/wearebrightly) / wearebrightly.com
+    Thank you for listening.<br />
+    [@wearebrightly](http://twitter.com/wearebrightly) / wearebrightly.com
+  </small>
+</div>

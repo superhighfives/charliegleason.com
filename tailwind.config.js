@@ -9,7 +9,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         prose:
-          '[full-start] minmax(1em, 1fr) [rail-start] minmax(84px, 100px) [main-start] repeat(7, minmax(0, 100px)) [content-start] repeat(3, minmax(0, 100px)) [rail-end] minmax(0, 100px) [main-end] minmax(1em, 1fr) [full-end]',
+          '[full-start] minmax(2em, 1fr) [rail-start] minmax(0, 100px) [main-start] repeat(7, minmax(0, 100px)) [content-start] repeat(3, minmax(0, 100px)) [rail-end] minmax(0, 100px) [main-end] minmax(2em, 1fr) [full-end]',
         'prose-sm':
           '[full-start] 0 [rail-start] minmax(0, 1fr) [main-start] repeat(7, minmax(0, 1fr)) [content-start] repeat(3, minmax(0, 1fr)) [rail-end] minmax(0, 1fr) [main-end] 0 [full-end]',
       },

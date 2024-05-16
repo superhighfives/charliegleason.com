@@ -21,7 +21,7 @@ export default function Header(props: Props) {
         <Toggle />
         <Avatar {...props} />
       </div>
-      <div className="space-y-4 md:space-y-0 md:flex justify-between items-end">
+      <div className="space-y-4 md:space-y-0 sm:flex justify-between items-end">
         <hgroup className="font-display uppercase tracking-wider text-xs">
           <a
             href="/"
@@ -53,7 +53,7 @@ export default function Header(props: Props) {
         </hgroup>
         {props.back
           ? <Link icon={Back} href="/#case-studies" background={false} padding="large" className="inline-block">
-              Back to projects
+              Back<span className="sm:hidden md:inline"> to projects</span>
             </Link>
           
           : null
