@@ -1,6 +1,5 @@
 import Link from '~/components/ui/link'
 import Title from '~/components/ui/title'
-import { Fragment } from 'react'
 import { EMOJI_URL } from '~/constants'
 
 type Props = {
