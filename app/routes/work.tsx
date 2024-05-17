@@ -22,16 +22,16 @@ export default function Page() {
       <Layout variant="wide">
         <Header symbol={symbol!} photo={photo!} />
       </Layout>
+      <img
+        src={`/assets/case-studies/${content.id}/banner.jpg`}
+        width="1800"
+        height="540"
+        className="w-full mx-auto rounded hidden sm:block max-w-screen-3xl"
+        alt=""
+      ></img>
       <Layout variant="full">
         <main className="sm:border border-neutral-200 dark:border-neutral-700 pb-8 xl:pb-20 rounded">
-          <img
-            src={`/assets/case-studies/${content.id}/banner.jpg`}
-            width="1800"
-            height="540"
-            className="w-full mx-auto rounded hidden sm:block"
-            alt=""
-          ></img>
-          <div className="grid grid-cols-prose-sm sm:grid-cols-prose pt-0 xl:pt-32 pb-8 xl:gap-x-8 gap-y-8 rounded-md bg-white dark:bg-neutral-900 relative">
+          <div className="grid grid-cols-prose-sm sm:grid-cols-prose pt-0 xl:pt-16 pb-8 xl:gap-x-8 gap-y-8 rounded-md bg-white dark:bg-neutral-900 relative">
               <div className="col-span-full sm:col-span-2 sm:col-start-2 lg:col-span-1 lg:col-start-2 sm:-mt-12 xl:mt-0 xl:-mr-4">
                 <img
                   src={`/assets/case-studies/${content.id}/icon.png`}
