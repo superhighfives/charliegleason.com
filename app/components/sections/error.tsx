@@ -4,7 +4,7 @@ import type { ThrownResponse } from '@remix-run/react'
 export default function Error(caught: ThrownResponse) {
   return (
     <div className="grid place-items-center h-full">
-      <div className="flex items-center space-x-4">
+      <div className="sm:flex items-center space-x-4 space-y-4 sm:space-y-0">
         <div className="flex">
           <Avatar symbol="💀" photo="01" />
         </div>

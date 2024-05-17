@@ -9,7 +9,7 @@ type Props = {
   className?: string
   background?: boolean
   icon?: FunctionComponent
-  href: string
+  href?: string
   children: ReactNode
 }
 

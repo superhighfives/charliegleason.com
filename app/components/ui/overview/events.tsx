@@ -8,35 +8,8 @@ export default function Events() {
   return (
     <>
       {/* prettier-ignore */}
-      <Grid>
-        <div className="space-y-8">
-          <Block id="education" title="Education">
-            <Education title="Masters of Computer Science" school="RMIT University" location="Melbourne" dates="2011 - incomplete" />
-            <Education title="Bachelor of Design (Multimedia Design)" school="Swinburne School of Design" location="Melbourne" dates="2004 - 2007" postscript="First Class Honours" />
-          </Block>
-
-          <Block id="certifications" title="Certifications">
-            <Items>
-              <Item date="2022" title="Salesforce User Experience (UX) Designer Certification" />
-            </Items>
-          </Block>
-
-          <Block id="talks-demos-workshops" title="Talks, Demos &amp; Workshops">
-            <Items>
-              <Item added="1715100373042" date="2024" title="Partner Summit: The Future of AppExchange" />
-              <Item added="1694520000000" date="2023" title="Dreamforce: Designing a 5 Star Partner Listing" />
-              <Item date="2019" title="Creative Coding London" />
-              <Item date="2017" title="JSConf Budapest (Master of Ceremonies)" />
-              <Item date="2016" title="Decompress: Blending WebGL and video" />
-              <Item date="2012" title="Web Directions South: You are a developer, the internet is your friend" />
-              <Item date="2012" title="What Do You Know: So, you are great (and so is Less CSS)" />
-              <Item date="2011" title="What Do You Know: How to make your life more awesome with CSS3 media queries" />
-            </Items>
-          </Block>
-        </div>
-        
+      <Grid className="grid-flow-row-dense">
         <Block wide id="awards-achievements" title="Awards &amp; Achievements">
-          <Items>
             <Item added="1704231952628" date="2024" title="AWWWARDS, Nomination for Typography Honors" link={{title: "Lysterfield Lake", href: "https://www.awwwards.com/sites/lysterfield-lake"}} />
             <Item added="1703075047170" date="2023" title="AWWWARDS, Honourable Mention" link={{title: "Lysterfield Lake", href: "https://www.awwwards.com/sites/lysterfield-lake"}} />
             <Item added="1679399492577" date="2023" title="Salesforce TMP AI Hackathon, Winner for Overall Best Hack" />
@@ -59,51 +32,57 @@ export default function Events() {
             <Item date="2011" title="AWWWARDS, Site of the Day" link={{title: "The Story of Mick Roberts", href: "https://www.awwwards.com/sites/smoking-takes-lives"}} />
             <Item date="2011" title="Caples, Silver, Pop What You’re Not" />
             <Item date="2011" title="Award, Bronze, Pop What You’re Not" />
-          </Items>
-        </Block>
-
-        <div className="!mt-0 space-y-8">
-          <Block id="awards-achievements-cont">
             <Item date="2010" title="AIMIA, Nomination for Effectiveness, Pop What You’re Not" />
             <Item date="2010" title="ADMA, Bronze for Art Direction / Craft, Pop What You’re Not" />
             <Item date="2010" title="ADMA, Silver for Automotive, Pop What You’re Not" />
             <Item date="2010" title="MADC, Bronze for Best Microsite, Pop What You’re Not" />
             <Item date="2007" title="Design Institute of Australia, Encouragement Award" />
-          </Block>
+        </Block>
 
-          <Block id="volunteering" title="Volunteering">
-            <Items>
-              <Item title="Samaritans" date="2020 - 2024" stack />
-            </Items>
-          </Block>
+        <Block id="talks-demos-workshops" title="Talks, Demos &amp; Workshops">
+            <Item added="1715100373042" date="2024" title="Partner Summit: The Future of AppExchange" />
+            <Item added="1694520000000" date="2023" title="Dreamforce: Designing a 5 Star Partner Listing" />
+            <Item date="2019" title="Creative Coding London" />
+            <Item date="2017" title="JSConf Budapest (Master of Ceremonies)" />
+            <Item date="2016" title="Decompress: Blending WebGL and video" />
+            <Item date="2012" title="Web Directions South: You are a developer, the internet is your friend" />
+            <Item date="2012" title="What Do You Know: So, you are great (and so is Less CSS)" />
+            <Item date="2011" title="What Do You Know: How to make your life more awesome with CSS3 media queries" />
+        </Block>
 
-          <Block id="triathlons" title="Triathlons">
-            <Items>
-              <Item date="2023" title="Blenheim Palace Triathlon (Sprint)" />
-              <Item date="2022" title="Blenheim Palace Triathlon (Sprint)" />
-            </Items>
-          </Block>
-            
-          <Block id="half-marathons" title="Half Marathons">
-            <Items>
-              <Item date="2022" title="Manchester Great Run" />
-              <Item date="2021" title="London Landmarks" />
-            </Items>
-          </Block>
-            
-          <Block id="marathons" title="Marathons">
-            <Items>
-              <Item date="2017" title="London" />
-              <Item date="2015" title="London" />
-            </Items>
-          </Block>
+        <Block id="education" title="Education">
+          <Education title="Masters of Computer Science" school="RMIT University" location="Melbourne" dates="2011 - incomplete" />
+          <Education title="Bachelor of Design (Multimedia Design)" school="Swinburne School of Design" location="Melbourne" dates="2004 - 2007" postscript="First Class Honours" />
+        </Block>
 
-          <Block id="ultra-marathons" title="Ultra Marathons"> 
-            <Items>
-              <Item title="None" />
-            </Items>
-          </Block>    
-        </div>
+        <Block id="certifications" title="Certifications">
+            <Item date="2022" title="Salesforce User Experience (UX) Designer Certification" />
+        </Block>
+
+        <Block id="volunteering" title="Volunteering">
+          <Items>
+            <Item title="Samaritans" date="2020 - 2024" stack />
+          </Items>
+        </Block>
+
+        <Block id="triathlons" title="Triathlons">
+            <Item date="2023" title="Blenheim Palace Triathlon (Sprint)" />
+            <Item date="2022" title="Blenheim Palace Triathlon (Sprint)" />
+        </Block>
+          
+        <Block id="half-marathons" title="Half Marathons">
+            <Item date="2022" title="Manchester Great Run" />
+            <Item date="2021" title="London Landmarks" />
+        </Block>
+          
+        <Block id="marathons" title="Marathons">
+            <Item date="2017" title="London" />
+            <Item date="2015" title="London" />
+        </Block>
+
+        <Block id="ultra-marathons" title="Ultra Marathons"> 
+            <Item title="None" />
+        </Block>    
       </Grid>
     </>
   )
