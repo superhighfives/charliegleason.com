@@ -24,6 +24,7 @@ export default function Work() {
             description="AI music video"
             type="case-studies"
             color="rose"
+            format="webp"
             viewportRef={viewportRef}
           />
         </div>

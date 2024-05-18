@@ -54,6 +54,7 @@ export default function Tile({
   color,
   viewportRef,
   type,
+  format = "png",
 }: {
   id: string
   title: string
@@ -62,6 +63,7 @@ export default function Tile({
   color: 'yellow' | 'indigo' | 'pink' | 'amber' | 'emerald' | 'red' | 'rose'
   viewportRef: RefObject<HTMLDivElement>
   type: 'case-studies' | 'work'
+  format: 'png' | 'webp'
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const position = useMousePosition(ref)
@@ -128,7 +130,7 @@ export default function Tile({
           ref={ref}
         >
           <img
-            src={`/assets/${type}/${id}/screenshot.png`}
+            src={`/assets/${type}/${id}/screenshot.${format}`}
             className={`absolute inset-0 z-10 left-4 grayscale pointer-events-none
             group-[.inframe]:-left-2 group-[.inframe]:grayscale-0
             group-focus:-left-2 group-focus:grayscale-0
@@ -140,7 +142,7 @@ export default function Tile({
             className={`${css.move} shadow-lg rounded-lg overflow-hidden transition-transform duration-500 ease-out pointer-events-none`}
           >
             <img
-              src={`/assets/${type}/${id}/tile.png`}
+              src={`/assets/${type}/${id}/tile.${format}`}
               className={`max-w-full w-full grayscale
               sm:group-hover:grayscale-0
               group-focus:grayscale-0
@@ -151,7 +153,7 @@ export default function Tile({
           </div>
         </div>
         <img
-          src={`/assets/${type}/${id}/icon.png`}
+          src={`/assets/${type}/${id}/icon.${format}`}
           className="w-[20%] h-auto rounded-lg shadow-xl absolute top-[50%] -left-4 pointer-events-none transform -translate-y-1/2"
           alt=""
         />
