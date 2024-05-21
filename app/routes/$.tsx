@@ -25,7 +25,6 @@ export const meta: MetaFunction = () => {
     description:
       'Designer, developer, creative coder, musician, and 404 page enthusiast.',
     image: 'https://charliegleason.com/social-error.png',
-    emoji: '🙈',
   })
 }
 
