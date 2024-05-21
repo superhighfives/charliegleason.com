@@ -5,7 +5,9 @@ meta:
   - title: Lysterfield Lake
   - name: description
     content: Machine learning, art, accelerometers, and the joy of slow progress and fast feedback loops (or, how I built Lysterfield Lake)
-  - name: og-image
+  - property: description
+    content: Machine learning, art, accelerometers, and the joy of slow progress and fast feedback loops (or, how I built Lysterfield Lake)
+  - property: og-image
     content: /assets/case-studies/lysterfield-lake/banner.webp
 
 handle:
@@ -41,6 +43,7 @@ import Picture from '~/components/ui/case-studies/picture'
 import Metadata from '~/components/ui/case-studies/metadata'
 import Hero from '~/components/ui/case-studies/hero'
 import Intro from '~/components/ui/case-studies/intro'
+import tags from '~/utils/tags'
 
 <Intro>
   <Hero gradient={attributes.handle.gradient.backwards} hero={attributes.handle.hero} />

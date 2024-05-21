@@ -1,18 +1,17 @@
 import type {
-  LoaderArgs,
-  ActionArgs,
+  LoaderFunctionArgs,
+  ActionFunctionArgs,
+  MetaFunction,
   LinksFunction,
 } from '@remix-run/cloudflare'
 
 import { Form, useSearchParams } from '@remix-run/react'
 import { json, redirect } from '@remix-run/cloudflare'
 
-import { getUserId } from '~/session.server'
-import { createUserSession } from '~/session.server'
+import { getUserId, createUserSession } from '~/session.server'
 
 import { safeRedirect } from '~/utils/user'
 
-import type { MetaFunction } from '@remix-run/cloudflare'
 
 import Avatar from '~/components/ui/avatar'
 
@@ -44,7 +43,7 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export async function loader({ request, context }: LoaderArgs) {
+export async function loader({ request, context }: LoaderFunctionArgs) {
   const userId = await getUserId(request, context)
 
   if (userId) {
@@ -54,7 +53,7 @@ export async function loader({ request, context }: LoaderArgs) {
   return json({}, { status: 200 })
 }
 
-export async function action({ request, context }: ActionArgs) {
+export async function action({ request, context }: ActionFunctionArgs) {
   const formData = await request.formData()
   const redirectTo = safeRedirect(formData.get('redirectTo'))
 

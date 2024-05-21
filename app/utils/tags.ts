@@ -5,38 +5,27 @@ type Props = {
   emoji?: string
 }
 
-type Meta = {
-  charset: string
-  viewport: string
-  [key: string]: string
-}
+type Meta = {[key: string]: string} | {key: string}
+
 
 function Tags(props: Props) {
-  const tags: Meta = {
-    charset: 'utf-8',
-    viewport: 'width=device-width,initial-scale=1',
-  }
+  const tags: Meta[] = []
 
   if (props.title) {
-    tags.title = props.title
-    tags['og:title'] = props.title
+    tags.push({title: props.title})
+    tags.push({property: 'og:title', content: props.title})
   }
 
   if (props.description) {
-    tags.description = props.description
-    tags['og:description'] = props.description
+    tags.push({name: 'description', content: props.description})
+    tags.push({property: 'og:description', content: props.description})
   }
 
   if (props.image) {
-    tags.image = props.image
-    tags['og:image'] = props.image
+    tags.push({property: 'og:image', content: props.image})
   }
 
-  const metatags = Object.keys(tags).map((tag) => {
-    return { [tag]: tags[tag] }
-  })
-
-  return metatags
+  return tags
 }
 
 export default Tags
