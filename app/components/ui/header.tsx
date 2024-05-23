@@ -13,8 +13,8 @@ type Props = {
 export default function Header(props: Props) {
   return (
     <div
-      className={`space-y-4 ${!props.small && 'pt-24 sm:pt-48'} ${
-        props.small && '-mt-[3.5rem] sm:-mt-[5rem]'
+      className={`space-y-4 ${
+        !props.small ? 'pt-[15vh]' : '-mt-[3.5rem] sm:-mt-[5rem]'
       }`}
     >
       <div className="flex items-center">
@@ -51,13 +51,17 @@ export default function Header(props: Props) {
             Designer, developer, creative coder, and&nbsp;musician
           </h2>
         </hgroup>
-        {props.back
-          ? <Link icon={Back} href="/#case-studies" background={false} padding="large" className="inline-block">
-              Back<span className="sm:hidden md:inline"> to projects</span>
-            </Link>
-          
-          : null
-        }
+        {props.back ? (
+          <Link
+            icon={Back}
+            href="/#case-studies"
+            background={false}
+            padding="large"
+            className="inline-block"
+          >
+            Back<span className="sm:hidden md:inline"> to projects</span>
+          </Link>
+        ) : null}
       </div>
     </div>
   )

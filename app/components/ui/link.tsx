@@ -17,7 +17,7 @@ export default function Link({
   type = 'default',
   size = 'default',
   padding = 'default',
-  className = 'default',
+  className,
   background = true,
   icon,
   href,
@@ -29,13 +29,13 @@ export default function Link({
         <a
           href={href}
           className={`
-            ${className}
             transition-colors outline-2 outline-offset-2 rounded-sm border-b border-neutral-900/25 dark:border-neutral-100/25 mx-0.5
             hover:text-yellow-600 dark:hover:text-yellow-400 hover:border-current dark:hover:border-current
             focus:text-yellow-600 dark:focus:text-yellow-400 focus:border-current dark:focus:border-current
             active:text-yellow-600 dark:active:text-yellow-400 active:border-current dark:active:border-current
             focus-visible:outline focus-visible:outline-yellow-600 focus-visible:dark:outline-yellow-400
             truncate
+            ${className}
           `}
           title={children?.toString()}
         >
@@ -48,7 +48,6 @@ export default function Link({
         <a
           href={href}
           className={`${size === 'large' ? 'sm:text-md md:text-lg' : ''} 
-            ${className}
             font-display bg-gradient-to-r bg-[length:100%_0.1em] bg-bottom bg-no-repeat rounded-sm box-decoration-clone px-1 -mx-1 outline-2 outline-offset-2 outline-yellow-500 grayscale
             
             bg-neutral-100 from-yellow-500 to-yellow-600 [text-shadow:0_0.125em_0_theme('colors.neutral.100')]
@@ -66,6 +65,8 @@ export default function Link({
             ${!background ? 'bg-none bg-white rounded-md' : ''}
 
             ${padding === 'large' ? 'px-2 py-1 -mx-1 -my-0.5' : ''}
+
+            ${className}
           `}
         >
           {icon && (
