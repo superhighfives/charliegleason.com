@@ -1,6 +1,6 @@
 export default function Metadata({gradient, metadata}: {gradient: string, metadata: []}) {
   return <div className="lg-sidebar not-prose space-y-4">
-  <h3 className={`text-xs font-display uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r ${gradient} inline-block`}>
+  <h3 className={`text-xs font-display uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-l ${gradient} inline-block`}>
     Project Metadata
   </h3>
   <dl className="grid justify-start grid-cols-2 md:grid-cols-4 xl:grid-cols-2 gap-4">

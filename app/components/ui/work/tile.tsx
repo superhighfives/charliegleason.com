@@ -4,6 +4,8 @@ import { useInView } from 'react-intersection-observer'
 
 import css from './tile.module.css'
 
+export type ColorType = 'yellow' | 'indigo' | 'pink' | 'amber' | 'emerald' | 'red' | 'rose' | 'blue' | 'sky'
+
 export const useMousePosition = (ref: any) => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
@@ -58,12 +60,12 @@ export default function Tile({
 }: {
   id: string
   title: string
-  description: string
   href: string
-  color: 'yellow' | 'indigo' | 'pink' | 'amber' | 'emerald' | 'red' | 'rose'
+  color: ColorType
   viewportRef: RefObject<HTMLDivElement>
   type: 'case-studies' | 'work'
   format: 'png' | 'webp'
+  description?: string
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const position = useMousePosition(ref)
@@ -76,6 +78,8 @@ export default function Tile({
     emerald: 'from-emerald-500 to-emerald-800 dark:to-emerald-300',
     red: 'from-red-500 to-red-800 dark:to-red-300',
     rose: 'from-rose-500 to-rose-800 dark:to-rose-300',
+    blue: 'from-blue-500 to-blue-800 dark:to-blue-300',
+    sky: 'from-sky-500 to-sky-800 dark:to-sky-300',
   }
 
   const outlineColors = {
@@ -86,6 +90,8 @@ export default function Tile({
     emerald: 'group-focus:outline-emerald-600 dark:group-focus:outline-emerald-400 group-hover:outline-emerald-600 dark:group-hover:outline-emerald-400',
     red:     'group-focus:outline-red-600 dark:group-focus:outline-red-400 group-hover:outline-red-600 dark:group-hover:outline-red-400',
     rose:    'group-focus:outline-rose-600 dark:group-focus:outline-rose-400 group-hover:outline-rose-600 dark:group-hover:outline-rose-400',
+    blue:    'group-focus:outline-blue-600 dark:group-focus:outline-blue-400 group-hover:outline-blue-600 dark:group-hover:outline-blue-400',
+    sky:     'group-focus:outline-sky-600 dark:group-focus:outline-sky-400 group-hover:outline-sky-600 dark:group-hover:outline-sky-400',
   }
 
   function isTouchDevice() {
@@ -126,7 +132,7 @@ export default function Tile({
           outline outline-2 outline-transparent
         group-focus:outline-none group-focus:shadow-outline
         outline-offset-2 ${outlineColors[color]}
-        rounded-md transition-all duration-300`}
+        rounded-lg transition-all duration-300`}
           ref={ref}
         >
           <img
@@ -147,7 +153,7 @@ export default function Tile({
               sm:group-hover:grayscale-0
               group-focus:grayscale-0
               group-[.inframe]:grayscale-0
-              transition-all duration-500 ease-out`}
+              transition-all duration-500 ease-out rounded-2xl`}
               alt=""
             />
           </div>
@@ -164,9 +170,10 @@ export default function Tile({
         >
           {title}
         </h2>
+        {description ? 
         <h2 className="text-xxs text-neutral-600 dark:text-neutral-400">
           {description}
-        </h2>
+        </h2> : null}
       </div>
     </a>
   )

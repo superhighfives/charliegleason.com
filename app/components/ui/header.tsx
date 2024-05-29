@@ -25,7 +25,7 @@ export default function Header(props: Props) {
         <hgroup className="font-display uppercase tracking-wider text-xs">
           <a
             href="/"
-            className={`relative block transition-opacity opacity-90
+            className={`relative block transition-opacity opacity-90 rounded-lg
                         w-64 sm:w-80 z-10 -mt-6 sm:-mt-8 ml-0 sm:-ml-4 lg:-ml-12 mb-2 lg:mb-0 max-w-full
                         hover:opacity-100 active:opacity-100 focus:opacity-100
                         outline-2 outline-offset-2
