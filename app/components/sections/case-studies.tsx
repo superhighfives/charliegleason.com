@@ -44,7 +44,7 @@ export default function Work() {
           <Title>Case Studies</Title>
         </div>
 
-        <CaseStudy
+        {/* <CaseStudy
           id="ax-publishing"
           href="/work/ax-publishing"
           title="AppExchange Publishing"
@@ -54,7 +54,7 @@ export default function Work() {
           viewportRef={viewportRef}>
         </CaseStudy>
 
-        <hr className="dark:border-neutral-800" />
+        <hr className="dark:border-neutral-800" /> */}
         
         <CaseStudy
           id="lysterfield-lake"
