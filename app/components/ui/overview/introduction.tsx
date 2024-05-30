@@ -5,7 +5,7 @@ export default function Introduction() {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h1 className="text-2xl">
+        <h1 className="text-xl sm:text-2xl">
           I’m a lead product designer at{' '}
           <Link href="https://salesforce.com">Salesforce</Link>, looking after developer experience at the intersection of design and code.
         </h1>

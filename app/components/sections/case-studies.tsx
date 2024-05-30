@@ -8,7 +8,7 @@ import type { ColorType } from '~/components/ui/work/tile'
 
 function CaseStudy({viewportRef, id, href, title, color, hero, description}: {viewportRef: RefObject<HTMLDivElement>, id: string, href: string, title: string, hero: ReactNode, description: string, color: ColorType}) {
   return (
-    <div className="grid grid-cols-3 gap-6 lg:gap-12">
+    <div className="grid grid-cols-3 gap-3 lg:gap-12">
       <div className="col-span-full lg:col-span-1">
           <Tile
             id={id}
