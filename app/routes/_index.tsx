@@ -26,6 +26,7 @@ export type MatchesData = {
 
 export type PostsData = {
   slug: string
+  url: string
   date?: Date
   frontmatter: {
     title: string
