@@ -140,3 +140,11 @@ html.dark *::selection {
   color: theme('colors.yellow.300');
   background: theme('colors.yellow.900');
 }
+
+/* 
+ * Light / Dark zoom
+ */
+
+.dark [data-rmiz-modal-overlay="visible"] {
+  background: rgba(0, 0, 0, 0.95);
+}

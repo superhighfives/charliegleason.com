@@ -17,7 +17,6 @@
     "@remix-run/cloudflare-pages": "^2.8.0",
     "@remix-run/css-bundle": "^2.8.0",
     "@remix-run/react": "^2.8.0",
-    "@vanyapr/react-image-magnifiers": "^1.4.2",
     "clsx": "^2.1.0",
     "cross-env": "^7.0.3",
     "emoji-regex": "^10.3.0",
@@ -27,6 +26,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intersection-observer": "^9.8.1",
+    "react-medium-image-zoom": "^5.2.4",
     "remix-utils": "^7.5.0",
     "svgo": "^3.2.0",
     "unicode-emoji-json": "^0.4.0"
