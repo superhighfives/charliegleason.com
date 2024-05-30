@@ -1,5 +1,3 @@
-import { Circle } from 'lucide-react'
-
 export default function Metadata({gradient, metadata}: {gradient: string, metadata: []}) {
   return <div className="lg-sidebar not-prose space-y-4">
   <h3 className={`text-xs font-display uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-l ${gradient} inline-block`}>
@@ -14,11 +12,10 @@ export default function Metadata({gradient, metadata}: {gradient: string, metada
             ? <div className="border-b-2 dark:border-neutral-700 col-span-2" key={data.name}>
               <dt className="font-mono text-xs col-span-full pb-2 text-neutral-400">{data.name}</dt>
               <div className={`${classes} col-span-2 grid grid-cols-2 gap-4 pb-4`}>
-                {data.content.map(row => <dd key={row} className="col-span-1 first-line:font-medium">{(row as []).map(line => {
-                  return (
-                      <p className="relative" key={line}>{line == "Charlie Gleason" ? <div className="absolute -left-5 top-2 w-1 h-1 rounded-full bg-white" /> : null} {line}</p>
+                {data.content.map(row => <dd key={row} className="col-span-1 first-line:font-medium">{(row as []).map(line => (
+                    <p className="relative" key={line}>{line == "Charlie Gleason" ? <span className="absolute -left-5 top-2 w-1 h-1 rounded-full bg-white" /> : null} {line}</p>
                   )
-                })}</dd>)}
+                )}</dd>)}
               </div>
             </div>
             : <div className="border-b-2 dark:border-neutral-700 col-span-1" key={data.name}>

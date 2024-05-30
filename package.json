@@ -17,6 +17,7 @@
     "@remix-run/cloudflare-pages": "^2.8.0",
     "@remix-run/css-bundle": "^2.8.0",
     "@remix-run/react": "^2.8.0",
+    "@vanyapr/react-image-magnifiers": "^1.4.2",
     "clsx": "^2.1.0",
     "cross-env": "^7.0.3",
     "emoji-regex": "^10.3.0",
