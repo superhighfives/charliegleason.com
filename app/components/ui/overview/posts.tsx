@@ -24,7 +24,7 @@ export default function Posts({posts}: {posts: PostsData[]}) {
               </svg>
 
               <div className="flex items-center gap-2 flex-1 overflow-hidden">
-                <Link href={post.slug} className="-ml-1 flex-shrink-0">
+                <Link href={post.url} className="-ml-1 flex-shrink-0">
                   {post.frontmatter.title}
                 </Link>
                 
