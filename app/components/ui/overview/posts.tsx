@@ -5,7 +5,10 @@ import Title from '~/components/ui/title'
 export default function Posts({posts}: {posts: PostsData[]}) {
   return (
       <div className="space-y-4">
-        <Title>Recent writing</Title>
+        <div className="flex items-center gap-2">
+        <Title>Recent writing <Link type='text' className="font-mono font-bold text-[0.625rem]" href="https://code.charliegleason.com">(code.charliegleason.com)</Link></Title>
+        
+        </div>
         <div className="space-y-4">
         {posts.map((post) => {
           return (
