@@ -9,8 +9,10 @@ import Layout from '~/components/ui/layout'
 import Sections from '~/components/ui/sections'
 import Footer from '~/components/sections/footer'
 
+import type { LoaderFunctionArgs } from '@remix-run/cloudflare'
+
 import { projects, articles, features } from '~/data'
-import { useMatches } from '@remix-run/react'
+import { useMatches, useLoaderData,json } from '@remix-run/react'
 
 export type MatchesData = {
   symbol?: string;
@@ -22,17 +24,40 @@ export type MatchesData = {
   meta?: any
 };
 
+export type PostsData = {
+  slug: string
+  date?: Date
+  frontmatter: {
+    title: string
+    description: string
+    published: string
+    data: []
+    links: []
+  }
+}
+
+export async function loader({ context }: LoaderFunctionArgs) {
+  return await fetch(`${context.CODE_ENDPOINT}/resource/posts`)
+  .then(res => res.json())
+  .catch(e => {
+    console.log('Error', e)
+    return []
+  })
+}
+
 export default function IndexRoute() {
   const { symbol, photo, user }: MatchesData = useMatches().find(
     (route) => route.id === 'root'
   )?.data ?? { symbol: '💀', photo: '01', user: { id: 'unauthenticated' } }
+
+  const posts = useLoaderData<typeof loader>() as PostsData[]
 
   return (
     <>
       <Layout variant="wide">
         <Header symbol={symbol!} photo={photo!} />
         <Sections>
-          <Overview />
+          <Overview posts={posts} />
           <CaseStudies />
           <Work />
           <Selected sections={[projects, articles, features]} />

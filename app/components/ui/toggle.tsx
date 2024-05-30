@@ -8,8 +8,7 @@ import { Theme, useTheme } from '~/utils/theme-provider'
 import Icon, { DarkMode } from '~/components/ui/icon'
 
 function Button({to}: {to: Theme}) {
-  const [theme, setTheme] = useTheme()
-  console.log(setTheme)
+  const [, setTheme] = useTheme()
 
   return (
     <button
