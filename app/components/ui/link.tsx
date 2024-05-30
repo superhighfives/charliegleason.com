@@ -17,7 +17,7 @@ export default function Link({
   type = 'default',
   size = 'default',
   padding = 'default',
-  className,
+  className = '',
   background = true,
   icon,
   href,
@@ -48,7 +48,7 @@ export default function Link({
         <a
           href={href}
           className={`${size === 'large' ? 'sm:text-md md:text-lg' : ''} 
-            font-display bg-gradient-to-r bg-[length:100%_0.1em] bg-bottom bg-no-repeat box-decoration-clone px-1 -mx-1 outline-2 outline-offset-2 outline-yellow-500 grayscale
+            font-display bg-gradient-to-r bg-[length:100%_0.1em] bg-bottom bg-no-repeat box-decoration-clone px-1 outline-2 outline-offset-2 outline-yellow-500 grayscale
             
             bg-neutral-100 from-yellow-500 to-yellow-600 [text-shadow:0_0.125em_0_theme('colors.neutral.100')]
             dark:bg-neutral-900 dark:from-yellow-600 dark:to-yellow-500 dark:[text-shadow:0_0.125em_0_theme('colors.neutral.900')]
@@ -64,7 +64,7 @@ export default function Link({
 
             ${!background ? 'bg-none bg-white rounded-md' : 'rounded-sm'}
 
-            ${padding === 'large' ? 'px-2 py-1 -mx-1 -my-0.5' : ''}
+            ${padding === 'large' ? 'px-2 py-1 -my-0.5' : ''}
 
             ${className}
           `}

@@ -6,7 +6,7 @@ import type {
 
 import Header from '~/components/ui/header'
 import NotFound from '~/components/sections/not-found'
-import Selected from '~/components/sections/selected-redux'
+import Selected from '~/components/sections/selected'
 import Links from '~/components/sections/links'
 import Layout from '~/components/ui/layout'
 import Sections from '~/components/ui/sections'

@@ -5,16 +5,16 @@ export default function Introduction() {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h1 className="text-xl">
+        <h1 className="text-2xl">
           I’m a lead product designer at{' '}
-          <Link href="https://salesforce.com">Salesforce</Link>.
+          <Link href="https://salesforce.com">Salesforce</Link>, looking after developer experience at the intersection of design and code.
         </h1>
 
         <p>
           Before that I looked after design and brand at{' '}
-          <Link href="https://heroku.com">Heroku</Link>&nbsp;, design and
+          <Link href="https://heroku.com">Heroku</Link>, design and
           front-end development for London-based crowdfunding publisher{' '}
-          <Link href="http://unbound.com/">Unbound</Link>&nbsp;, co-founded the
+          <Link href="http://unbound.com/">Unbound</Link>, co-founded the
           Melbourne-based social film site Goodfilms, and was the technical lead
           of the{' '}
           <Link href="https://www.clemengerbbdo.com.au">Clemenger BBDO</Link>{' '}
