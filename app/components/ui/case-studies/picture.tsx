@@ -12,6 +12,7 @@ export type ImageProps = {
   factor?: number
   forceBackground?: boolean
   zoomable?: boolean
+  shadow?: boolean
   children?: ReactNode
 }
 
@@ -21,6 +22,7 @@ export function Image({
   themed = false,
   mobile = false,
   className = '',
+  shadow = false,
   children = null
   
 }: ImageProps) {
@@ -37,7 +39,7 @@ export function Image({
 
   return (
     <>
-      <picture className={`[&>*]:rounded mx-auto flex items-center justify-center w-full ${className}`}>
+      <picture className={`overflow-hidden rounded-lg ${shadow ? 'shadow-xl' : ''} mx-auto flex items-center justify-center w-full ${className}`}>
         {mobile && themed && theme == 'dark' ? <source media="(max-width: 799px)" srcSet={mobileDarkImage} /> : null}
         {themed && theme == 'dark'? <source media="(min-width: 800px)" srcSet={darkImage} /> : null}
         {mobile && (theme == 'light' || !themed) ? <source media="(max-width: 799px)" srcSet={mobileImage} /> : null}
@@ -51,7 +53,7 @@ export function Image({
 
 export function Frame({caption, zoomable = false, children}: {caption: string, zoomable?: boolean, children: ReactNode}) {
   return(
-    <figure className={`relative text-center space-y-8 font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose my-8`}>
+    <figure className={`relative text-center space-y-4 font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose my-8`}>
       {children}
       <Caption zoomable={zoomable} text={caption} />
     </figure>
@@ -61,17 +63,16 @@ export function Frame({caption, zoomable = false, children}: {caption: string, z
 export function Caption({text, zoomable = false}: {text: string, zoomable: boolean}) {
   return (
     <div className="flex justify-center items-center gap-4">
-    
       <figcaption className="max-w-lg leading-relaxed text-balance text-left sm:text-center">
-      {text}
-    </figcaption>
-    {zoomable ?
-      <div className="inline-flex items-center gap-2 text-yellow-700 dark:text-yellow-500 border border-yellow-500 dark:border-yellow-700 rounded-full px-2 py-1">
-        <Icon className="w-4 h-4 fill-current pointer-events-none">
-          <Zoom />
-        </Icon>
-        Zoomable<span className="hidden sm:block"> image</span>
-      </div>
+        {text}
+      </figcaption>
+      {zoomable ?
+        <div className="inline-flex items-center gap-2 text-yellow-700 dark:text-yellow-500 border border-yellow-500 dark:border-yellow-700 rounded-full px-2 py-1">
+          <Icon className="w-4 h-4 fill-current pointer-events-none">
+            <Zoom />
+          </Icon>
+          Zoomable<span className="hidden sm:block"> image</span>
+        </div>
       : null}
     </div>
   )

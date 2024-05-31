@@ -16,6 +16,7 @@ module.exports = {
       gridColumn: {
         main: 'rail-start / main-end',
         content: 'main-start / content-start',
+        'lg-content': 'rail-start / content-start',
         wide: 'main-start / rail-end',
         sidebar: 'content-start / main-end',
         full: 'full-start / full-end',
