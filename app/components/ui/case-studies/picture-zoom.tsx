@@ -46,6 +46,17 @@ const useMousePosition = (ref: any) => {
 export default function PictureZoom(props: ImageProps) {
   const ref = useRef<HTMLDivElement>(null)
   const position = useMousePosition(ref)
+  const [ignoreZoom, setIgnoreZoom] = useState(false)
+
+  const handleResize = () => {
+    setIgnoreZoom(isTouchDevice())
+    window.removeEventListener("resize", handleResize)
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize, false)
+  })
+
 
   useEffect(() => {
     if (!isTouchDevice()) {
@@ -57,22 +68,25 @@ export default function PictureZoom(props: ImageProps) {
       ref.current?.parentElement?.style.setProperty('--y', `${y}px`)
       ref.current?.parentElement?.style.setProperty('--pointer-x', `${pointerX}px`)
       ref.current?.parentElement?.style.setProperty('--pointer-y', `${pointerY}px`)
+    } else {
+      setIgnoreZoom(true)
     }
   }, [position.x, position.y])
 
   return (
     <Frame caption={props.alt}>
+      {ignoreZoom ? <Image {...props} /> : <>
       <Icon className="w-6 h-6 fill-current pointer-events-none absolute top-4 right-4 text-neutral-400 dark:text-neutral-600">
         <Zoom />
       </Icon>
       <div className={`relative group group-hover cursor-crosshair`}>
-        <Image {...props} className="opacity-0 group-hover:opacity-100 transition-opacity dark:bg-neutral-900 bg-white [clip-path:circle(100px_at_var(--pointer-x)_var(--pointer-y))] z-1 absolute top-0 left-0 right-0 scale-[200%] translate-x-[var(--x)] translate-y-[var(--y)] pointer-events-none shadow-[0_0_0_100px_rgba(255,255,255,1)] dark:shadow-[0_0_0_100px_rgba(23,23,23,1)]">
-          <div className="border-4 w-[400px] h-[400px] shadow-2xl absolute top-0 left-0 translate-x-[calc(var(--pointer-x)-50%)] rounded-full translate-y-[calc(var(--pointer-y)-50%)] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
+        <Image {...props} className={`opacity-0 group-hover:opacity-100 transition-opacity dark:bg-neutral-900 bg-white [clip-path:circle(100px_at_var(--pointer-x)_var(--pointer-y))] z-1 absolute top-0 left-0 right-0 scale-[200%] translate-x-[var(--x)] translate-y-[var(--y)] pointer-events-none shadow-[0_0_0_100px_rgba(255,255,255,1)] dark:shadow-[0_0_0_100px_rgba(23,23,23,1)]`}>
+          <div className={`border-4 w-[400px] h-[400px] shadow-2xl absolute top-0 left-0 translate-x-[calc(var(--pointer-x)-50%)] rounded-full translate-y-[calc(var(--pointer-y)-50%)] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity`} />
         </Image>
         <div ref={ref}>
           <Image {...props} />
         </div>
-      </div>
+      </div></>}
     </Frame>
   )
 }
