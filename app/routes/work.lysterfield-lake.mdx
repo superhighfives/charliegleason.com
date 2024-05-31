@@ -38,6 +38,7 @@ handle:
 ---
 
 import Picture from '~/components/ui/case-studies/picture'
+import PictureZoom from '~/components/ui/case-studies/picture-zoom'
 import Metadata from '~/components/ui/case-studies/metadata'
 import Hero from '~/components/ui/case-studies/hero'
 import Intro from '~/components/ui/case-studies/intro'
@@ -54,7 +55,7 @@ import tags from '~/utils/tags'
 <Metadata gradient={attributes.handle.gradient} metadata={attributes.handle.metadata} />
 
 <div className="full">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-polaroids-full.webp" alt="A selection of dreams from the final video." zoom />
+  <PictureZoom src="/assets/case-studies/lysterfield-lake/image-polaroids-full.webp" alt="A selection of dreams from the final video." />
 </div>
 
 When I decided to release new music (it's been seven years since [the last Brightly record](https://wearebrightly.com/)) I knew I wanted to build something with these bits and pieces I'd been noodling with. I knew I wasn't great at making traditional music videos, and I felt empowered by the flexibility of the browsers, and the creative opportunties afforded by using machine learning and AI. I think the result is something greater than the sum of its parts.
@@ -92,7 +93,7 @@ Behind the scenes it was modelled in [Blender](https://www.blender.org/), (using
 So, how does it work? I made a diagram to help.
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-process-diagram.webp" alt="A diagram showing the process of how the technology works under the hood." themed mobile />
+  <PictureZoom src="/assets/case-studies/lysterfield-lake/image-process-diagram.webp" alt="A diagram showing the process of how the technology works under the hood." themed mobile />
 </div>
 
 First, a single video file, shot on an iPhone, is fed through a series of python and shell scripts. The initial one splits the video into individual frames. These frames then go through a bunch of processes depending on their final output.
@@ -110,7 +111,7 @@ The original footage vs the final output. Note to self: I probably should've got
 A 3D-watercolour version of the subject matter (which is, in this case, me).
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-avatar-diagram.webp" alt="A diagram of how the avatar is generated." themed mobile />
+  <PictureZoom src="/assets/case-studies/lysterfield-lake/image-avatar-diagram.webp" alt="A diagram of how the avatar is generated." themed mobile />
 </div>
 
 <div className="content">
@@ -131,7 +132,7 @@ A 3D-watercolour version of the subject matter (which is, in this case, me).
 A watercolour version of the original image, without the subject matter.
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-background-diagram.webp" alt="A diagram showing how the background is generated." themed mobile />
+  <PictureZoom src="/assets/case-studies/lysterfield-lake/image-background-diagram.webp" alt="A diagram showing how the background is generated." themed mobile />
 </div>
 
 <div className="content">
@@ -151,7 +152,7 @@ A watercolour version of the original image, without the subject matter.
 A comic-book style sketch of the subject matter.
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-outline-diagram.webp" alt="A diagram showing how the outline is generated." themed mobile />
+  <PictureZoom src="/assets/case-studies/lysterfield-lake/image-outline-diagram.webp" alt="A diagram showing how the outline is generated." themed mobile />
 </div>
 
 <div className="content">
@@ -171,7 +172,7 @@ A comic-book style sketch of the subject matter.
 Prompt-generated reinterpretations of the original image.
 
 <div className="main">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-diagram.webp" alt="A diagram showing the dreams." themed mobile />
+  <PictureZoom src="/assets/case-studies/lysterfield-lake/image-dreams-diagram.webp" alt="A diagram showing the dreams." themed mobile />
 </div>
 
 The original images are fed into [Deforum Stable Diffusion](https://replicate.com/deforum/deforum_stable_diffusion?input=form&output=preview), along with a prompt, creating unique scenes that mirror the subject matter. For example, trees and a lake that match the contours of the image.
