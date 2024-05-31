@@ -12,7 +12,7 @@ import Footer from '~/components/sections/footer'
 import type { LoaderFunctionArgs } from '@remix-run/cloudflare'
 
 import { projects, articles, features } from '~/data'
-import { useMatches, useLoaderData,json } from '@remix-run/react'
+import { useMatches, useLoaderData } from '@remix-run/react'
 
 export type MatchesData = {
   symbol?: string;
