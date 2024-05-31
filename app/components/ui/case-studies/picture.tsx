@@ -60,16 +60,17 @@ export function Frame({caption, zoomable = false, children}: {caption: string, z
 
 export function Caption({text, zoomable = false}: {text: string, zoomable: boolean}) {
   return (
-    <div className="space-y-2">
-    <figcaption className="max-w-lg mx-auto leading-relaxed text-balance">
+    <div className="flex justify-center items-center gap-4">
+    
+      <figcaption className="max-w-lg leading-relaxed text-balance text-left sm:text-center">
       {text}
     </figcaption>
     {zoomable ?
-      <div className="inline-flex items-center gap-1 text-neutral-400 dark:text-neutral-500">
+      <div className="inline-flex items-center gap-2 text-yellow-700 dark:text-yellow-500 border border-yellow-500 dark:border-yellow-700 rounded-full px-2 py-1">
         <Icon className="w-4 h-4 fill-current pointer-events-none">
           <Zoom />
         </Icon>
-        (Zoomable image)
+        Zoomable<span className="hidden sm:block"> image</span>
       </div>
       : null}
     </div>
