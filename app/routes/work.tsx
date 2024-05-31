@@ -57,7 +57,7 @@ export default function Page() {
               </hgroup>
             </div>
           </div>
-          <div className="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-8 gap-y-4 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.content]:xl:col-content prose sm:prose-lg dark:prose-invert max-w-none [&_hr]:my-8 [&>*]:my-0 prose-headings:font-display prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base [&>.sidebar]:bg-neutral-100 [&>.sidebar]:pb-2 [&>.sidebar]:dark:bg-neutral-800 [&>.sidebar]:px-8 [&>.sidebar]:rounded-lg">
+          <div className="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-8 gap-y-4 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.content]:xl:col-content prose sm:prose-lg dark:prose-invert max-w-none [&_hr]:my-8 [&>*]:my-0 prose-headings:font-display prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base [&>.sidebar]:bg-neutral-100 [&>.sidebar]:pb-2 [&>.sidebar]:dark:bg-neutral-800 [&>.sidebar]:px-8 [&>.sidebar]:rounded-lg overflow-hidden">
             <Outlet />
 
             <div className="pt-4">

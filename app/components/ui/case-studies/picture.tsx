@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { useState, useEffect } from 'react'
 import { useTheme } from "~/utils/theme-provider"
+import Icon, { Zoom } from '../icon'
 
 export type ImageProps = {
   src: string
@@ -8,6 +9,9 @@ export type ImageProps = {
   themed: boolean
   mobile: boolean
   className: string
+  factor?: number
+  forceBackground?: boolean
+  zoomable?: boolean
   children?: ReactNode
 }
 
@@ -45,18 +49,30 @@ export function Image({
   )
 }
 
-export function Frame({caption, children}: {caption: string, children: ReactNode}) {
+export function Frame({caption, zoomable = false, children}: {caption: string, zoomable?: boolean, children: ReactNode}) {
   return(
     <figure className={`relative text-center space-y-8 font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose my-8`}>
       {children}
-      <Caption text={caption} />
+      <Caption zoomable={zoomable} text={caption} />
     </figure>
   )
 }
 
-export function Caption({text}: {text: string}) {
+export function Caption({text, zoomable = false}: {text: string, zoomable: boolean}) {
   return (
-    <figcaption className="max-w-lg mx-auto leading-relaxed text-balance">{text}</figcaption>
+    <div className="space-y-2">
+    <figcaption className="max-w-lg mx-auto leading-relaxed text-balance">
+      {text}
+    </figcaption>
+    {zoomable ?
+      <div className="inline-flex items-center gap-1 text-neutral-400 dark:text-neutral-500">
+        <Icon className="w-4 h-4 fill-current pointer-events-none">
+          <Zoom />
+        </Icon>
+        (Zoomable image)
+      </div>
+      : null}
+    </div>
   )
 }
 
