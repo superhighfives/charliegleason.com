@@ -14,7 +14,7 @@ export default function Header(props: Props) {
   return (
     <div
       className={`space-y-4 ${
-        !props.small ? 'pt-[15vh]' : '-mt-[3.5rem] sm:-mt-[5rem]'
+        !props.small ? 'pt-[10vh]' : '-mt-[3.5rem] sm:-mt-[5rem]'
       }`}
     >
       <div className="flex items-center">
@@ -47,7 +47,7 @@ export default function Header(props: Props) {
             />
           </a>
           <h1>Charlie Gleason</h1>
-          <h2 className="bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent">
+          <h2 className="bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty">
             Designer, developer, creative coder, and&nbsp;musician
           </h2>
         </hgroup>
