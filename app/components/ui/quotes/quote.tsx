@@ -27,7 +27,7 @@ export default function Quote({
     >
       <p
         className={`pb-3 -indent-2 border-l border-neutral-200 dark:border-neutral-800 pl-6 flex-1 ml-4 text-neutral-800 dark:text-neutral-300 ${
-          hero ? 'text-lg' : 'text-sm'
+          hero ? 'text-xl' : 'text-md'
         }`}
       >
         {children}
@@ -41,10 +41,10 @@ export default function Quote({
           height="30"
         />
         <div className="space-y-1">
-          <div className="text-neutral-800 dark:text-neutral-300 font-semibold text-sm">
+          <div className="text-neutral-800 dark:text-neutral-300 font-display text-md">
             {name}
           </div>
-          <div className="text-neutral-700 dark:text-neutral-400 text-xs">
+          <div className="text-neutral-700 dark:text-neutral-400 text-sm">
             <div className="font-semibold">{role}</div>
             <div>{company}</div>
           </div>
