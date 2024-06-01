@@ -62,8 +62,8 @@ export function Frame({caption, zoomable = false, children, forceBackground = fa
 
 export function Caption({text, zoomable = false, forceBackground = false}: {text: string, zoomable: boolean, forceBackground: boolean}) {
   return (
-    <div className={`flex justify-center items-center gap-4 ${forceBackground ? 'mt-8 mb-16' : 'mt-8'}`}>
-      <figcaption className="max-w-lg leading-relaxed text-balance">
+    <div className={`flex flex-col mx-auto justify-center items-center gap-4 px-8 ${forceBackground ? 'mt-8 mb-16' : 'mt-8'}`}>
+      <figcaption className="max-w-lg leading-relaxed text-balance flex-shrink px-8">
         {text}
       </figcaption>
       {zoomable ?
