@@ -9,15 +9,15 @@ export default function Metadata({gradient, metadata}: {gradient: string, metada
         const classes = "text-sm"
         return (
             Array.isArray(data.content)
-            ? <div className="border-b-2 dark:border-neutral-700 col-span-2" key={data.name}>
-              <dt className="font-mono text-xs col-span-full pb-2 text-neutral-400">{data.name}</dt>
-              <div className={`${classes} col-span-2 grid grid-cols-2 gap-4 pb-4`}>
-                {data.content.map(row => <dd key={row} className="col-span-1 first-line:font-bold">{(row as []).map(line => (
-                    <p className="relative" key={line}>{line == "Charlie Gleason" ? <span className="absolute -left-3 top-2 w-1 h-1 rounded-full bg-current" /> : null} {line}</p>
-                  )
-                )}</dd>)}
-              </div>
-            </div>
+            ? data.content.map((item: any) => {
+              return (
+                <div className={`relative border-b-2 border-transparent col-span-1 before:block before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:h-[2px] before:bg-gradient-to-r ${gradient} before:from-inherit before:to-inherit before:[background-size:2000px] before:bg-left
+            }`} key={item[0]}>
+                  <dt className={`font-mono text-xs col-span-full pb-2 text-transparent bg-clip-text bg-white bg-gradient-to-r ${gradient} [background-size:2000px] before:bg-left`}>{item[1]}</dt>
+                  <dd className={`${classes} col-span-full pb-4`}>{item[0]}</dd>
+                </div>
+              )
+            })
             : <div className="border-b-2 dark:border-neutral-700 col-span-1" key={data.name}>
               <dt className="font-mono text-xs pb-2 text-neutral-400">{data.name}</dt>
               <dd className={`${classes} col-span-full pb-4`}>{data.content}</dd>

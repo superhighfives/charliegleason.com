@@ -39,7 +39,7 @@ export function Image({
 
   return (
     <>
-      <picture className={`overflow-hidden rounded-lg ${shadow ? 'shadow-xl' : ''} mx-auto flex items-center justify-center w-full ${className}`}>
+      <picture className={`overflow-hidden rounded-lg ${shadow ? 'shadow-xl' : ''} inline-flex ${className}`}>
         {mobile && themed && theme == 'dark' ? <source media="(max-width: 799px)" srcSet={mobileDarkImage} /> : null}
         {themed && theme == 'dark'? <source media="(min-width: 800px)" srcSet={darkImage} /> : null}
         {mobile && (theme == 'light' || !themed) ? <source media="(max-width: 799px)" srcSet={mobileImage} /> : null}
@@ -51,18 +51,18 @@ export function Image({
   )
 }
 
-export function Frame({caption, zoomable = false, children}: {caption: string, zoomable?: boolean, children: ReactNode}) {
+export function Frame({caption, zoomable = false, children, forceBackground = false}: {caption: string, zoomable?: boolean, children: ReactNode, forceBackground?: boolean}) {
   return(
-    <figure className={`relative text-center space-y-4 font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose my-8`}>
+    <figure className={`relative text-center font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose`}>
       {children}
-      <Caption zoomable={zoomable} text={caption} />
+      <Caption zoomable={zoomable} text={caption} forceBackground={forceBackground} />
     </figure>
   )
 }
 
-export function Caption({text, zoomable = false}: {text: string, zoomable: boolean}) {
+export function Caption({text, zoomable = false, forceBackground = false}: {text: string, zoomable: boolean, forceBackground: boolean}) {
   return (
-    <div className="flex justify-center items-center gap-4">
+    <div className={`flex justify-center items-center gap-4 ${forceBackground ? 'mt-8 mb-16' : 'mt-8'}`}>
       <figcaption className="max-w-lg leading-relaxed text-balance text-left sm:text-center">
         {text}
       </figcaption>
@@ -80,7 +80,7 @@ export function Caption({text, zoomable = false}: {text: string, zoomable: boole
 
 export default function Picture(props: ImageProps) {
   return (
-    <Frame caption={props.alt}>
+    <Frame forceBackground={props.forceBackground} caption={props.alt}>
       <Image {...props} />
     </Frame>
   )

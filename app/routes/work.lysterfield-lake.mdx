@@ -42,6 +42,7 @@ import PictureZoom from '~/components/ui/case-studies/picture-zoom'
 import Metadata from '~/components/ui/case-studies/metadata'
 import Hero from '~/components/ui/case-studies/hero'
 import Intro from '~/components/ui/case-studies/intro'
+import Prose from '~/components/ui/case-studies/prose'
 import tags from '~/utils/tags'
 
 <Intro>
@@ -58,192 +59,228 @@ import tags from '~/utils/tags'
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-polaroids-full.webp" alt="A selection of dreams from the final video." />
 </div>
 
-When I decided to release new music (it's been seven years since [the last Brightly record](https://wearebrightly.com/)) I knew I wanted to build something with these bits and pieces I'd been noodling with. I knew I wasn't great at making traditional music videos, and I felt empowered by the flexibility of the browsers, and the creative opportunties afforded by using machine learning and AI. I think the result is something greater than the sum of its parts.
+<Prose>
+  When I decided to release new music (it's been seven years since [the last Brightly record](https://wearebrightly.com/)) I knew I wanted to build something with these bits and pieces I'd been noodling with. I knew I wasn't great at making traditional music videos, and I felt empowered by the flexibility of the browsers, and the creative opportunties afforded by using machine learning and AI. I think the result is something greater than the sum of its parts.
 
-And there are a lot of parts.
+  And there are a lot of parts.
 
-(Also, if you haven't seen the video, [you should go and check it out](https://lysterfieldlake.com/) before I ruin the magic by shining a very bright light on exactly how it all works.)
+  (Also, if you haven't seen the video, [you should go and check it out](https://lysterfieldlake.com/) before I ruin the magic by shining a very bright light on exactly how it all works.)
+</Prose>
 
 <div className="wide">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-screencast-preview.gif" alt="A preview GIF of the experience." />
+  <Picture shadow src="/assets/case-studies/lysterfield-lake/image-screencast-preview.gif" alt="A preview GIF of the experience." />
 </div>
 
-(And if you'd [rather check out a recording, you can jump over to YouTube](https://youtu.be/a-9gGCQIPo8) to see a simplified version that should give you a pretty good idea.)
+<Prose>
+  (And if you'd [rather check out a recording, you can jump over to YouTube](https://youtu.be/a-9gGCQIPo8) to see a simplified version that should give you a pretty good idea.)
+</Prose>
 
 <div className="full">
   <Picture src="/assets/case-studies/lysterfield-lake/image-polaroid-three.webp" alt="Three polaroids containing the singer and lyrics overlaid." />
 </div>
 
----
+<Prose>
+  ---
 
-# What is it?
+  # What is it?
 
-[Lysterfield Lake](https://lysterfieldlake.com/) is a 3D generative interactive music video. It works in the browser, using [Three.js](https://threejs.org/) and [react-three-fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction) to stitch together seven feeds of video frame by frame, turning a single piece of footage shot on an iPhone into a three-dimensional fever dream. It uses the accelerometer in your phone, if it's available, or your mouse if you're on a computer. It shows and hides the protagonist as you watch depending on your actions, offering a myriad of ways to experience it. New dreams can be added at any time.
+  [Lysterfield Lake](https://lysterfieldlake.com/) is a 3D generative interactive music video. It works in the browser, using [Three.js](https://threejs.org/) and [react-three-fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction) to stitch together seven feeds of video frame by frame, turning a single piece of footage shot on an iPhone into a three-dimensional fever dream. It uses the accelerometer in your phone, if it's available, or your mouse if you're on a computer. It shows and hides the protagonist as you watch depending on your actions, offering a myriad of ways to experience it. New dreams can be added at any time.
 
-Behind the scenes it was modelled in [Blender](https://www.blender.org/), (using a polaroid model by [Edoardo Galati](https://sketchfab.com/edoardogalati)), generated in python and shell scripts, and built in JavaScript. It is made up of entirely open-source projects that are freely available.
+  Behind the scenes it was modelled in [Blender](https://www.blender.org/), (using a polaroid model by [Edoardo Galati](https://sketchfab.com/edoardogalati)), generated in python and shell scripts, and built in JavaScript. It is made up of entirely open-source projects that are freely available.
+</Prose>
 
 <div className="full">
   <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-grid.webp" alt="A frame of each of the initial dreams." mobile />
 </div>
 
----
+<Prose>
+  ---
 
-# The process
+  # The process
 
-So, how does it work? I made a diagram to help.
+  So, how does it work? I made a diagram to help.
+</Prose>
 
 <div className="main">
   <Picture src="/assets/case-studies/lysterfield-lake/image-process-diagram.webp" alt="A diagram showing the process of how the technology works under the hood." themed mobile />
 </div>
 
-First, a single video file, shot on an iPhone, is fed through a series of python and shell scripts. The initial one splits the video into individual frames. These frames then go through a bunch of processes depending on their final output.
+<Prose>
+  First, a single video file, shot on an iPhone, is fed through a series of python and shell scripts. The initial one splits the video into individual frames. These frames then go through a bunch of processes depending on their final output.
+</Prose>
 
 <div className="full">
-  <Picture src="/assets/case-studies/lysterfield-lake/image-process-preview.gif" alt="A preview of the finished process." />
+  <Picture shadow src="/assets/case-studies/lysterfield-lake/image-process-preview.gif" alt="A preview of the finished process." />
 </div>
 
-The original footage vs the final output. Note to self: I probably should've gotten a haircut before this.
+<Prose>
+  The original footage vs the final output. Note to self: I probably should've gotten a haircut before this.
 
----
+  ---
 
-## The Avatar
+  ## The Avatar
 
-A 3D-watercolour version of the subject matter (which is, in this case, me).
+  A 3D-watercolour version of the subject matter (which is, in this case, me).
+</Prose>
 
 <div className="main">
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-avatar-diagram.webp" alt="A diagram of how the avatar is generated." themed mobile />
 </div>
 
-<div className="content">
+<Prose>
   - [DiffusionCLIP](https://replicate.com/gwang-kim/diffusionclip?input=form&output=preview) turns the image into a painted watercolour style.
   - [RobustVideoMatting](https://replicate.com/arielreplicate/robust_video_matting?input=form&output=preview) finds the subject in the video and creates an alpha mask of it.
   - In python, the mask is used with the original image and passed to [ZoeDepth](https://replicate.com/cjwbw/zoedepth?input=form&output=preview), which creates a depth mask.
   - These three elements (the watercolour image, the alpha mask, and the depth mask) are used to render the avatar.
-</div>
+</Prose>
 
 <div className="main">
   <Picture src="/assets/case-studies/lysterfield-lake/image-avatar-preview.webp" alt="A preview of the generated avatar, from frame to 3D avatar." themed mobile />
 </div>
 
----
+<Prose>
+  ---
 
-## The Background
+  ## The Background
 
-A watercolour version of the original image, without the subject matter.
+  A watercolour version of the original image, without the subject matter.
+</Prose>
 
 <div className="main">
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-background-diagram.webp" alt="A diagram showing how the background is generated." themed mobile />
 </div>
 
-<div className="content">
+<Prose>
   - Using the alpha mask and the original image, [Inpaint Anything](https://github.com/geekyutao/Inpaint-Anything) creates a version of the scene without the avatar in it.
   - This inpainted image is then also painted in watercolour using [DiffusionCLIP](https://replicate.com/gwang-kim/diffusionclip?input=form&output=preview).
   - This element is then used to render the background.
-</div>
+</Prose>
 
 <div className="main">
   <Picture src="/assets/case-studies/lysterfield-lake/image-background-preview.webp" alt="A preview of the background, from frame to watercolour background." themed mobile />
 </div>
 
----
+<Prose>
+  ---
 
-## The Outline
+  ## The Outline
 
-A comic-book style sketch of the subject matter.
+  A comic-book style sketch of the subject matter.
+</Prose>
 
 <div className="main">
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-outline-diagram.webp" alt="A diagram showing how the outline is generated." themed mobile />
 </div>
 
-<div className="content">
+<Prose>
   - In python, the original image is combined with the alpha mask to create a version with no background.
   - This is then fed into [artline-torch](https://github.com/Linzmin1927/Artline_torch), which creates a rough outline sketch.
   - This sketch is then overlaid on the avatar during rendering (it also uses a bit of dithering in the custom shader in [Three.js](https://threejs.org/), which is what gives it the printed ink / slight comic book style).
-</div>
+</Prose>
 
 <div className="main">
   <Picture src="/assets/case-studies/lysterfield-lake/image-outline-preview.webp" alt="A preview of the diagram, from frame to outline." themed mobile />
 </div>
 
----
+<Prose>
+  ---
 
-## The Dreams
+  ## The Dreams
 
-Prompt-generated reinterpretations of the original image.
+  Prompt-generated reinterpretations of the original image.
+</Prose>
 
 <div className="main">
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-dreams-diagram.webp" alt="A diagram showing the dreams." themed mobile />
 </div>
 
-The original images are fed into [Deforum Stable Diffusion](https://replicate.com/deforum/deforum_stable_diffusion?input=form&output=preview), along with a prompt, creating unique scenes that mirror the subject matter. For example, trees and a lake that match the contours of the image.
+<Prose>
+  The original images are fed into [Deforum Stable Diffusion](https://replicate.com/deforum/deforum_stable_diffusion?input=form&output=preview), along with a prompt, creating unique scenes that mirror the subject matter. For example, trees and a lake that match the contours of the image.
+</Prose>
 
 <div className="main">
   <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-preview.webp" alt="A preview showing the dreams, from the original frames." themed mobile />
 </div>
 
-Each frame is then manually reviewed one by one and removed if not appropriate. (The primary reason for this is that Stable Diffusion models are trained on image sets that include a large amount of [waifu](https://www.dictionary.com/e/fictional-characters/waifu/)'s. Which, because the input clearly contains the shape of a person, means a lot of waifu's end up in the output, even when politely asking Stable Diffusion not to.)
+<Prose>
+  Each frame is then manually reviewed one by one and removed if not appropriate. (The primary reason for this is that Stable Diffusion models are trained on image sets that include a large amount of [waifu](https://www.dictionary.com/e/fictional-characters/waifu/)'s. Which, because the input clearly contains the shape of a person, means a lot of waifu's end up in the output, even when politely asking Stable Diffusion not to.)
+</Prose>
 
 <div className="wide">
   <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-waifu.webp" alt="An example of the tendency AI has toward waifu. Turns out every creative process eventually takes a sharp detour into the uncanniest valleys." />
 </div>
 
-The remaining images are fed into [rife-ncnn-vulkan](https://github.com/nihui/rife-ncnn-vulkan), which interpolates the missing frames and generates new ones to fill the gaps.
+<Prose>
+  The remaining images are fed into [rife-ncnn-vulkan](https://github.com/nihui/rife-ncnn-vulkan), which interpolates the missing frames and generates new ones to fill the gaps.
+</Prose>
 
 <div className="wide">
   <Picture src="/assets/case-studies/lysterfield-lake/image-interpolation-diagram.webp" alt="A diagram showing the interpolation process." themed mobile />
 </div>
 
----
+<Prose>
+  ---
 
-## The Lyrics
+  ## The Lyrics
+</Prose>
 
 <div className="full">
   <Picture src="/assets/case-studies/lysterfield-lake/image-lyrics.webp" alt="The lyrics that are get overlaid on the polaroids." mobile />
 </div>
 
-At the same time, I recorded myself hand writing the lyrics in Procreate, and then cleaned them up in Adobe's After Effects.
+<Prose>
+  At the same time, I recorded myself hand writing the lyrics in Procreate, and then cleaned them up in Adobe's After Effects.
 
-(Apologies for my handwriting. I clearly should've been a doctor.)
+  (Apologies for my handwriting. I clearly should've been a doctor.)
 
----
+  ---
 
-## The Output
+  ## The Output
+</Prose>
 
 <div className="main">
   <Picture src="/assets/case-studies/lysterfield-lake/image-frames-overlaid.webp" alt="An example of each frame, with the different dream for each." themed mobile />
 </div>
 
-This gets stitched together into an ultra-wide video with 7 square images side-by-side. Originally I tried using a single video for each element, but it‘s impossible to guarantee frame sync across multiple videos in the browser. Fortunately, much like how there's no rule against eating a candy bar on a dance floor, there's no rule that videos need to be 16x9. Using custom shaders in the browser, you can simply grab the crop of footage you need for each element in real time.
+<Prose>
+  This gets stitched together into an ultra-wide video with 7 square images side-by-side. Originally I tried using a single video for each element, but it‘s impossible to guarantee frame sync across multiple videos in the browser. Fortunately, much like how there's no rule against eating a candy bar on a dance floor, there's no rule that videos need to be 16x9. Using custom shaders in the browser, you can simply grab the crop of footage you need for each element in real time.
 
-And having all of these elements in the one shader affords new opportunities. By passing the depth mask, alpha mask, and the watercolour scene, I was able to generate a rough 3D model.
+  And having all of these elements in the one shader affords new opportunities. By passing the depth mask, alpha mask, and the watercolour scene, I was able to generate a rough 3D model.
+</Prose>
 
 <div className="wide">
   <Picture src="/assets/case-studies/lysterfield-lake/image-stack-diagram.webp" alt="An example of how the elements of the avatar are stitched together." themed mobile />
 </div>
 
-Custom shaders essentially let you paint with pixels in real time, and it's an incredibly exciting medium once you start to explore the possibilities. It is how I can use the pixels from the depth mask to directly impact how close or far each fragment of the 3D avatar is. And, if you'd like to learn more, [The Book of Shaders](https://thebookofshaders.com/) is a great resource.
+<Prose>
+  Custom shaders essentially let you paint with pixels in real time, and it's an incredibly exciting medium once you start to explore the possibilities. It is how I can use the pixels from the depth mask to directly impact how close or far each fragment of the 3D avatar is. And, if you'd like to learn more, [The Book of Shaders](https://thebookofshaders.com/) is a great resource.
+</Prose>
 
 <div className="full">
   <Picture src="/assets/case-studies/lysterfield-lake/image-depth-animation.gif" alt="Frame-by-frame animation of the AI-generated depth filters. AI interprets the depth mask from a video, because we live in the future. (Also, I hand painted a lot of these frames, because technology is, sadly, fallible.)" />
 </div>
 
-Each frame of each video includes the handwritten lyrics, the watercolour scene, the watercolour scene with the background removed, the alpha mask, the depth mask, the sketch, and the dream. And those ultra-wide videos form the backbone of the project.
+<Prose>
+  Each frame of each video includes the handwritten lyrics, the watercolour scene, the watercolour scene with the background removed, the alpha mask, the depth mask, the sketch, and the dream. And those ultra-wide videos form the backbone of the project.
 
----
+  ---
 
-## The Conclusion
+  ## The Conclusion
 
-The selected dream, represented by one of these videos, is then chopped up and stitched back together in real time in the browser, using [react-three-fiber](https://github.com/pmndrs/react-three-fiber), and many of the incredible resources provided [as part of the drei project](https://github.com/pmndrs/drei/). You can explore each dream one by one, wandering through a landscape that has been imagined by a computer, listening to a song about a time that sits on the very edge of my conciousness. Memory, like AI, is funny like that.
+  The selected dream, represented by one of these videos, is then chopped up and stitched back together in real time in the browser, using [react-three-fiber](https://github.com/pmndrs/react-three-fiber), and many of the incredible resources provided [as part of the drei project](https://github.com/pmndrs/drei/). You can explore each dream one by one, wandering through a landscape that has been imagined by a computer, listening to a song about a time that sits on the very edge of my conciousness. Memory, like AI, is funny like that.
+</Prose>
 
 <div className="wide">
   <Picture src="/assets/case-studies/lysterfield-lake/image-screencast-frame.webp" alt="The rendered final output." />
 </div>
 
-This is a probably a good time to mention that, while this is the conclusion, this project took every possible detour, hit every possible technical hitch, and explored every possible weird twist and turn. What I've ended up with is absolutely nothing like what I imagined, because I didn't really know what I was going to get at the end. Which makes it a sort-of love letter to the creative process, and to the joys of pursing something purely for the “what-if” of it. There are so many ways that sticking with something can truly surprise you, and that doesn't have to involve making weird music videos — it could be baking, or cross stitch, or learning a language, or dance. Things you can experiment with, be creative with, grow with. Things that make you feel like you did something you previously couldn't. Maybe even something great. That might be the greatest feeling there is.
+<Prose>
+  This is a probably a good time to mention that, while this is the conclusion, this project took every possible detour, hit every possible technical hitch, and explored every possible weird twist and turn. What I've ended up with is absolutely nothing like what I imagined, because I didn't really know what I was going to get at the end. Which makes it a sort-of love letter to the creative process, and to the joys of pursing something purely for the “what-if” of it. There are so many ways that sticking with something can truly surprise you, and that doesn't have to involve making weird music videos — it could be baking, or cross stitch, or learning a language, or dance. Things you can experiment with, be creative with, grow with. Things that make you feel like you did something you previously couldn't. Maybe even something great. That might be the greatest feeling there is.
 
-I hope you find it inspiring, or at the very least, mildly interesting, and I appreciate you taking the time to learn more about how the project works.
+  I hope you find it inspiring, or at the very least, mildly interesting, and I appreciate you taking the time to learn more about how the project works.
+</Prose>
 
-<div className="content">
+<Prose>
   ---
 
   # Okay, how do I find out more?
@@ -260,20 +297,22 @@ I hope you find it inspiring, or at the very least, mildly interesting, and I ap
   The pipeline that generates the video used by the app, powered by python and shell-scripts.
 
   (**Author's note:** Fair warning—it's not the cleanest code, and in the case of the pipeline, it's not something that will work locally out of the box. I definitely intended open-sourcing this to be educational, in the sense of “oh, that's how he did that!”, as opposed to aspirational, like “oh, that's how he thinks React should be written??” It was a passion project, so maybe bear that in mind. Cheers. 😅)
-</div>
+</Prose>
 
 <div className="sidebar">
   <Picture src="/assets/case-studies/lysterfield-lake/image-cover-art.webp" alt="Brightly - Lysterfield Lake (cover art)" />
 
-  <small>
-    Thanks to all my mates who came on country walks while I filmed myself awkwardly mouthing along to my own music. To Ian and Georgia for filming the real thing in Scotland. And to everyone who told me I'm not too old to keep making things.
+  <Prose>
+    <small>
+      Thanks to all my mates who came on country walks while I filmed myself awkwardly mouthing along to my own music. To Ian and Georgia for filming the real thing in Scotland. And to everyone who told me I'm not too old to keep making things.
 
-    Also, this project wouldn't have happened, like all my projects, without the support and encouragement of [Glen Maddern](https://github.com/geelen). ❤️
+      Also, this project wouldn't have happened, like all my projects, without the support and encouragement of [Glen Maddern](https://github.com/geelen). ❤️
 
-    Produced and Mixed by James Seymour in Naarm.<br />
-    Mastered by Andrei “Ony” Eremin in Philadelphia.
+      Produced and Mixed by James Seymour in Naarm.<br />
+      Mastered by Andrei “Ony” Eremin in Philadelphia.
 
-    Thank you for listening.<br />
-    [@wearebrightly](http://twitter.com/wearebrightly) / wearebrightly.com
-  </small>
+      Thank you for listening.<br />
+      [@wearebrightly](http://twitter.com/wearebrightly) / wearebrightly.com
+    </small>
+  </Prose>
 </div>

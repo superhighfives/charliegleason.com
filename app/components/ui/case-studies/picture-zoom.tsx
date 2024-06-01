@@ -89,7 +89,7 @@ export default function PictureZoom(props: ImageProps) {
   const forceBackground = props.forceBackground ? 'dark:bg-black dark:shadow-[0_0_0_100px_rgba(0,0,0,1)]' : 'dark:bg-neutral-900 dark:shadow-[0_0_0_100px_rgba(23,23,23,1)]'
 
   return (
-    <Frame zoomable caption={props.alt}>
+    <Frame zoomable forceBackground={props.forceBackground} caption={props.alt}>
       {ignoreZoom ? <Image {...props} /> : <>
       <div className={`relative group group-hover cursor-crosshair z-10`}>
         <Image {...props} className={`opacity-0 group-hover:opacity-100 transition-opacity bg-white z-1 absolute top-0 left-0 right-0 translate-x-[var(--x)] translate-y-[var(--y)] pointer-events-none shadow-[0_0_0_100px_rgba(255,255,255,1)] ${forceBackground} ${mask[factor as keyof typeof mask]} ${zoom[factor as keyof typeof zoom]}`}>

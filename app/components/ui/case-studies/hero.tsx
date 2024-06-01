@@ -8,7 +8,7 @@ export default function Metadata({
   return (
     <div className="space-y-8">
       <div className={`h-2 bg-gradient-to-r ${gradient} rounded-full relative top-3.5`} />
-      <p className="text-xl font-medium sm:text-2xl leading-relaxed">
+      <p className="text-xl font-medium sm:text-3xl leading-relaxed dark:text-white">
         {hero}
       </p>
     </div>
