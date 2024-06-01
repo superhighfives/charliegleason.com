@@ -24,8 +24,8 @@ export type CaseStudiesProps = {
 
 function CaseStudy({viewportRef, id, href, title, color, hero, description}: {viewportRef: RefObject<HTMLDivElement>, id: string, href: string, title: string, hero: ReactNode, description: string, color: ColorType}) {
   return (
-    <div className="grid grid-cols-3 gap-3 lg:gap-12">
-      <div className="col-span-full lg:col-span-1">
+    <div className="flex flex-col lg:flex-row gap-2 lg:gap-16">
+      <div className="lg:basis-1/3 lg:flex-shrink-0">
           <Tile
             id={id}
             href={href}
@@ -36,9 +36,9 @@ function CaseStudy({viewportRef, id, href, title, color, hero, description}: {vi
             viewportRef={viewportRef}
           />
         </div>
-        <div className="col-span-3 lg:col-span-2 xl:border-l dark:border-neutral-800 xl:pl-10 flex flex-col items-start justify-center gap-6">
+        <div className="dark:border-neutral-800 flex flex-col items-start justify-center gap-6 lg:basis-2/3">
           <div className="flex flex-col gap-3">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display text-balance">{hero}</h1>
+            <h1 className="text-3xl lg:text-4xl font-display text-balance">{hero}</h1>
             <p className="max-w-3xl leading-loose text-neutral-700 dark:text-neutral-300">{description}</p>
           </div>
           <Link icon={Forward} href={href} background={false} padding="large" className="inline-block not-prose px-4">View Case Study</Link>
@@ -60,6 +60,7 @@ export default function Work({ caseStudies }: {caseStudies: CaseStudiesProps}) {
           <Title>{caseStudies.title}</Title>
         </div>
         
+        <div className="flex flex-col sm:flex-row lg:flex-col gap-16">
         {caseStudies.data.map((caseStudy: CaseStudy) => {
           const [start, end] = caseStudy.hero.split(new RegExp(/{highlightText}/g))
           const highlight = <> {start}<span className={caseStudy.highlightClasses}>{caseStudy.highlightText}</span> {end}</>
@@ -76,6 +77,7 @@ export default function Work({ caseStudies }: {caseStudies: CaseStudiesProps}) {
             </CaseStudy>
           )
         })}
+        </div>
         
       </div>
     </>
