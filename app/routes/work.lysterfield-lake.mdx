@@ -101,7 +101,7 @@ import tags from '~/utils/tags'
   So, how does it work? I made a diagram to help.
 </Prose>
 
-<div className="main">
+<div className="full">
   <Picture src="/assets/case-studies/lysterfield-lake/image-process-diagram.webp" alt="A diagram showing the process of how the technology works under the hood." themed mobile />
 </div>
 
@@ -123,7 +123,7 @@ import tags from '~/utils/tags'
   A 3D-watercolour version of the subject matter (which is, in this case, me).
 </Prose>
 
-<div className="main">
+<div className="full">
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-avatar-diagram.webp" alt="A diagram of how the avatar is generated." themed mobile />
 </div>
 
@@ -134,7 +134,7 @@ import tags from '~/utils/tags'
   - These three elements (the watercolour image, the alpha mask, and the depth mask) are used to render the avatar.
 </Prose>
 
-<div className="main">
+<div className="content">
   <Picture src="/assets/case-studies/lysterfield-lake/image-avatar-preview.webp" alt="A preview of the generated avatar, from frame to 3D avatar." themed mobile />
 </div>
 
@@ -146,7 +146,7 @@ import tags from '~/utils/tags'
   A watercolour version of the original image, without the subject matter.
 </Prose>
 
-<div className="main">
+<div className="full">
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-background-diagram.webp" alt="A diagram showing how the background is generated." themed mobile />
 </div>
 
@@ -156,7 +156,7 @@ import tags from '~/utils/tags'
   - This element is then used to render the background.
 </Prose>
 
-<div className="main">
+<div className="content">
   <Picture src="/assets/case-studies/lysterfield-lake/image-background-preview.webp" alt="A preview of the background, from frame to watercolour background." themed mobile />
 </div>
 
@@ -168,7 +168,7 @@ import tags from '~/utils/tags'
   A comic-book style sketch of the subject matter.
 </Prose>
 
-<div className="main">
+<div className="full">
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-outline-diagram.webp" alt="A diagram showing how the outline is generated." themed mobile />
 </div>
 
@@ -178,7 +178,7 @@ import tags from '~/utils/tags'
   - This sketch is then overlaid on the avatar during rendering (it also uses a bit of dithering in the custom shader in [Three.js](https://threejs.org/), which is what gives it the printed ink / slight comic book style).
 </Prose>
 
-<div className="main">
+<div className="content">
   <Picture src="/assets/case-studies/lysterfield-lake/image-outline-preview.webp" alt="A preview of the diagram, from frame to outline." themed mobile />
 </div>
 
@@ -190,7 +190,7 @@ import tags from '~/utils/tags'
   Prompt-generated reinterpretations of the original image.
 </Prose>
 
-<div className="main">
+<div className="full">
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-dreams-diagram.webp" alt="A diagram showing the dreams." themed mobile />
 </div>
 
@@ -198,7 +198,7 @@ import tags from '~/utils/tags'
   The original images are fed into [Deforum Stable Diffusion](https://replicate.com/deforum/deforum_stable_diffusion?input=form&output=preview), along with a prompt, creating unique scenes that mirror the subject matter. For example, trees and a lake that match the contours of the image.
 </Prose>
 
-<div className="main">
+<div className="content">
   <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-preview.webp" alt="A preview showing the dreams, from the original frames." themed mobile />
 </div>
 

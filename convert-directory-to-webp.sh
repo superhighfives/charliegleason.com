@@ -8,14 +8,28 @@ if [ $# -ne 0 ]; then
 fi
 
 cd $(pwd)
-mkdir -p webp
 
 shopt -s nullglob nocaseglob extglob
 
-for FILE in *.@(jpg|jpeg|tif|tiff|png); do 
-    cwebp $PARAMS "$FILE" -o "webp/${FILE%.*}".webp;
+find "public/assets" -type f \( -iname \*.jpg -o -iname \*.png \) | \
+while read file ; do
+    echo "processing ${file}"
+    dir=$(dirname "$file")
+    filename_with_ext=$(basename "$file")
+    final_dir=$(basename "$dir")
+    if [ $final_dir = "originals" ]; then
+        cwebp $PARAMS "$file" -o "$(dirname "$dir")/${filename_with_ext%.*}".webp;
+    fi
 done
 
-for FILE in *.@(gif); do 
-    gif2webp $GIF_PARAMS "$FILE" -o "webp/${FILE%.*}".webp;
+find "public/assets" -type f \( -iname \banner.jpg \) | \
+while read file ; do
+    echo "processing ${file}"
+    dir=$(dirname "$file")
+    filename_with_ext=$(basename "$file")
+    final_dir=$(basename "$dir")
+    if [ $final_dir = "originals" ]; then
+        cp "$file" "$(dirname "$dir")/${filename_with_ext%.*}".jpg;
+        jpegoptim --max=75 -o "$(dirname "$dir")/${filename_with_ext%.*}".jpg
+    fi
 done
