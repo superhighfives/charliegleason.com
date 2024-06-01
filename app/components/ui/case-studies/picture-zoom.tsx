@@ -91,7 +91,7 @@ export default function PictureZoom(props: ImageProps) {
       {ignoreZoom ? <Image {...props} /> : <>
       <div className={`relative group group-hover cursor-crosshair z-10`}>
         <Image {...props} className={`opacity-0 group-hover:opacity-100 transition-opacity bg-white z-1 absolute top-0 left-0 right-0 translate-x-[var(--x)] translate-y-[var(--y)] pointer-events-none shadow-[0_0_0_100px_rgba(255,255,255,1)] ${forceBackground} ${mask[factor as keyof typeof mask]} ${zoom[factor as keyof typeof zoom]}`}>
-          <div className={`border-4 w-[400px] h-[400px] shadow-2xl absolute top-0 left-0 translate-x-[calc(var(--pointer-x)-50%)] rounded-full translate-y-[calc(var(--pointer-y)-50%)] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity`} />
+          <div className={`border-4 border-neutral-300 dark:border-neutral-700 w-[400px] h-[400px] shadow-2xl absolute top-0 left-0 translate-x-[calc(var(--pointer-x)-50%)] rounded-full translate-y-[calc(var(--pointer-y)-50%)] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity`} />
         </Image>
         <div ref={ref}>
           <Image {...props} />

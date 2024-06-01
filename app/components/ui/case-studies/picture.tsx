@@ -39,7 +39,7 @@ export function Image({
 
   return (
     <>
-      <picture className={`overflow-hidden rounded-lg ${shadow ? 'shadow-xl' : ''} inline-flex ${className}`}>
+      <picture className={`overflow-hidden rounded-lg ${shadow ? 'shadow-xl' : ''} inline-flex align-top ${className}`}>
         {mobile && themed && theme == 'dark' ? <source media="(max-width: 799px)" srcSet={mobileDarkImage} /> : null}
         {themed && theme == 'dark'? <source media="(min-width: 800px)" srcSet={darkImage} /> : null}
         {mobile && (theme == 'light' || !themed) ? <source media="(max-width: 799px)" srcSet={mobileImage} /> : null}
