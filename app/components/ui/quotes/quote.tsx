@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import Link from '~/components/ui/link'
 
 type Props = {
   id: string
@@ -26,7 +25,7 @@ export default function Quote({
       }`}
     >
       <p
-        className={`pb-3 -indent-2 border-l border-neutral-200 dark:border-neutral-800 pl-6 flex-1 ml-4 text-neutral-800 dark:text-neutral-300 ${
+        className={`pb-3 -indent-2 border-l border-neutral-300 dark:border-neutral-700 pl-6 flex-1 ml-4 text-neutral-800 dark:text-neutral-300 ${
           hero ? 'text-xl' : 'text-md'
         }`}
       >

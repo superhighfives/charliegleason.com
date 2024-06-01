@@ -93,6 +93,34 @@ export default function Quotes() {
       </Quote>
 
       <Quote
+        id="vicky"
+        name="Vicky Zeamer"
+        role="Lead Researcher, Research & Insights"
+        company="Salesforce"
+      >
+        <span className="opacity-40">“</span>
+        <strong className="text-yellow-700 dark:text-yellow-500">
+          Charlie is a supercharged teammate
+        </strong>
+        . When he is assigned to something, he carries it to the finish line. He has laser-focused attention to detail [and] no fear when it comes to dealing in ambiguous and new spaces.<span className="opacity-40">”</span>
+      </Quote>
+
+      <Quote
+        id="olivia"
+        name="Olivia Yu"
+        role="Lead Designer"
+        company="Salesforce"
+      >
+        <span className="opacity-40">“</span>
+        [His] talent, humor, knowledge shares, thoughtfulness, storytelling, creative contributions,{' '}
+        <strong className="text-yellow-700 dark:text-yellow-500">
+          the list goes on!
+        </strong>{' '}
+          I'm grateful to have crossed paths.
+        <span className="opacity-40">”</span>
+      </Quote>
+
+      <Quote
         id="bex"
         name="Becky Bolton"
         role="Former Developer"
@@ -105,6 +133,21 @@ export default function Quotes() {
         . He is personable and fun, and these qualities made him universally
         loved by the team around&nbsp;him.<span className="opacity-40">”</span>
       </Quote>
+
+      <Quote
+        id="jg"
+        name="John Geyer"
+        role="Technical Writing Lead"
+        company="Salesforce"
+      >
+        <span className="opacity-40">“</span>
+        [Charlie is that] near-impossible combo of{' '}
+        <strong className="text-yellow-700 dark:text-yellow-500">
+        crazy talented and down-to-earth
+        </strong>
+        .<span className="opacity-40">”</span>
+      </Quote>
+
     </Grid>
   )
 }
