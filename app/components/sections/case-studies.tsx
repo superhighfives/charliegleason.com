@@ -6,6 +6,22 @@ import { useRef } from 'react'
 import type { RefObject, ReactNode } from 'react'
 import type { ColorType } from '~/components/ui/work/tile'
 
+type CaseStudy = {
+  id: string
+  href: string
+  title: string
+  color: ColorType
+  hero: string
+  highlightText: string
+  highlightClasses: string
+  description: string
+}
+
+export type CaseStudiesProps = {
+  title: string
+  data: CaseStudy[]
+}
+
 function CaseStudy({viewportRef, id, href, title, color, hero, description}: {viewportRef: RefObject<HTMLDivElement>, id: string, href: string, title: string, hero: ReactNode, description: string, color: ColorType}) {
   return (
     <div className="grid grid-cols-3 gap-3 lg:gap-12">
@@ -31,7 +47,7 @@ function CaseStudy({viewportRef, id, href, title, color, hero, description}: {vi
   )
 }
 
-export default function Work() {
+export default function Work({ caseStudies }: {caseStudies: CaseStudiesProps}) {
   const viewportRef = useRef<HTMLDivElement>(null)
 
   return (
@@ -41,30 +57,26 @@ export default function Work() {
         className="grid gap-6 lg:gap-12 scroll-m-16"
       >
         <div>
-          <Title>Case Studies</Title>
+          <Title>{caseStudies.title}</Title>
         </div>
-
-        {/* <CaseStudy
-          id="ax-publishing"
-          href="/work/ax-publishing"
-          title="AppExchange Publishing"
-          color="sky"
-          hero={<>An <span className="text-sky-600 dark:text-sky-400">XYZ</span> ABC.</>}
-          description="TBA"
-          viewportRef={viewportRef}>
-        </CaseStudy>
-
-        <hr className="dark:border-neutral-800" /> */}
         
-        <CaseStudy
-          id="lysterfield-lake"
-          href="/work/lysterfield-lake"
-          title="Lysterfield Lake"
-          color="rose"
-          hero={<>An <span className="text-rose-600 dark:text-rose-400">interactive, AI-augmented</span> 3D music video.</>}
-          description="Powered by open-source tools, Lysterfield Lake is an AI-augmented music video about a place outside Melbourne, Australia. It's about the endless summers of your youth, and the tiny changes in you that you don't even notice adding up."
-          viewportRef={viewportRef}>
-        </CaseStudy>
+        {caseStudies.data.map((caseStudy: CaseStudy) => {
+          const [start, end] = caseStudy.hero.split(new RegExp(/{highlightText}/g))
+          const highlight = <> {start}<span className={caseStudy.highlightClasses}>{caseStudy.highlightText}</span> {end}</>
+          return (
+            <CaseStudy
+              key={caseStudy.id}
+              id={caseStudy.id}
+              href={caseStudy.href}
+              title={caseStudy.title}
+              color={caseStudy.color}
+              hero={highlight}
+              description={caseStudy.description}
+              viewportRef={viewportRef}>
+            </CaseStudy>
+          )
+        })}
+        
       </div>
     </>
   )

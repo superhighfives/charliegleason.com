@@ -12,6 +12,8 @@ import Footer from '~/components/sections/footer'
 import type { LoaderFunctionArgs } from '@remix-run/cloudflare'
 
 import { projects, articles, features } from '~/data'
+import caseStudies from '~/data/caseStudies'
+import type { CaseStudiesProps } from '~/components/sections/case-studies'
 import { useMatches, useLoaderData } from '@remix-run/react'
 
 export type MatchesData = {
@@ -59,7 +61,7 @@ export default function IndexRoute() {
         <Header symbol={symbol!} photo={photo!} />
         <Sections>
           <Overview posts={posts} />
-          <CaseStudies />
+          <CaseStudies caseStudies={caseStudies as CaseStudiesProps} />
           <Work />
           <Selected sections={[projects, articles, features]} />
           <Quotes />
