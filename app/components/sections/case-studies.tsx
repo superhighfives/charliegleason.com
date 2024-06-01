@@ -39,7 +39,7 @@ function CaseStudy({viewportRef, id, href, title, color, hero, description}: {vi
         <div className="dark:border-neutral-800 flex flex-col items-start justify-center gap-6 lg:basis-2/3">
           <div className="flex flex-col gap-3">
             <h1 className="text-3xl lg:text-4xl font-display text-balance">{hero}</h1>
-            <p className="max-w-3xl leading-loose text-neutral-700 dark:text-neutral-300">{description}</p>
+            <p className="max-w-3xl leading-relaxed text-neutral-700 dark:text-neutral-300">{description}</p>
           </div>
           <Link icon={Forward} href={href} background={false} padding="large" className="inline-block not-prose px-4">View Case Study</Link>
         </div>
