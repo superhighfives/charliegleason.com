@@ -64,7 +64,6 @@ export default function PictureZoom(props: ImageProps) {
     if (!isTouchDevice()) {
       const x = position.x - (factor - 2) * ((factor * -position.x / 2) + position.x)
       const y = position.y - (factor - 2) * ((factor * -position.y / 2) + position.y)
-      console.log(x, y)
       const pointerX = (position.x - (ref.current?.clientWidth ?? 0) / 2) * -1
       const pointerY = (position.y - (ref.current?.clientHeight ?? 0) / 2) * -1
       ref.current?.parentElement?.style.setProperty('--x', `${x}px`)
