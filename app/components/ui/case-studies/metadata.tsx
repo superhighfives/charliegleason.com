@@ -11,7 +11,7 @@ export default function Metadata({gradient, metadata}: {gradient: string, metada
             Array.isArray(data.content)
             ? data.content.map((item: any) => {
               return (
-                <div className={`relative border-b-2 border-transparent col-span-1 before:block before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:h-[2px] before:bg-gradient-to-r ${gradient} before:from-inherit before:to-inherit before:[background-size:2000px] before:bg-left
+                <div className={`relative border-b-2 border-transparent col-span-1 before:block before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:h-[2px] before:bg-gradient-to-r ${gradient} before:from-inherit before:to-inherit before:[background-size:1000px] before:bg-left
             }`} key={item[0]}>
                   <dt className={`font-mono text-xs col-span-full pb-2 text-transparent bg-clip-text bg-white bg-gradient-to-r ${gradient} [background-size:2000px] before:bg-left`}>{item[1]}</dt>
                   <dd className={`${classes} col-span-full pb-4`}>{item[0]}</dd>
