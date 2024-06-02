@@ -6,7 +6,7 @@ export default {
       href:"/work/ax-publishing",
       title: "AppExchange Publishing",
       color: "sky",
-      hero: "A {highlightText} of publishing",
+      hero: "A {highlightText} of publishing.",
       highlightText: "partner-focused overhaul",
       highlightClasses: "text-sky-600 dark:text-sky-400",
       description: "Centralising the publishing process across multiple tenants, reducing the time to publish by 2.5x, dramatically speeding up the security review process by 3.5x, and 65% faster approvals."

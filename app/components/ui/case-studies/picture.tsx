@@ -41,9 +41,9 @@ export function Image({
     <>
       <picture className={`overflow-hidden rounded-lg ${shadow ? 'shadow-xl' : ''} inline-flex align-top ${className}`}>
         {mobile && themed && theme == 'dark' ? <source media="(max-width: 799px)" srcSet={mobileDarkImage} /> : null}
-        {themed && theme == 'dark'? <source media="(min-width: 800px)" srcSet={darkImage} /> : null}
+        {themed && theme == 'dark' ? <source srcSet={darkImage} /> : null}
         {mobile && (theme == 'light' || !themed) ? <source media="(max-width: 799px)" srcSet={mobileImage} /> : null}
-        {theme == 'light' ? <source media="(min-width: 800px)" srcSet={baseImage} /> : null}
+        {theme == 'light'  ? <source srcSet={baseImage} /> : null}
         <img src={baseImage} alt={alt} />
       </picture>
       {children}
@@ -62,7 +62,7 @@ export function Frame({caption, zoomable = false, children, forceBackground = fa
 
 export function Caption({text, zoomable = false, forceBackground = false}: {text: string, zoomable: boolean, forceBackground: boolean}) {
   return (
-    <div className={`flex flex-col mx-auto justify-center items-center gap-4 px-8 ${forceBackground ? 'mt-8 mb-16' : 'mt-8'}`}>
+    <div className={`flex flex-col mx-auto justify-center items-center gap-4 px-8 ${forceBackground ? 'mt-4 mb-8 sm:mt-8 sm:mb-16' : 'mt-8'}`}>
       <figcaption className="max-w-lg leading-relaxed text-balance flex-shrink px-8">
         {text}
       </figcaption>
