@@ -57,7 +57,7 @@ export default function Page() {
               </hgroup>
             </div>
           </div>
-          <div className="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-8 gap-y-16 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:py-8 [&>.sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:ml-4 [&>.content]:xl:col-content [&>.lg-content]:xl:col-lg-content  max-w-none [&>.sidebar]:bg-neutral-100 [&>.sidebar]:pb-2 [&>.sidebar]:dark:bg-neutral-800 [&>.sidebar]:px-8 [&>.sidebar]:rounded-lg overflow-hidden pb-2">
+          <div className="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-8 gap-y-8 xl:gap-y-16 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:py-8 [&>.sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:ml-4 [&>.content]:xl:col-content [&>.lg-content]:xl:col-lg-content  max-w-none [&>.sidebar]:bg-neutral-100 [&>.sidebar]:pb-2 [&>.sidebar]:dark:bg-neutral-800 [&>.sidebar]:px-8 [&>.sidebar]:rounded-lg overflow-hidden pb-2">
             <Outlet />
 
             <div className="pt-4">

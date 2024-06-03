@@ -15,6 +15,7 @@ handle:
   title: Lysterfield Lake
   description: An interactive, AI-generated 3D music video.
   hero: Lysterfield Lake is a song about a place outside Melbourne, Australia. It's about the  endless summers of your youth, and the tiny changes in you that you don't even notice adding up. It's also about memories, which, like polaroids, fade and change over time.
+  highlight: "before:bg-[#E45C87]"
   gradient: "from-[#E45C87] to-[#F8CD0D]"
   metadata:
     - name: Team
@@ -54,9 +55,9 @@ import tags from '~/utils/tags'
   I think it all began when I came across [Replicate](https://replicate.com/) (and by extention, their open-source container for running machine learning models, [Cog](https://github.com/replicate/cog).) I was so inspired by their [Explore](https://replicate.com/explore) page, and, if I'm being totally honest, I was worried about the cost of experimenting with AI. I'd set up a gaming PC in the weird limbo of the 2020 lockdowns, and these tools made it effortless (and for the most part, free) to try, and test, and many, many times, fail.
 </Intro>
 
-<Metadata gradient={attributes.handle.gradient} metadata={attributes.handle.metadata} />
+<Metadata highlight={attributes.handle.highlight} gradient={attributes.handle.gradient} metadata={attributes.handle.metadata} />
 
-<div className="full">
+<div className="full dark:border-neutral-800 max-sm:border-x">
   <PictureZoom src="/assets/case-studies/lysterfield-lake/image-polaroids-full.webp" alt="A selection of dreams from the final video." />
 </div>
 
@@ -68,7 +69,7 @@ import tags from '~/utils/tags'
   (Also, if you haven't seen the video, [you should go and check it out](https://lysterfieldlake.com/) before I ruin the magic by shining a very bright light on exactly how it all works.)
 </Prose>
 
-<div className="wide">
+<div className="content">
   <Picture shadow src="/assets/case-studies/lysterfield-lake/image-screencast-preview.gif" alt="A preview GIF of the experience." />
 </div>
 
@@ -110,7 +111,7 @@ import tags from '~/utils/tags'
   First, a single video file, shot on an iPhone, is fed through a series of python and shell scripts. The initial one splits the video into individual frames. These frames then go through a bunch of processes depending on their final output.
 </Prose>
 
-<div className="full">
+<div className="content">
   <Picture shadow src="/assets/case-studies/lysterfield-lake/image-process-preview.gif" alt="A preview of the finished process." />
 </div>
 
@@ -207,7 +208,7 @@ import tags from '~/utils/tags'
   Each frame is then manually reviewed one by one and removed if not appropriate. (The primary reason for this is that Stable Diffusion models are trained on image sets that include a large amount of [waifu](https://www.dictionary.com/e/fictional-characters/waifu/)'s. Which, because the input clearly contains the shape of a person, means a lot of waifu's end up in the output, even when politely asking Stable Diffusion not to.)
 </Prose>
 
-<div className="wide">
+<div className="content">
   <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-waifu.webp" alt="An example of the tendency AI has toward waifu. Turns out every creative process eventually takes a sharp detour into the uncanniest valleys." />
 </div>
 
@@ -215,7 +216,7 @@ import tags from '~/utils/tags'
   The remaining images are fed into [rife-ncnn-vulkan](https://github.com/nihui/rife-ncnn-vulkan), which interpolates the missing frames and generates new ones to fill the gaps.
 </Prose>
 
-<div className="wide">
+<div className="content">
   <Picture src="/assets/case-studies/lysterfield-lake/image-interpolation-diagram.webp" alt="A diagram showing the interpolation process." themed mobile />
 </div>
 
@@ -249,7 +250,7 @@ import tags from '~/utils/tags'
   And having all of these elements in the one shader affords new opportunities. By passing the depth mask, alpha mask, and the watercolour scene, I was able to generate a rough 3D model.
 </Prose>
 
-<div className="wide">
+<div className="content">
   <Picture src="/assets/case-studies/lysterfield-lake/image-stack-diagram.webp" alt="An example of how the elements of the avatar are stitched together." themed mobile />
 </div>
 
@@ -257,7 +258,7 @@ import tags from '~/utils/tags'
   Custom shaders essentially let you paint with pixels in real time, and it's an incredibly exciting medium once you start to explore the possibilities. It is how I can use the pixels from the depth mask to directly impact how close or far each fragment of the 3D avatar is. And, if you'd like to learn more, [The Book of Shaders](https://thebookofshaders.com/) is a great resource.
 </Prose>
 
-<div className="full">
+<div className="content">
   <Picture shadow src="/assets/case-studies/lysterfield-lake/image-depth-animation.gif" alt="Frame-by-frame animation of the AI-generated depth filters. AI interprets the depth mask from a video, because we live in the future. (Also, I hand painted a lot of these frames, because technology is, sadly, fallible.)" />
 </div>
 
