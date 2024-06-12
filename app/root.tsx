@@ -48,7 +48,7 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
     title:
       'Charlie Gleason • Designer, developer, creative coder, and musician.',
     description:
-      'I’m a lead product designer at Salesforce. Before that I looked after design and brand at Heroku, design and front-end development for the London-based crowdfunding publisher Unbound, co-founded the Melbourne-based social film site Goodfilms, and was the technical lead of the Clemenger BBDO ad agency. I studied design and computer science, and I like the space between art and code. I also enjoy the blind terror of the creative process, solving difficult problems, and a clean sheet of paper. I cannot skateboard. I tried, but it was a whole thing.',
+      'I’m a staff designer at Replicate, looking after developer experience at the intersection of design, code, and machine learning. Before that I was a lead product designer at Salesforce, owned design and brand at Heroku, worked on design and front-end development for London-based crowdfunding publisher Unbound, co-founded the Melbourne-based social film site Goodfilms, and was the technical lead of the Clemenger BBDO ad agency. I studied design and computer science, and I like the space between creativity and code. I also enjoy the blind terror of the creative process, solving difficult problems, and a clean sheet of paper. cannot skateboard. I tried, but it was a whole thing.',
     image: 'https://charliegleason.com/social-default.png',
   })
 }
