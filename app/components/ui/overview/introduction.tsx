@@ -7,21 +7,26 @@ export default function Introduction() {
       <div className="space-y-4">
         <h1 className="text-xl sm:text-2xl">
           I’m a staff designer at{' '}
-          <Link href="https://replcate.com">Replicate</Link>, looking after developer experience
-          at the intersection of design, code, and machine learning.
+          <Link href="https://replicate.com">Replicate</Link>, looking after
+          developer experience at the intersection of design, code, and machine
+          learning.
         </h1>
 
         <p>
-          Before that I was a lead product designer at <Link href="https://salesforce.com">Salesforce</Link>,
-          owned design and brand at <Link href="https://heroku.com">Heroku</Link>,
-          worked on design and front-end development for London-based crowdfunding publisher <Link href="http://unbound.com/">Unbound</Link>,
-          co-founded the Melbourne-based social film site Goodfilms, and was the technical lead of the{' '}
-          <Link href="https://www.clemengerbbdo.com.au">Clemenger BBDO</Link>{' '} ad&nbsp;agency.
+          Before that I was a lead product designer at{' '}
+          <Link href="https://salesforce.com">Salesforce</Link>, owned design
+          and brand at <Link href="https://heroku.com">Heroku</Link>, worked on
+          design and front-end development for London-based crowdfunding
+          publisher <Link href="http://unbound.com/">Unbound</Link>, co-founded
+          the Melbourne-based social film site Goodfilms, and was the technical
+          lead of the{' '}
+          <Link href="https://www.clemengerbbdo.com.au">Clemenger BBDO</Link>{' '}
+          ad&nbsp;agency.
         </p>
         <p>
           I studied design and computer science, and I like the space between
-          creativity and code. I also enjoy the blind terror of the creative process,
-          solving difficult problems, and a clean sheet of&nbsp;paper.
+          creativity and code. I also enjoy the blind terror of the creative
+          process, solving difficult problems, and a clean sheet of&nbsp;paper.
         </p>
         <p>I cannot skateboard. I tried, but it was a whole&nbsp;thing.</p>
       </div>
