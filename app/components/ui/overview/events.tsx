@@ -71,6 +71,7 @@ export default function Events() {
         </Block>
           
         <Block id="half-marathons" title="Half Marathons">
+            <Item date="2025" title="Alameda" />
             <Item date="2025" title="Santa Rosa" />
             <Item date="2025" title="San Francisco Presidio" />
             <Item date="2025" title="Oakland" />
