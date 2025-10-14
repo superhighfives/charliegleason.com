@@ -40,7 +40,7 @@ export type PostsData = {
 }
 
 export async function loader({ context }: LoaderFunctionArgs) {
-  return await fetch(`${context.CODE_ENDPOINT}/resource/posts`)
+  return await fetch(`${context.CODE_ENDPOINT}/posts.json`)
   .then(res => res.json())
   .catch(e => {
     console.log('Error', e)
