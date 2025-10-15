@@ -26,26 +26,23 @@ export type MatchesData = {
   meta?: any
 };
 
-export type PostsData = {
+export type PostData = {
   slug: string
   url: string
-  date?: Date
-  frontmatter: {
-    title: string
-    description: string
-    published: string
-    data: []
-    links: []
-  }
+  date: string
+  title: string
+  description: string
 }
 
 export async function loader({ context }: LoaderFunctionArgs) {
-  return await fetch(`${context.CODE_ENDPOINT}/posts.json`)
+  const posts = await fetch(`${context.CODE_ENDPOINT}/posts.json`)
   .then(res => res.json())
   .catch(e => {
     console.log('Error', e)
     return []
   })
+
+  return { posts: posts as PostData[] }
 }
 
 export default function IndexRoute() {
@@ -53,7 +50,7 @@ export default function IndexRoute() {
     (route) => route.id === 'root'
   )?.data ?? { symbol: '💀', photo: '01', user: { id: 'unauthenticated' } }
 
-  const posts = useLoaderData<typeof loader>() as PostsData[]
+  const { posts } = useLoaderData<typeof loader>()
 
   return (
     <>

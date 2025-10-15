@@ -1,8 +1,8 @@
-import type { PostsData } from '~/routes/_index'
+import type { PostData } from '~/routes/_index'
 import Link from '~/components/ui/link'
 import Title from '~/components/ui/title'
 
-export default function Posts({posts}: {posts: PostsData[]}) {
+export default function Posts({posts}: {posts: PostData[]}) {
   return (
       <div className="space-y-4">
         <div className="flex items-center gap-2">
@@ -13,7 +13,7 @@ export default function Posts({posts}: {posts: PostsData[]}) {
         {posts.map((post) => {
           return (
             <div
-              key={post.frontmatter.title}
+              key={post.title}
               className="flex gap-2 text-sm"
             >
               <svg
@@ -28,10 +28,10 @@ export default function Posts({posts}: {posts: PostsData[]}) {
 
               <div className="flex items-center gap-2 flex-1 overflow-hidden">
                 <Link href={post.url} className="-ml-1 flex-shrink-0">
-                  {post.frontmatter.title}
+                  {post.title}
                 </Link>
                 
-                {post.frontmatter.description ? <p className="truncate text-xs text-neutral-600 dark:text-neutral-400">{post.frontmatter.description}</p> : null}
+                {post.description ? <p className="truncate text-xs text-neutral-600 dark:text-neutral-400">{post.description}</p> : null}
               </div>
             </div>
           )
