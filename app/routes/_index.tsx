@@ -42,7 +42,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
     return []
   })
 
-  return { posts: posts as PostData[] }
+  return { endpoint: context.CODE_ENDPOINT, posts: (posts as PostData[]).slice(0, 10) }
 }
 
 export default function IndexRoute() {
