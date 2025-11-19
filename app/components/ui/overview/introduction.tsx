@@ -38,7 +38,7 @@ export default function Introduction() {
           In my spare time I like to work on micro projects, from{' '}
           <Link href="https://sandpitjs.com/">tools for creative coding</Link>,
           to{' '}
-          <Link href="http://tweetflight.wearebrightly.com/">
+          <Link href="http://tweetflight.wewerebrightly.com/">
             tweet-based music videos
           </Link>
           , to{' '}

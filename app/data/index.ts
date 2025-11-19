@@ -119,7 +119,7 @@ export const projects = {
       title: 'Tweetflight',
       property: 'Music Video',
       subtitle: 'A Twitter-powered music video',
-      url: 'http://tweetflight.wearebrightly.com/',
+      url: 'http://tweetflight.wewerebrightly.com/',
     },
     {
       icon: '🪄',
@@ -147,7 +147,7 @@ export const projects = {
       title: 'Rugby',
       property: 'Music Video',
       subtitle: 'A GIF-powered music video',
-      url: 'https://rugby.wearebrightly.com/',
+      url: 'https://rugby.wewerebrightly.com/',
     },
     {
       icon: '💋',

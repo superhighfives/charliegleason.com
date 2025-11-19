@@ -17,7 +17,7 @@ export default function Work() {
         <div className="sm:col-span-1">
           <Tile
             id="brightly"
-            href="https://wearebrightly.com"
+            href="https://wewerebrightly.com"
             title="Brightly"
             description="Music and experiments"
             type="work"
