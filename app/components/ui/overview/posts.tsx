@@ -1,16 +1,19 @@
-import type { PostData } from '~/routes/_index'
+import type { loader, PostData } from '~/routes/_index'
 import Link from '~/components/ui/link'
 import Title from '~/components/ui/title'
+import { useLoaderData } from '@remix-run/react';
+import { Forward } from '../icon';
 
 export default function Posts({posts}: {posts: PostData[]}) {
+  const { endpoint } = useLoaderData<typeof loader>();
   return (
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-        <Title>Recent writing <Link type='text' className="font-mono font-bold text-[0.625rem]" href="https://code.charliegleason.com/about">(code.charliegleason.com)</Link></Title>
+        <Title>Recent writing <Link type='text' className="font-mono font-bold text-[0.625rem]" href={`${endpoint}`}>(code.charliegleason.com)</Link></Title>
         
         </div>
         <div className="space-y-4">
-        {posts.map((post) => {
+        {posts.slice(0, 8).map((post) => {
           return (
             <div
               key={post.title}
@@ -27,7 +30,7 @@ export default function Posts({posts}: {posts: PostData[]}) {
               </svg>
 
               <div className="flex items-center gap-2 flex-1 overflow-hidden">
-                <Link href={post.url} className="-ml-1 flex-shrink-0">
+                <Link href={post.url} className="-ml-1 truncate flex-shrink-0 max-w-full">
                   {post.title}
                 </Link>
                 
