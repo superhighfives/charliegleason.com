@@ -2,7 +2,6 @@ import type { loader, PostData } from '~/routes/_index'
 import Link from '~/components/ui/link'
 import Title from '~/components/ui/title'
 import { useLoaderData } from '@remix-run/react';
-import { Forward } from '../icon';
 
 export default function Posts({posts}: {posts: PostData[]}) {
   const { endpoint } = useLoaderData<typeof loader>();
@@ -20,7 +19,7 @@ export default function Posts({posts}: {posts: PostData[]}) {
               className="flex flex-col gap-2 text-sm"
             >
               <div className="flex items-start flex-col gap-2 flex-1 max-w-full">
-                <Link href={post.url}>
+                <Link className="truncate max-w-full" href={post.url}>
                   {post.title}
                 </Link>
                 
