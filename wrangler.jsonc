@@ -1,0 +1,27 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "astro-charliegleason-com",
+	"main": "./dist/_worker.js/index.js",
+	"compatibility_date": "2025-09-27",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./dist"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"kv_namespaces": [
+		{
+			"binding": "SESSION",
+			"id": "44ccedf1a8004e3f8b64dadad1d71b44"
+		}
+	]
+}

@@ -1,0 +1,20 @@
+---
+import { logout } from "../lib/auth";
+
+const env = Astro.locals.runtime?.env;
+
+if (env) {
+  const result = await logout(Astro.request, env);
+
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: "/",
+      ...result.headers,
+    },
+  });
+}
+
+// Fallback: redirect home without clearing session if env is missing
+return Astro.redirect("/");
+---
