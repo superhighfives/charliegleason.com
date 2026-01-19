@@ -9,6 +9,7 @@
 
 import { defineMiddleware } from "astro:middleware";
 import { getUserFromRequest } from "./lib/auth";
+import { getThemeFromRequest } from "./lib/theme";
 
 // Try to import protected routes config
 // This will fail gracefully in public mirror builds
@@ -34,7 +35,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // Get user from session cookie
   const env = locals.runtime?.env;
-  
+
   if (env) {
     const user = await getUserFromRequest(request, env);
     // Make user available to all pages via Astro.locals
@@ -42,6 +43,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   } else {
     locals.user = null;
   }
+
+  // Theme detection from client hints and cookie
+  const { theme, preference } = getThemeFromRequest(request);
+  locals.theme = theme;
+  locals.themePreference = preference;
 
   // Check if this route requires authentication
   const isProtectedRoute = protectedRoutes.some(
@@ -55,5 +61,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return redirect(loginUrl);
   }
 
-  return next();
+  // Get response and add Client Hints headers
+  const response = await next();
+
+  // Request client hints for future requests (Chromium only)
+  response.headers.set("Accept-CH", "Sec-CH-Prefers-Color-Scheme");
+  response.headers.set("Vary", "Sec-CH-Prefers-Color-Scheme");
+  response.headers.set("Critical-CH", "Sec-CH-Prefers-Color-Scheme");
+
+  return response;
 });

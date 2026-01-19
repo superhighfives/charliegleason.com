@@ -46,7 +46,7 @@ charliegleason.com/                    (PRIVATE monorepo)
 │       │   │   ├── auth.ts
 │       │   │   └── kv-session.ts
 │       │   ├── components/
-│       │   │   └── GuestFooter.astro
+│       │   │   └── Footer.astro
 │       │   └── integrations/
 │       │       └── protected-routes.ts
 │       ├── astro.config.mjs
@@ -363,7 +363,7 @@ return new Response(null, {
 
 ### 6. Guest Footer Component
 
-**`apps/web/src/components/GuestFooter.astro`**
+**`apps/web/src/components/Footer.astro`**
 
 ```astro
 ---
@@ -521,7 +521,7 @@ export default defineConfig({
 | 4 | Implement auth middleware | High | Done |
 | 5 | Create login page | High | Done |
 | 6 | Create logout page | High | Done |
-| 7 | Create GuestFooter component | Medium | Done |
+| 7 | Create Footer component | Medium | Done |
 | 8 | Set up packages/protected | High | Done |
 | 9 | Add TypeScript types | Medium | Done |
 | 10 | Create GitHub Actions mirror | Medium | Done |

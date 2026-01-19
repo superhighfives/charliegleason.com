@@ -1,0 +1,45 @@
+---
+/**
+ * Shows a "logged in as guest" notice in the footer when user is authenticated
+ */
+import ThemeToggle from "./ThemeToggle.astro";
+const user = Astro.locals.user;
+---
+
+<footer class="site-footer">
+	{user?.id === "guest" ? (
+		<p class="guest-notice">
+			You are currently logged in as a guest.{" "}
+			<a href="/logout">Logout</a>
+		</p>
+	) : (
+		<p class="guest-notice">
+			You are currently logged out.{" "}
+			<a href="/login">Login</a>
+		</p>
+	)}
+	<ThemeToggle />
+</footer>
+
+<style>
+	.site-footer {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+	}
+
+	.guest-notice {
+		font-size: 0.625rem;
+		color: var(--color-text-muted);
+		margin: 0;
+	}
+
+	.guest-notice a {
+		color: inherit;
+		text-decoration: underline;
+	}
+
+	.guest-notice a:hover {
+		color: var(--color-link);
+	}
+</style>

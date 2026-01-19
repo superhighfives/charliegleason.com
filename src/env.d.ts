@@ -25,5 +25,9 @@ declare namespace App {
   interface Locals extends Runtime {
     /** Current authenticated user, or null if not logged in */
     user: User | null;
+    /** Resolved theme for rendering (light or dark) */
+    theme: "light" | "dark";
+    /** User's theme preference (light, dark, or auto) */
+    themePreference: "light" | "dark" | "auto";
   }
 }
