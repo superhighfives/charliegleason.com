@@ -1,0 +1,28 @@
+---
+import Icon from '../ui/Icon.astro';
+
+interface SocialLinkProps {
+  icon: 'twitter' | 'dribbble' | 'github' | 'email';
+  title: string;
+  url: string;
+}
+
+const socials: SocialLinkProps[] = [
+  { icon: 'twitter', title: 'Twitter', url: 'https://twitter.com/superhighfives' },
+  { icon: 'dribbble', title: 'Dribbble', url: 'https://dribbble.com/superhighfives' },
+  { icon: 'github', title: 'GitHub', url: 'https://github.com/superhighfives' },
+  { icon: 'email', title: 'Email', url: 'mailto:hi@charliegleason.com' },
+];
+---
+
+<div class="flex flex-wrap justify-between gap-y-2">
+  {socials.map((social) => (
+    <a
+      href={social.url}
+      class="inline-flex gap-2 items-center text-sm hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors focus:text-yellow-600 dark:focus:text-yellow-400 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500 rounded-sm px-1 -mx-1"
+    >
+      <Icon name={social.icon} class="w-4 h-4" />
+      <span class="font-display">{social.title}</span>
+    </a>
+  ))}
+</div>

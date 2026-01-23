@@ -1,0 +1,43 @@
+---
+import Tile from '../islands/Tile';
+import Title from '../ui/Title.astro';
+---
+
+<div id="highlights" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+  <div class="col-span-full">
+    <Title>Project Highlights</Title>
+  </div>
+  <div class="sm:col-span-1">
+    <Tile
+      client:visible
+      id="replicate"
+      href="https://replicate.com/home"
+      title="Replicate"
+      description="Run AI with a single line of code"
+      type="work"
+      color="rose"
+    />
+  </div>
+  <div class="sm:col-span-1">
+    <Tile
+      client:visible
+      id="brightly"
+      href="https://wewerebrightly.com"
+      title="Brightly"
+      description="Music and experiments"
+      type="work"
+      color="yellow"
+    />
+  </div>
+  <div class="sm:col-span-1">
+    <Tile
+      client:visible
+      id="pika"
+      href="https://superhighfives.com/pika"
+      title="Pika"
+      description="An open-source colour macOS app"
+      type="work"
+      color="indigo"
+    />
+  </div>
+</div>

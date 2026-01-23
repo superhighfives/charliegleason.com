@@ -1,0 +1,179 @@
+---
+import Grid from '../ui/Grid.astro';
+
+interface EventItem {
+  date?: string;
+  title: string;
+  link?: { title: string; href: string };
+  stack?: boolean;
+}
+
+interface EducationItem {
+  title: string;
+  school: string;
+  location: string;
+  dates: string;
+  postscript?: string;
+}
+
+interface Block {
+  id: string;
+  title: string;
+  wide?: boolean;
+  items?: EventItem[];
+  education?: EducationItem[];
+}
+
+// Event data - matching the original site exactly
+const blocks: Block[] = [
+  {
+    id: 'awards-achievements',
+    title: 'Awards & Achievements',
+    wide: true,
+    items: [
+      { date: '2024', title: 'AWWWARDS, Nomination for Typography Honors', link: { title: 'Lysterfield Lake', href: 'https://www.awwwards.com/sites/lysterfield-lake' } },
+      { date: '2023', title: 'AWWWARDS, Honourable Mention', link: { title: 'Lysterfield Lake', href: 'https://www.awwwards.com/sites/lysterfield-lake' } },
+      { date: '2023', title: 'Salesforce TMP AI Hackathon, Winner for Overall Best Hack' },
+      { date: '2023', title: 'Product Hunt, Runner Up in the 2022 Golden Kitty Awards', link: { title: 'Pika', href: 'https://www.producthunt.com/posts/pika' } },
+      { date: '2021', title: 'Product Hunt, Featured', link: { title: 'Pika', href: 'https://www.producthunt.com/posts/pika' } },
+      { date: '2019', title: 'The Ink Award', link: { title: 'Heroku Hanafuda Cards', href: 'https://suminagame.com/2019/11/27/choboku-037/' } },
+      { date: '2017', title: 'Typewolf, Site of the Day', link: { title: 'Charlie Gleason', href: 'https://www.typewolf.com/site-of-the-day/charlie-gleason' } },
+      { date: '2016', title: 'The FWA, Site of the Day', link: { title: 'Kōya', href: 'https://thefwa.com/cases/koya' } },
+      { date: '2016', title: 'AWWWARDS, Honourable Mention', link: { title: 'Kōya', href: 'https://www.awwwards.com/sites/koya' } },
+      { date: '2016', title: 'Kickstarter, Projects We Love', link: { title: 'One For Sorrow, Two For Joy', href: 'https://www.kickstarter.com/projects/207221174/one-for-sorrow-two-for-joy-an-experiment-in-partic/' } },
+      { date: '2016', title: 'The FWA, Site of the Day', link: { title: 'Rugby', href: 'https://thefwa.com/cases/rugby' } },
+      { date: '2016', title: 'AWWWARDS, Honourable Mention', link: { title: 'Rugby', href: 'https://www.awwwards.com/sites/rugby' } },
+      { date: '2015', title: 'The FWA, Site of the Day', link: { title: 'I Will Never Let You Go', href: 'https://thefwa.com/cases/i-will-never-let-you-go' } },
+      { date: '2015', title: 'AWWWARDS, Honourable Mention', link: { title: 'I Will Never Let You Go', href: 'https://www.awwwards.com/sites/i-will-never-let-you-go' } },
+      { date: '2015', title: 'Chrome Experiments', link: { title: 'Tweetflight', href: 'https://experiments.withgoogle.com/tweetflight' } },
+      { date: '2014', title: 'Futurebook Innovation Awards, Best Publisher Website, Unbound' },
+      { date: '2013', title: 'Google Sandbox, Tweetflight' },
+      { date: '2013', title: 'The FWA, Site of the Day', link: { title: 'Tweetflight', href: 'https://thefwa.com/cases/tweetflight' } },
+      { date: '2013', title: 'AWWWARDS, Site of the Day', link: { title: 'Tweetflight', href: 'https://www.awwwards.com/sites/tweetflight' } },
+      { date: '2011', title: 'AWWWARDS, Site of the Day', link: { title: 'The Story of Mick Roberts', href: 'https://www.awwwards.com/sites/smoking-takes-lives' } },
+      { date: '2011', title: 'Caples, Silver, Pop What You\'re Not' },
+      { date: '2011', title: 'Award, Bronze, Pop What You\'re Not' },
+      { date: '2010', title: 'AIMIA, Nomination for Effectiveness, Pop What You\'re Not' },
+      { date: '2010', title: 'ADMA, Bronze for Art Direction / Craft, Pop What You\'re Not' },
+      { date: '2010', title: 'ADMA, Silver for Automotive, Pop What You\'re Not' },
+      { date: '2010', title: 'MADC, Bronze for Best Microsite, Pop What You\'re Not' },
+      { date: '2007', title: 'Design Institute of Australia, Encouragement Award' },
+    ],
+  },
+  {
+    id: 'talks-demos-workshops',
+    title: 'Talks, Demos & Workshops',
+    items: [
+      { date: '2024', title: 'Partner Summit: The Future of AppExchange' },
+      { date: '2023', title: 'Dreamforce: Designing a 5 Star Partner Listing' },
+      { date: '2019', title: 'Creative Coding London' },
+      { date: '2017', title: 'JSConf Budapest (Master of Ceremonies)' },
+      { date: '2016', title: 'Decompress: Blending WebGL and video' },
+      { date: '2012', title: 'Web Directions South: You are a developer, the internet is your friend' },
+      { date: '2012', title: 'What Do You Know: So, you are great (and so is Less CSS)' },
+      { date: '2011', title: 'What Do You Know: How to make your life more awesome with CSS3 media queries' },
+    ],
+  },
+  {
+    id: 'education',
+    title: 'Education',
+    education: [
+      { title: 'Masters of Computer Science', school: 'RMIT University', location: 'Melbourne', dates: '2011 - incomplete' },
+      { title: 'Bachelor of Design (Multimedia Design)', school: 'Swinburne School of Design', location: 'Melbourne', dates: '2004 - 2007', postscript: 'First Class Honours' },
+    ],
+  },
+  {
+    id: 'certifications',
+    title: 'Certifications',
+    items: [
+      { date: '2022', title: 'Salesforce User Experience (UX) Designer Certification' },
+    ],
+  },
+  {
+    id: 'volunteering',
+    title: 'Volunteering',
+    items: [
+      { title: 'Samaritans', date: '2020 - 2024', stack: true },
+    ],
+  },
+  {
+    id: 'triathlons',
+    title: 'Triathlons',
+    items: [
+      { date: '2023', title: 'Blenheim Palace Triathlon (Sprint)' },
+      { date: '2022', title: 'Blenheim Palace Triathlon (Sprint)' },
+    ],
+  },
+  {
+    id: 'half-marathons',
+    title: 'Half Marathons',
+    items: [
+      { date: '2025', title: 'Fremont Quarry Lakes, Alameda, Santa Rosa, San Francisco Presidio, Oakland' },
+      { date: '2022', title: 'Manchester Great Run' },
+      { date: '2021', title: 'London Landmarks' },
+    ],
+  },
+  {
+    id: 'marathons',
+    title: 'Marathons',
+    items: [
+      { date: '2017', title: 'London' },
+      { date: '2015', title: 'London' },
+    ],
+  },
+  {
+    id: 'ultra-marathons',
+    title: 'Ultra Marathons',
+    items: [
+      { title: 'None' },
+    ],
+  },
+];
+---
+
+<Grid class="grid-flow-row-dense">
+  {blocks.map((block) => (
+    <div class:list={['space-y-3', block.wide ? 'col-span-2' : 'col-span-1']}>
+      <h3 class="font-display text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+        {block.title}
+      </h3>
+      <ul class="space-y-2">
+        {block.items?.map((item) => (
+          <li class:list={['flex gap-2 text-sm', item.stack && 'flex-col gap-0']}>
+            {item.date && (
+              <span class="font-mono text-xs text-neutral-400 dark:text-neutral-500 w-10 flex-shrink-0">
+                {item.date}
+              </span>
+            )}
+            <span class="flex-1">
+              {item.title}
+              {item.link && (
+                <>
+                  {' '}
+                  <a
+                    href={item.link.href}
+                    class="text-yellow-700 dark:text-yellow-500 hover:underline"
+                  >
+                    {item.link.title}
+                  </a>
+                </>
+              )}
+            </span>
+          </li>
+        ))}
+        {block.education?.map((edu) => (
+          <li class="space-y-1">
+            <div class="font-medium">{edu.title}</div>
+            <div class="text-sm text-neutral-600 dark:text-neutral-400">
+              {edu.school}, {edu.location}
+            </div>
+            <div class="text-xs text-neutral-500">{edu.dates}</div>
+            {edu.postscript && (
+              <div class="text-xs text-yellow-700 dark:text-yellow-500">{edu.postscript}</div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</Grid>

@@ -1,0 +1,86 @@
+---
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  src: string;
+  alt: string;
+  themed?: boolean;
+  mobile?: boolean;
+  class?: string;
+  shadow?: boolean;
+  forceBackground?: boolean;
+  zoomable?: boolean;
+}
+
+const {
+  src,
+  alt,
+  themed = false,
+  mobile = false,
+  class: className = '',
+  shadow = false,
+  forceBackground = false,
+  zoomable = false,
+} = Astro.props;
+
+// Generate image variants
+const baseImage = src;
+const darkImage = baseImage.replace(/\.(\w+)$/, '-dark.$1');
+const mobileImage = baseImage.replace(/\.(\w+)$/, '-mobile.$1');
+const mobileDarkImage = darkImage.replace(/\.(\w+)$/, '-mobile.$1');
+
+// Get current theme from locals
+const theme = Astro.locals.theme || 'light';
+---
+
+<figure class="relative text-center font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose">
+  <picture class:list={[
+    'overflow-hidden rounded-lg inline-flex align-top',
+    shadow && 'shadow-xl',
+    className
+  ]}>
+    {mobile && themed && theme === 'dark' && (
+      <source media="(max-width: 799px)" srcset={mobileDarkImage} />
+    )}
+    {themed && theme === 'dark' && (
+      <source srcset={darkImage} />
+    )}
+    {mobile && (theme === 'light' || !themed) && (
+      <source media="(max-width: 799px)" srcset={mobileImage} />
+    )}
+    {theme === 'light' && (
+      <source srcset={baseImage} />
+    )}
+    <img src={baseImage} alt={alt} />
+  </picture>
+  
+  <div class:list={[
+    'flex flex-col mx-auto justify-center items-center gap-4 px-8',
+    forceBackground ? 'mt-4 mb-8 sm:mt-8 sm:mb-16' : 'mt-8'
+  ]}>
+    <figcaption class="max-w-lg leading-relaxed text-balance flex-shrink px-8">
+      {alt}
+    </figcaption>
+    {zoomable && (
+      <div class="inline-flex items-center gap-2 text-yellow-700 dark:text-yellow-500 border border-yellow-500 dark:border-yellow-700 rounded-full px-2 py-1">
+        <Icon class="w-4 h-4" name="zoom" />
+        Zoomable<span class="hidden sm:block"> image</span>
+      </div>
+    )}
+  </div>
+</figure>
+
+<script>
+  // Client-side theme detection for image switching
+  document.addEventListener('astro:page-load', () => {
+    const pictures = document.querySelectorAll('picture');
+    const updateImages = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      // Images will be handled by the picture sources
+    };
+    
+    // Watch for theme changes
+    const observer = new MutationObserver(updateImages);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  });
+</script>

@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Base
+ */
+
+html {
+  color-scheme: light;
+}
+
+body {
+  color: theme('colors.neutral.900');
+  background: theme('colors.white');
+}
+
+/*
+ * Top / Bottom Bars
+ */
+
+html,
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  min-height: stretch;
+}
+
+body {
+  position: relative;
+  z-index: 0;
+  padding: 2rem;
+}
+
+:-moz-loading {
+  visibility: hidden;
+}
+
+body::before,
+body::after,
+#root::before,
+#root::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  background: theme('colors.white');
+}
+
+#root {
+  position: relative;
+}
+
+#root::before,
+#root::after {
+  margin: 0;
+  z-index: 50;
+}
+
+/* Tailwind small breakpoint */
+@media (max-width: theme('screens.sm')) {
+  body::before,
+  body::after,
+  #root::before,
+  #root::after {
+    height: 1.5rem;
+  }
+}
+
+body::before {
+  border-bottom: 2px solid theme('colors.yellow.500');
+  top: 0;
+}
+
+body::after {
+  border-top: 2px solid theme('colors.yellow.500');
+  bottom: 0;
+}
+
+#root::before,
+#root::after {
+  margin: 0;
+}
+
+#root::before {
+  top: 0;
+  box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.25);
+}
+
+#root::after {
+  bottom: 0;
+  box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.125);
+}
+
+/*
+ * Dark mode
+ */
+
+.dark {
+  color-scheme: dark;
+}
+
+.dark body,
+.dark body::before,
+.dark body::after,
+.dark #root::before,
+.dark #root::after {
+  background: theme('colors.neutral.900');
+}
+
+.dark #root::before {
+  box-shadow: 0 0 5px 5px rgba(23, 23, 23, 0.5);
+}
+
+.dark #root::after {
+  box-shadow: 0 0 5px 5px rgba(23, 23, 23, 0.25);
+}
+
+.dark body {
+  color: theme('colors.neutral.100');
+}
+
+/*
+ * Selection
+ */
+
+*::selection {
+  color: theme('colors.yellow.900');
+  background: theme('colors.yellow.300');
+}
+
+html.dark *::selection {
+  color: theme('colors.yellow.300');
+  background: theme('colors.yellow.900');
+}
+
+/*
+ * Tile 3D effect
+ */
+
+.tile-move {
+  transform: rotateX(var(--x)) rotateY(var(--y));
+}

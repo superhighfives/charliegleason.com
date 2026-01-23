@@ -1,0 +1,21 @@
+---
+import HR from './HR.astro';
+---
+
+<div class="space-y-12">
+  <slot />
+</div>
+
+<style>
+  div > :global(*:not(:first-child))::before {
+    content: '';
+    display: block;
+    margin-bottom: 3rem;
+    border-top: 2px solid;
+    border-color: rgb(229 229 229);
+  }
+  
+  :global(.dark) div > :global(*:not(:first-child))::before {
+    border-color: rgb(38 38 38);
+  }
+</style>

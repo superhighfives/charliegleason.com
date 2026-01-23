@@ -1,0 +1,51 @@
+---
+import type { MetadataItem } from '../../content/config';
+
+interface Props {
+  gradient: string;
+  highlight: string;
+  metadata: MetadataItem[];
+}
+
+const { gradient, highlight, metadata } = Astro.props;
+---
+
+<div class="lg-sidebar not-prose space-y-4">
+  <h3 class:list={[
+    'text-sm font-display uppercase tracking-wider text-transparent bg-clip-text inline-block bg-gradient-to-l',
+    gradient
+  ]}>
+    Project Metadata
+  </h3>
+  <dl class="grid justify-start grid-cols-2 md:grid-cols-4 xl:grid-cols-2 gap-4">
+    {metadata.map((data) => {
+      if (Array.isArray(data.content)) {
+        // Team members with roles
+        return data.content.map((item: string[]) => (
+          <div class:list={[
+            'relative border-b-2 border-transparent col-span-1',
+            `before:block before:content-[''] before:absolute before:left-0 before:bottom-0 before:right-0 before:h-[2px]`,
+            highlight,
+            gradient
+          ]}>
+            <dt class:list={[
+              'font-mono text-xs col-span-full pb-2 text-transparent bg-clip-text bg-white bg-gradient-to-r [background-size:1000px] before:bg-left',
+              gradient
+            ]}>
+              {item[1]}
+            </dt>
+            <dd class="text-sm col-span-full pb-4">{item[0]}</dd>
+          </div>
+        ));
+      } else {
+        // Simple string content
+        return (
+          <div class="border-b-2 dark:border-neutral-700 col-span-1">
+            <dt class="font-mono text-xs pb-2 text-neutral-400">{data.name}</dt>
+            <dd class="text-sm col-span-full pb-4">{data.content}</dd>
+          </div>
+        );
+      }
+    })}
+  </dl>
+</div>

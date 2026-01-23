@@ -1,0 +1,63 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  company: string;
+  role: string;
+  hero?: boolean;
+  quote: string;
+  highlight: string;
+}
+
+const { id, name, role, company, hero = false, quote, highlight } = Astro.props;
+
+// Split quote to insert highlight
+const hasHighlightInQuote = quote.includes(highlight);
+---
+
+<blockquote
+  class:list={[
+    'flex flex-col justify-between',
+    hero ? 'md:col-span-3 lg:col-span-2 sm:col-span-2' : 'col-span-1'
+  ]}
+>
+  <p
+    class:list={[
+      'pb-3 -indent-2 border-l border-neutral-300 dark:border-neutral-700 pl-6 flex-1 ml-4 text-neutral-800 dark:text-neutral-300',
+      hero ? 'text-xl' : 'text-md'
+    ]}
+  >
+    <span class="opacity-40">"</span>
+    {hasHighlightInQuote ? (
+      <>
+        {quote.split(highlight)[0]}
+        <strong class="text-yellow-700 dark:text-yellow-500">{highlight}</strong>
+        {quote.split(highlight)[1]}
+      </>
+    ) : (
+      <>
+        <strong class="text-yellow-700 dark:text-yellow-500">{highlight}</strong>
+        {' '}{quote}
+      </>
+    )}
+    <span class="opacity-40">"</span>
+  </p>
+  <cite class="not-italic flex items-start">
+    <img
+      class="rounded-full mr-2 -mt-1 w-8 h-8 border-2 border-neutral-300 dark:border-neutral-700 bg-white"
+      src={`/assets/avatars/avatar-${id}.jpg`}
+      alt={`Black and white headshot of ${name}`}
+      width="30"
+      height="30"
+    />
+    <div class="space-y-1">
+      <div class="text-neutral-800 dark:text-neutral-300 font-display text-md">
+        {name}
+      </div>
+      <div class="text-neutral-700 dark:text-neutral-400 text-sm">
+        <div class="font-semibold">{role}</div>
+        <div>{company}</div>
+      </div>
+    </div>
+  </cite>
+</blockquote>

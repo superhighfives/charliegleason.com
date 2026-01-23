@@ -3,3 +3,6 @@
 
 # Password for guest authentication
 AUTH_PASSWORD=your-secret-password-here
+
+# External blog posts endpoint (optional)
+CODE_ENDPOINT=https://code.charliegleason.com

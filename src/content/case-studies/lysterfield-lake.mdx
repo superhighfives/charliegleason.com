@@ -1,0 +1,137 @@
+---
+published: 2024-05-20
+title: Lysterfield Lake
+description: An interactive, AI-generated 3D music video.
+hero: Lysterfield Lake is a song about a place outside Melbourne, Australia. It's about the endless summers of your youth, and the tiny changes in you that you don't even notice adding up. It's also about memories, which, like polaroids, fade and change over time.
+highlight: "before:bg-[#E45C87]"
+gradient: "from-[#E45C87] to-[#F8CD0D]"
+ogImage: /assets/case-studies/lysterfield-lake/banner.jpg
+metadata:
+  - name: Team
+    content:
+      - - Charlie Gleason
+        - Design, development, 3D modelling
+      - - Glen Maddern
+        - Support and Encouragement
+  - name: Company
+    content: Side project
+  - name: Timeline
+    content: Early 2023 - December 2023
+  - name: Platform
+    content: Web
+  - name: Industry
+    content: Music
+  - name: Libraries
+    content: Vite, React, Three.js, React Three Fiber
+  - name: Tools
+    content: Blender, After Effects
+---
+
+import Prose from '../../components/case-studies/Prose.astro';
+import Picture from '../../components/case-studies/Picture.astro';
+import Hero from '../../components/case-studies/Hero.astro';
+import Intro from '../../components/case-studies/Intro.astro';
+import Metadata from '../../components/case-studies/Metadata.astro';
+import PictureZoom from '../../components/islands/PictureZoom';
+
+<Intro>
+  <Hero gradient={frontmatter.gradient} hero={frontmatter.hero} />
+
+  I don't remember exactly when I wrote it in much the same way I don't remember exactly when I started this project, which has spanned the better part of a year and has all but consumed the most creative bits of my brain.
+
+  I think it all began when I came across [Replicate](https://replicate.com/) (and by extention, their open-source container for running machine learning models, [Cog](https://github.com/replicate/cog).) I was so inspired by their [Explore](https://replicate.com/explore) page, and, if I'm being totally honest, I was worried about the cost of experimenting with AI. I'd set up a gaming PC in the weird limbo of the 2020 lockdowns, and these tools made it effortless (and for the most part, free) to try, and test, and many, many times, fail.
+</Intro>
+
+<Metadata highlight={frontmatter.highlight} gradient={frontmatter.gradient} metadata={frontmatter.metadata} />
+
+<div class="full dark:border-neutral-800 max-sm:border-x">
+  <PictureZoom client:visible src="/assets/case-studies/lysterfield-lake/image-polaroids-full.webp" alt="A selection of dreams from the final video." />
+</div>
+
+<Prose>
+  When I decided to release new music (it's been seven years since [the last Brightly record](https://wewerebrightly.com/)) I knew I wanted to build something with these bits and pieces I'd been noodling with. I knew I wasn't great at making traditional music videos, and I felt empowered by the flexibility of the browsers, and the creative opportunties afforded by using machine learning and AI. I think the result is something greater than the sum of its parts.
+
+  And there are a lot of parts.
+
+  (Also, if you haven't seen the video, [you should go and check it out](https://lysterfieldlake.com/) before I ruin the magic by shining a very bright light on exactly how it all works.)
+</Prose>
+
+<div class="content">
+  <Picture shadow src="/assets/case-studies/lysterfield-lake/image-screencast-preview.gif" alt="A preview GIF of the experience." />
+</div>
+
+<Prose>
+  (And if you'd [rather check out a recording, you can jump over to YouTube](https://youtu.be/a-9gGCQIPo8) to see a simplified version that should give you a pretty good idea.)
+</Prose>
+
+<div class="full">
+  <Picture src="/assets/case-studies/lysterfield-lake/image-polaroid-three.webp" alt="Three polaroids containing the singer and lyrics overlaid." />
+</div>
+
+<Prose>
+  ---
+
+  # What is it?
+
+  [Lysterfield Lake](https://lysterfieldlake.com/) is a 3D generative interactive music video. It works in the browser, using [Three.js](https://threejs.org/) and [react-three-fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction) to stitch together seven feeds of video frame by frame, turning a single piece of footage shot on an iPhone into a three-dimensional fever dream. It uses the accelerometer in your phone, if it's available, or your mouse if you're on a computer. It shows and hides the protagonist as you watch depending on your actions, offering a myriad of ways to experience it. New dreams can be added at any time.
+
+  Behind the scenes it was modelled in [Blender](https://www.blender.org/), (using a polaroid model by [Edoardo Galati](https://sketchfab.com/edoardogalati)), generated in python and shell scripts, and built in JavaScript. It is made up of entirely open-source projects that are freely available.
+</Prose>
+
+<div class="full">
+  <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-grid.webp" alt="A frame of each of the initial dreams." mobile />
+</div>
+
+<Prose>
+  ---
+
+  # The process
+
+  So, how does it work? I made a diagram to help.
+</Prose>
+
+<div class="full">
+  <Picture src="/assets/case-studies/lysterfield-lake/image-process-diagram.webp" alt="A diagram showing the process of how the technology works under the hood." themed mobile />
+</div>
+
+<Prose>
+  First, a single video file, shot on an iPhone, is fed through a series of python and shell scripts. The initial one splits the video into individual frames. These frames then go through a bunch of processes depending on their final output.
+</Prose>
+
+<div class="content">
+  <Picture shadow src="/assets/case-studies/lysterfield-lake/image-process-preview.gif" alt="A preview of the finished process." />
+</div>
+
+<Prose>
+  ---
+
+  # Okay, how do I find out more?
+
+  If you'd like to check it out, you can do so here:
+  [https://lysterfieldlake.com/](https://lysterfieldlake.com/)
+
+  If you'd like to share this project, that would be greatly appreciated. The project itself is entirely open-source, and available at the following GitHub repositories:
+
+  - [**Client App**](https://github.com/superhighfives/lysterfield-lake) - A React app, powered by React and react-three-fiber.
+  - [**Pipeline**](https://github.com/superhighfives/lysterfield-lake-pipeline) - The pipeline that generates the video used by the app, powered by python and shell-scripts.
+
+  (**Author's note:** Fair warning—it's not the cleanest code, and in the case of the pipeline, it's not something that will work locally out of the box. I definitely intended open-sourcing this to be educational, in the sense of "oh, that's how he did that!", as opposed to aspirational, like "oh, that's how he thinks React should be written??" It was a passion project, so maybe bear that in mind. Cheers.)
+</Prose>
+
+<div class="sidebar">
+  <Picture shadow src="/assets/case-studies/lysterfield-lake/image-cover-art.webp" alt="Brightly - Lysterfield Lake (cover art)" />
+
+  <Prose>
+    <small>
+      Thanks to all my mates who came on country walks while I filmed myself awkwardly mouthing along to my own music. To Ian and Georgia for filming the real thing in Scotland. And to everyone who told me I'm not too old to keep making things.
+
+      Also, this project wouldn't have happened, like all my projects, without the support and encouragement of [Glen Maddern](https://github.com/geelen).
+
+      Produced and Mixed by James Seymour in Naarm.
+      Mastered by Andrei "Ony" Eremin in Philadelphia.
+
+      Thank you for listening.
+      [@wearebrightly](http://twitter.com/wearebrightly) / wewerebrightly.com
+    </small>
+  </Prose>
+</div>

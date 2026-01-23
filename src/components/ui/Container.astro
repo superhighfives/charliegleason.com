@@ -1,0 +1,19 @@
+---
+interface Props {
+  variant?: 'default' | 'wide' | 'full';
+}
+
+const { variant } = Astro.props;
+
+const classes = {
+  default: 'max-w-2xl',
+  wide: 'max-w-screen-2xl',
+  full: 'max-w-screen-3xl sm:pt-0 lg:-my-8',
+};
+
+const variantClass = variant ? classes[variant] : classes.default;
+---
+
+<div class:list={['lg:px-10 py-4 sm:py-10 ml-auto mr-auto space-y-12', variantClass]}>
+  <slot />
+</div>

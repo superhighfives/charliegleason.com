@@ -1,45 +1,48 @@
 ---
-/**
- * Shows a "logged in as guest" notice in the footer when user is authenticated
- */
-import ThemeToggle from "./ThemeToggle.astro";
-const user = Astro.locals.user;
+import Link from './ui/Link.astro';
+
+interface Props {
+  user?: { id: string } | null;
+}
+
+const { user } = Astro.props;
 ---
 
-<footer class="site-footer">
-	{user?.id === "guest" ? (
-		<p class="guest-notice">
-			You are currently logged in as a guest.{" "}
-			<a href="/logout">Logout</a>
-		</p>
-	) : (
-		<p class="guest-notice">
-			You are currently logged out.{" "}
-			<a href="/login">Login</a>
-		</p>
-	)}
-	<ThemeToggle />
-</footer>
-
-<style>
-	.site-footer {
-		display: flex;
-		gap: 1rem;
-		align-items: center;
-	}
-
-	.guest-notice {
-		font-size: 0.625rem;
-		color: var(--color-text-muted);
-		margin: 0;
-	}
-
-	.guest-notice a {
-		color: inherit;
-		text-decoration: underline;
-	}
-
-	.guest-notice a:hover {
-		color: var(--color-link);
-	}
-</style>
+<div class="text-xxs text-neutral-600 dark:text-neutral-400 max-w-lg pb-16 sm:pb-20 md:pb-36 pt-24 sm:pt-48 space-y-2">
+  <p>
+    Typeset in{' '}
+    <Link type="text" href="https://dharmatype.com/commuters-sans">
+      Commuter Sans
+    </Link>{' '}
+    and the{' '}
+    <Link type="text" href="https://systemfontstack.com/">
+      system font&nbsp;stack
+    </Link>.
+  </p>
+  <p>
+    Built with{' '}
+    <Link type="text" href="https://astro.build/">
+      Astro
+    </Link>. CSS with{' '}
+    <Link type="text" href="https://tailwindcss.com/">
+      Tailwind
+    </Link>. Hosted on&nbsp;
+    <Link type="text" href="https://www.cloudflare.com/">
+      Cloudflare
+    </Link>.
+  </p>
+  <p>
+    Primary illustration inspired by{' '}
+    <Link type="text" href="https://thedesignsquiggle.com/">
+      The Design&nbsp;Squiggle
+    </Link>.
+  </p>
+  {user && user.id === 'guest' && (
+    <p class="text-neutral-400 dark:text-neutral-600">
+      You are currently logged in as a guest.{' '}
+      <Link type="text" href="/logout">
+        Logout
+      </Link>
+    </p>
+  )}
+</div>

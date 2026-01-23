@@ -1,0 +1,58 @@
+---
+import Link from '../ui/Link.astro';
+import Title from '../ui/Title.astro';
+import { EMOJI_URL } from '../../lib/constants';
+
+interface Entry {
+  icon: string;
+  property?: string;
+  title: string;
+  subtitle?: string;
+  url: string;
+}
+
+interface Section {
+  title: string;
+  data: Entry[];
+}
+
+interface Props {
+  sections: Section[];
+}
+
+const { sections } = Astro.props;
+---
+
+{sections.map((section) => (
+  <div class="space-y-8">
+    <Title>Selected {section.title}</Title>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-4 md:gap-x-12">
+      {section.data.map((entry) => (
+        <div class="flex items-start">
+          <img
+            class="relative mr-2 md:mr-4 rounded-full w-[24px] h-[24px] md:w-[30px] md:h-[30px]"
+            src={`${EMOJI_URL}${entry.icon}?detailed=false&animated=false`}
+            alt={`${entry.icon} emoji in a yellow circle`}
+            width="30"
+            height="30"
+          />
+          <div>
+            {entry.property && (
+              <div class="text-xs uppercase tracking-widest font-medium text-neutral-700 dark:text-neutral-400">
+                {entry.property}
+              </div>
+            )}
+            <Link href={entry.url} class="-ml-1" size="large">
+              {entry.title}
+            </Link>
+            {entry.subtitle && (
+              <div class="text-sm text-neutral-700 dark:text-neutral-400">
+                {entry.subtitle}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+))}

@@ -1,0 +1,36 @@
+---
+import Events from './Events.astro';
+import Introduction from './Introduction.astro';
+import Posts from './Posts.astro';
+import HR from '../ui/HR.astro';
+
+interface Post {
+  slug: string;
+  url: string;
+  date: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  posts?: Post[];
+  endpoint?: string;
+}
+
+const { posts = [], endpoint = '' } = Astro.props;
+---
+
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+  <div class="lg:col-span-2 flex flex-col gap-8">
+    <Introduction />
+    
+    <HR class="max-w-[4rem]" />
+    
+    {posts && posts.length > 0 && (
+      <Posts posts={posts} endpoint={endpoint} />
+    )}
+  </div>
+  <div class="lg:col-span-3">
+    <Events />
+  </div>
+</div>

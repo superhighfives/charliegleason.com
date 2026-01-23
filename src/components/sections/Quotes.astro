@@ -1,0 +1,19 @@
+---
+import Grid from '../ui/Grid.astro';
+import Quote from './Quote.astro';
+import { quotes } from '../../data';
+---
+
+<Grid cols={8}>
+  {quotes.map((quote) => (
+    <Quote
+      id={quote.id}
+      name={quote.name}
+      role={quote.role}
+      company={quote.company}
+      hero={quote.hero}
+      quote={quote.quote}
+      highlight={quote.highlight}
+    />
+  ))}
+</Grid>

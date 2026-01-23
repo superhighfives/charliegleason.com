@@ -1,55 +1,63 @@
 ---
-const theme = Astro.locals.theme || "light";
-const themePreference = Astro.locals.themePreference || "auto";
+import '../styles/global.css';
+import { EMOJI_URL } from '../lib/constants';
+import { sampleSize, random } from 'lodash-es';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  symbol?: string;
+}
+
+// Emoji list for random favicon selection
+const emojiList = ['🌊', '🎨', '🎵', '💻', '🌈', '🎭', '🎪', '🎯', '🌟', '🔮', '🎸', '🎹', '🎺', '🎻', '🪗', '🥁', '🪘', '🎤', '🎧', '🎼', '🎬', '📷', '🖼️', '🎨', '🖌️', '✏️', '📝', '💡', '🔥', '⚡', '🌙', '☀️', '🌍', '🌎', '🌏'];
+
+const theme = Astro.locals.theme || 'light';
+const themePreference = Astro.locals.themePreference || 'auto';
+
+const {
+  title = 'Charlie Gleason • Designer, developer, creative coder, and musician.',
+  description = "I'm a principal systems engineer at Cloudflare, looking after developer experience at the intersection of design, code, and machine learning.",
+  image = 'https://charliegleason.com/social-default.png',
+  symbol = sampleSize(emojiList, Math.ceil(Math.random() * 3)).join(''),
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en" class={theme} data-theme-preference={themePreference}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="color-scheme" content="light dark" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg" href={`${EMOJI_URL}${symbol}?animated=false`} />
+    
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/qjo1mgb.css" />
+    
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <div id="root">
+      <slot />
+    </div>
+  </body>
 </html>
-
-<style is:global>
-	:root {
-		--color-bg: #ffffff;
-		--color-text: #171717;
-		--color-text-muted: #737373;
-		--color-link: #525252;
-		color-scheme: light dark;
-	}
-
-	html.dark {
-		--color-bg: #171717;
-		--color-text: #f5f5f5;
-		--color-text-muted: #a3a3a3;
-		--color-link: #d4d4d4;
-	}
-
-	/* Fallback for JS-disabled or first load */
-	@media (prefers-color-scheme: dark) {
-		html:not(.light):not(.dark) {
-			--color-bg: #171717;
-			--color-text: #f5f5f5;
-			--color-text-muted: #a3a3a3;
-			--color-link: #d4d4d4;
-		}
-	}
-
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-		background: var(--color-bg);
-		color: var(--color-text);
-	}
-</style>

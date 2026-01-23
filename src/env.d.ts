@@ -10,6 +10,8 @@ interface Env {
   AUTH_PASSWORD: string;
   /** Cloudflare Assets binding */
   ASSETS: Fetcher;
+  /** External blog posts endpoint */
+  CODE_ENDPOINT?: string;
 }
 
 /**
