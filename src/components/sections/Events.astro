@@ -1,11 +1,8 @@
 ---
-import Grid from '../ui/Grid.astro';
-
 interface EventItem {
   date?: string;
   title: string;
   link?: { title: string; href: string };
-  stack?: boolean;
 }
 
 interface EducationItem {
@@ -92,8 +89,8 @@ const blocks: Block[] = [
   {
     id: 'volunteering',
     title: 'Volunteering',
-    items: [
-      { title: 'Samaritans', date: '2020 - 2024', stack: true },
+    education: [
+      { title: 'Samaritans', school: '', location: '', dates: '2020 - 2024' },
     ],
   },
   {
@@ -131,49 +128,44 @@ const blocks: Block[] = [
 ];
 ---
 
-<Grid class="grid-flow-row-dense">
+<div class="grid sm:gap-10 grid-cols-1 sm:grid-cols-3 space-y-8 sm:space-y-0 grid-flow-row-dense">
   {blocks.map((block) => (
-    <div class:list={['space-y-3', block.wide ? 'col-span-2' : 'col-span-1']}>
-      <h3 class="font-display text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+    <ul class:list={[
+      'grid grid-cols-1 gap-4 text-xs text-neutral-800 dark:text-neutral-300 auto-rows-min',
+      block.wide && 'sm:col-span-2 sm:grid-cols-2 sm:row-span-2 max-sm:[&>li:nth-child(n+10)]:hidden'
+    ]}>
+      <h2 class="tracking-widest text-xs font-display uppercase text-yellow-700 dark:text-yellow-500 col-span-full">
         {block.title}
-      </h3>
-      <ul class="space-y-2">
-        {block.items?.map((item) => (
-          <li class:list={['flex gap-2 text-sm', item.stack && 'flex-col gap-0']}>
-            {item.date && (
-              <span class="font-mono text-xs text-neutral-400 dark:text-neutral-500 w-10 flex-shrink-0">
-                {item.date}
-              </span>
-            )}
-            <span class="flex-1">
-              {item.title}
-              {item.link && (
-                <>
-                  {' '}
-                  <a
-                    href={item.link.href}
-                    class="text-yellow-700 dark:text-yellow-500 hover:underline"
-                  >
-                    {item.link.title}
-                  </a>
-                </>
-              )}
-            </span>
-          </li>
-        ))}
-        {block.education?.map((edu) => (
-          <li class="space-y-1">
-            <div class="font-medium">{edu.title}</div>
-            <div class="text-sm text-neutral-600 dark:text-neutral-400">
-              {edu.school}, {edu.location}
-            </div>
-            <div class="text-xs text-neutral-500">{edu.dates}</div>
-            {edu.postscript && (
-              <div class="text-xs text-yellow-700 dark:text-yellow-500">{edu.postscript}</div>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
+      </h2>
+      {block.items?.map((item) => (
+        <li>
+          {item.date && (
+            <em class="not-italic font-mono text-neutral-600 dark:text-neutral-500">{item.date}</em>
+          )}{' '}
+          {item.title}
+          {item.link && (
+            <>, <a
+              href={item.link.href}
+              class="text-yellow-700 dark:text-yellow-500 hover:underline"
+            >
+              {item.link.title}
+            </a></>
+          )}
+        </li>
+      ))}
+      {block.education?.map((edu) => (
+        <div>
+          <strong class="font-medium">{edu.title}</strong>
+          {edu.postscript && (
+            <><br />{edu.postscript}</>
+          )}
+          {edu.school && (
+            <><br />{edu.school}, {edu.location}</>
+          )}
+          <br />
+          <em class="not-italic font-mono text-neutral-600 dark:text-neutral-500">{edu.dates}</em>
+        </div>
+      ))}
+    </ul>
   ))}
-</Grid>
+</div>

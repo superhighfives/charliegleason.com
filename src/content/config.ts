@@ -34,14 +34,21 @@ const caseStudySchema = z.object({
   protected: z.boolean().optional().default(false),
 });
 
-// Case studies collection
+// Case studies collection (public)
 const caseStudies = defineCollection({
+  type: 'content',
+  schema: caseStudySchema,
+});
+
+// Protected case studies collection (from packages/protected)
+const protectedCaseStudies = defineCollection({
   type: 'content',
   schema: caseStudySchema,
 });
 
 export const collections = {
   'case-studies': caseStudies,
+  'protected-case-studies': protectedCaseStudies,
 };
 
 // Export the schema type for use in components

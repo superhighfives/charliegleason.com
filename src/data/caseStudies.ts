@@ -27,7 +27,6 @@ export const caseStudies: { title: string; data: CaseStudyCard[] } = {
       highlightClasses: 'text-sky-600 dark:text-sky-400',
       description:
         'Centralising the publishing process across multiple tenants, reducing the time to publish by 2.5x, dramatically speeding up the security review process by 3.5x, and 65% faster approvals.',
-      protected: true, // Remove once assets are added
     },
     {
       id: 'lysterfield-lake',

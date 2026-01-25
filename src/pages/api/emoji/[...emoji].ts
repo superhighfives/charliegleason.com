@@ -1,102 +1,334 @@
 import type { APIRoute } from 'astro';
-import emojiData from 'unicode-emoji-json';
+import { readFile } from 'fs/promises';
+import { join } from 'path';
 
-// Allowed emoji list (matching the original site)
-const emojiList = Object.keys(emojiData).filter(
-  (emoji) => !emoji.includes('🏻') && !emoji.includes('🏼') && !emoji.includes('🏽') && !emoji.includes('🏾') && !emoji.includes('🏿')
-).slice(0, 500); // Limit to common emoji
+// Emoji to key name mapping (matching the PNG filenames in /assets/emoji/)
+const emojiToKey: Record<string, string> = {
+  '💯': '100',
+  '⚓': 'anchor',
+  '🎨': 'art',
+  '🎈': 'balloon',
+  '🍌': 'banana',
+  '🏖️': 'beach_with_umbrella',
+  '🏖': 'beach_with_umbrella',
+  '🍻': 'beers',
+  '😊': 'blush',
+  '⛵': 'boat',
+  '📚': 'books',
+  '💡': 'bulb',
+  '🤙': 'call_me_hand',
+  '📷': 'camera',
+  '🎠': 'carousel_horse',
+  '🌸': 'cherry_blossom',
+  '🍫': 'chocolate_bar',
+  '🎪': 'circus_tent',
+  '☕': 'coffee',
+  '💻': 'computer',
+  '🎊': 'confetti_ball',
+  '👑': 'crown',
+  '💃': 'dancer',
+  '😵': 'dizzy_face',
+  '💫': 'dizzy',
+  '🌏': 'earth_asia',
+  '🍆': 'eggplant',
+  '🍂': 'fallen_leaf',
+  '🎡': 'ferris_wheel',
+  '🔥': 'fire',
+  '😳': 'flushed',
+  '🍟': 'fries',
+  '💝': 'gift_heart',
+  '🎸': 'guitar',
+  '🍔': 'hamburger',
+  '💩': 'hankey',
+  '🎧': 'headphones',
+  '🙉': 'hear_no_evil',
+  '🚁': 'helicopter',
+  '🌶️': 'hot_pepper',
+  '🌶': 'hot_pepper',
+  '🏡': 'house_with_garden',
+  '🏠': 'house',
+  '🏯': 'japanese_castle',
+  '😂': 'joy',
+  '💋': 'kiss',
+  '🍭': 'lollipop',
+  '🔍': 'mag',
+  '🪄': 'magic_wand',
+  '🎤': 'microphone',
+  '🐒': 'monkey',
+  '🕌': 'mosque',
+  '💪': 'muscle',
+  '🎹': 'musical_keyboard',
+  '🎵': 'musical_note',
+  '📔': 'notebook_with_decorative_cover',
+  '🎶': 'notes',
+  '🌊': 'ocean',
+  '🦉': 'owl',
+  '🎭': 'performing_arts',
+  '🐖': 'pig2',
+  '💩': 'poop',
+  '🙌': 'raised_hands',
+  '🐀': 'rat',
+  '💞': 'revolving_hearts',
+  '🚀': 'rocket',
+  '🎢': 'roller_coaster',
+  '🏉': 'rugby_football',
+  '⛵': 'sailboat',
+  '🎒': 'school_satchel',
+  '🙈': 'see_no_evil',
+  '🌱': 'seedling',
+  '💀': 'skull',
+  '✨': 'sparkles',
+  '💖': 'sparkling_heart',
+  '🙊': 'speak_no_evil',
+  '🦑': 'squid',
+  '⭐': 'star',
+  '🌟': 'star2',
+  '🚂': 'steam_locomotive',
+  '🍓': 'strawberry',
+  '🎉': 'tada',
+  '🗼': 'tokyo_tower',
+  '🎩': 'tophat',
+  '⛱️': 'umbrella_on_ground',
+  '⛱': 'umbrella_on_ground',
+  '📼': 'vhs',
+  '🎮': 'video_game',
+  '🍉': 'watermelon',
+  '🗺️': 'world_map',
+  '🗺': 'world_map',
+};
 
-function isValidEmoji(emoji: string): boolean {
-  // Simple emoji regex check
-  const emojiRegex = /\p{Emoji}/u;
-  return emojiRegex.test(emoji);
+// List of available emoji keys for random selection
+const emojiList = Object.keys(emojiToKey);
+
+function sampleSize<T>(array: T[], n: number): T[] {
+  const shuffled = [...array].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, n);
 }
 
 function parseEmoji(input: string): string[] {
   if (input === 'random') {
-    // Return 1-3 random emoji
     const count = Math.ceil(Math.random() * 3);
-    const shuffled = [...emojiList].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, count);
+    return sampleSize(emojiList, count);
   }
   
   // Split graphemes (handles multi-codepoint emoji)
   const graphemes = [...new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(input)]
     .map((s) => s.segment)
-    .filter(isValidEmoji)
+    .filter((emoji) => emojiToKey[emoji])
     .slice(0, 3);
   
   return graphemes;
 }
 
-function generateSVG(emojis: string[], animated: boolean = true): string {
-  const size = 80;
-  const fontSize = emojis.length === 1 ? 48 : emojis.length === 2 ? 36 : 28;
-  
-  // Position emoji based on count
-  const positions = emojis.length === 1 
-    ? [{ x: 40, y: 52 }]
-    : emojis.length === 2
-    ? [{ x: 28, y: 45 }, { x: 52, y: 58 }]
-    : [{ x: 20, y: 40 }, { x: 50, y: 35 }, { x: 35, y: 60 }];
+function getEmojiKey(emoji: string): string | undefined {
+  return emojiToKey[emoji];
+}
 
-  const emojiElements = emojis.map((emoji, i) => {
-    const pos = positions[i] || { x: 40, y: 50 };
-    const animationDelay = animated ? `animation-delay: ${i * 0.1}s;` : '';
-    const opacity = animated ? 'opacity: 0;' : '';
-    return `<text x="${pos.x}" y="${pos.y}" font-size="${fontSize}" text-anchor="middle" style="${opacity}${animationDelay}" class="emoji">${emoji}</text>`;
-  }).join('');
+async function fetchImageToBase64(key: string, baseUrl: string): Promise<string | null> {
+  try {
+    const response = await fetch(`${baseUrl}/assets/emoji/${key}.png`);
+    if (!response.ok) return null;
+    const arrayBuffer = await response.arrayBuffer();
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+    return base64;
+  } catch (e) {
+    console.error('Error fetching emoji image:', e);
+    return null;
+  }
+}
 
-  const animation = animated ? `
+function generateStyles(numImages: number, isAnimated: boolean): string {
+  if (!isAnimated) {
+    return `
+      <style>
+        [class^=primary] {
+          opacity: 1;
+        }
+      </style>
+    `;
+  }
+
+  return `
     <style>
-      .emoji {
-        animation: fadeIn 0.3s ease-out forwards;
+      image {
+        animation: fade-in-and-out 0.2s steps(1, end) forwards;
       }
-      @keyframes fadeIn {
-        to { opacity: 1; }
+
+      @media (prefers-reduced-motion) {
+        image {
+          animation: none;
+        }
+        [class^=primary] {
+          opacity: 1;
+        }
       }
-      @media (prefers-reduced-motion: reduce) {
-        .emoji { animation: none; opacity: 1; }
+
+      @keyframes fade-in-and-out {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+
+      @keyframes fade-in {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+
+      ${[...Array(numImages)]
+        .map((_, i) => `
+        .other-${i} {
+          animation-delay: ${i * 0.15}s;
+        }
+      `).join('')}
+
+      [class^=primary] {
+        animation: fade-in 0.2s steps(1, end) forwards;
+        animation-delay: ${(numImages - 1) * 0.15}s;
       }
     </style>
-  ` : '';
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
-  ${animation}
-  <circle cx="40" cy="40" r="40" fill="#FDE047"/>
-  ${emojiElements}
-</svg>`;
+  `;
 }
 
 export const GET: APIRoute = async ({ params, request }) => {
   const url = new URL(request.url);
   const animated = url.searchParams.get('animated') !== 'false';
+  const detailed = url.searchParams.get('detailed') !== 'false';
   
   const emojiParam = params.emoji || 'random';
   const emojis = parseEmoji(emojiParam);
   
-  if (emojis.length === 0) {
-    // Fallback to random emoji
-    const randomEmoji = emojiList[Math.floor(Math.random() * emojiList.length)];
-    const svg = generateSVG([randomEmoji], animated);
-    
-    return new Response(svg, {
-      status: 200,
-      headers: {
-        'Content-Type': 'image/svg+xml',
-        'Cache-Control': 'public, max-age=3600',
-      },
-    });
+  // Fallback to random if no valid emoji found
+  const finalEmojis = emojis.length > 0 ? emojis : sampleSize(emojiList, Math.ceil(Math.random() * 3));
+  
+  // Get keys for primary emoji
+  const primaryKeys = finalEmojis.map(getEmojiKey).filter(Boolean) as string[];
+  
+  // Get random supporting emoji for animation
+  const supportingKeys = sampleSize(
+    Object.values(emojiToKey).filter(k => !primaryKeys.includes(k)),
+    10
+  );
+
+  const baseUrl = `${url.protocol}//${url.host}`;
+  const size = 100;
+
+  // Clock hands for detailed mode
+  const now = new Date();
+  const date = {
+    hour: now.getHours(),
+    minute: now.getMinutes(),
+    second: now.getSeconds(),
+  };
+
+  function drawArm(progress: number, width: number): string {
+    const armRadians = 2 * Math.PI * progress - (2 * Math.PI) / 4;
+    const armLength = size / 2;
+
+    const targetX = size / 2 + Math.cos(armRadians) * (armLength - width);
+    const targetY = size / 2 + Math.sin(armRadians) * (armLength - width);
+
+    const lineX = size / 2 + Math.cos(armRadians) * (armLength - width * 2);
+    const lineY = size / 2 + Math.sin(armRadians) * (armLength - width * 2);
+
+    const center = size / 2;
+
+    return `
+      <mask id="circle-${width}">
+        <circle cx="${targetX}" cy="${targetY}" r="${width}" fill="white" />
+      </mask>
+      <line x1="${center}" y1="${center}" x2="${lineX}" y2="${lineY}" stroke-linecap="round" stroke-width="1.5" stroke="rgba(0, 0, 0, 0.15)" />
+      <circle cx="${targetX}" cy="${targetY}" r="${width}" stroke-width="3" stroke="#fff" fill="rgba(0,0,0,0.5)" mask="url(#circle-${width})" />
+    `;
   }
+
+  // Fetch all images
+  const primaryImages = await Promise.all(
+    primaryKeys.map(key => fetchImageToBase64(key, baseUrl))
+  );
   
-  const svg = generateSVG(emojis, animated);
-  
+  const supportingImages = animated 
+    ? await Promise.all(supportingKeys.map(key => fetchImageToBase64(key, baseUrl)))
+    : [];
+
+  // Generate SVG
+  const svgParts: string[] = [
+    `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">`,
+    `<circle cx="50%" cy="50%" r="${detailed ? '50%' : '45%'}" fill="#fbe047" />`,
+    generateStyles(supportingImages.length, animated),
+  ];
+
+  // Clock hands (detailed mode)
+  if (detailed) {
+    svgParts.push(drawArm(date.hour / 12, 6));
+    svgParts.push(drawArm(date.minute / 60, 4));
+    svgParts.push(drawArm(date.second / 60, 3));
+  }
+
+  // Supporting emoji animation
+  if (animated && supportingImages.length > 0) {
+    svgParts.push('<g id="other">');
+    supportingImages.forEach((base64, i) => {
+      if (base64) {
+        svgParts.push(`
+          <image
+            opacity="0"
+            class="other-${i}"
+            x="${detailed ? '10' : '0'}"
+            y="${detailed ? '10' : '0'}"
+            width="${detailed ? '80' : '100'}"
+            height="${detailed ? '80' : '100'}"
+            href="data:image/png;charset=utf-8;base64,${base64}"
+          />
+        `);
+      }
+    });
+    svgParts.push('</g>');
+  }
+
+  // Primary emoji
+  primaryImages.forEach((base64, i) => {
+    if (base64) {
+      svgParts.push(`
+        <image
+          opacity="0"
+          class="primary-${i}"
+          x="${detailed ? '5' : '0'}"
+          y="${detailed ? '5' : '0'}"
+          width="${detailed ? '90' : '100'}"
+          height="${detailed ? '90' : '100'}"
+          href="data:image/png;charset=utf-8;base64,${base64}"
+          mask="url(#slice-${i})"
+        />
+      `);
+    }
+  });
+
+  // Masks for slicing multiple emoji
+  if (primaryKeys.length === 1) {
+    svgParts.push(`<mask id="slice-0"><rect width="100" height="100" fill="#fff" /></mask>`);
+  } else if (primaryKeys.length === 2) {
+    svgParts.push(`
+      <mask id="slice-0"><path d="M0 100h100V0L0 100Z" fill="#fff" /></mask>
+      <mask id="slice-1"><path d="M100 0H0v100L100 0Z" fill="#fff" /></mask>
+    `);
+  } else if (primaryKeys.length === 3) {
+    svgParts.push(`
+      <mask id="slice-0"><path d="M50 0v50L0 79V0h50Z" fill="#fff" /></mask>
+      <mask id="slice-1"><path d="M50 0v50l50 29V0H50Z" fill="#fff" /></mask>
+      <mask id="slice-2"><path d="M100 79v21H0V79l50-29 50 29Z" fill="#fff" /></mask>
+    `);
+  }
+
+  svgParts.push('</svg>');
+
+  const svg = svgParts.join('\n');
+
   return new Response(svg, {
     status: 200,
     headers: {
       'Content-Type': 'image/svg+xml',
-      'Cache-Control': 'public, max-age=3600',
+      'Cache-Control': 'no-cache', // Don't cache since it has time-based elements
     },
   });
 };

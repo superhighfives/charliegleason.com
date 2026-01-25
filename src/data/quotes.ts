@@ -34,9 +34,9 @@ export const quotes: Quote[] = [
     name: 'Natalie Malloy',
     role: 'Senior Director',
     company: 'Salesforce',
-    highlight: 'Oh did I mention he is one fantastic designer?',
+    highlight: 'What impressed me the most was his attention to every detail, his professionalism, his leadership in this space, and also his empathy and kindness.',
     quote:
-      'What impressed me the most was his attention to every detail, his professionalism, his leadership in this space, and also his empathy and kindness.',
+      'Oh did I mention he is one fantastic designer?',
   },
   {
     id: 'john',
@@ -44,9 +44,9 @@ export const quotes: Quote[] = [
     role: 'CTO',
     company: 'Amber Electric',
     highlight:
-      'He works and he works and he works, and that is how he got so good at what he does',
-    quote:
       "Charlie's nicer friends will say great things about his creativity and empathy, which is true, but not interesting. Charlie has hustle.",
+    quote:
+      'He works and he works and he works, and that is how he got so good at what he does.',
   },
   {
     id: 'glen',
@@ -62,9 +62,9 @@ export const quotes: Quote[] = [
     name: 'Will Dayble',
     role: 'Co-founder',
     company: 'Squareweave',
-    highlight: 'unique, articulate, polished understanding of design',
+    highlight: 'Charlie has a',
     quote:
-      'Charlie has a , art and how people interact and care for one another.',
+      'unique, articulate, polished understanding of design, art and how people interact and care for one another.',
   },
   {
     id: 'vicky',
@@ -80,9 +80,9 @@ export const quotes: Quote[] = [
     name: 'Olivia Yu',
     role: 'Lead Designer',
     company: 'Salesforce',
-    highlight: 'the list goes on!',
+    highlight: '[His] talent, humor, knowledge shares, thoughtfulness, storytelling, creative contributions,',
     quote:
-      "[His] talent, humor, knowledge shares, thoughtfulness, storytelling, creative contributions, I'm grateful to have crossed paths.",
+      "the list goes on! I'm grateful to have crossed paths.",
   },
   {
     id: 'bex',
@@ -98,8 +98,8 @@ export const quotes: Quote[] = [
     name: 'John Geyer',
     role: 'Technical Writing Lead',
     company: 'Salesforce',
-    highlight: 'crazy talented and down-to-earth',
-    quote: '[Charlie is that] near-impossible combo of .',
+    highlight: '[Charlie is that] near-impossible combo of',
+    quote: 'crazy talented and down-to-earth.',
   },
 ];
 
