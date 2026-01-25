@@ -20,8 +20,8 @@ export default defineConfig({
     mdx(),
     react(),
     protectedRoutes({
-      // Path to protected pages relative to project root
-      protectedDir: "../../packages/protected/pages",
+      // Path to protected content relative to project root
+      protectedDir: "../../packages/protected/content",
     }),
   ],
 });

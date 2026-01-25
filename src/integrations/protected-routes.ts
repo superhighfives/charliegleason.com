@@ -8,13 +8,13 @@
 
 import type { AstroIntegration } from "astro";
 import { fileURLToPath } from "node:url";
-import { dirname, join, relative } from "node:path";
+import { join, relative } from "node:path";
 import { readdirSync, statSync, existsSync } from "node:fs";
 
 export interface ProtectedRoutesOptions {
   /**
-   * Path to the protected pages directory, relative to the project root
-   * @default "../../packages/protected/pages"
+   * Path to the protected content directory, relative to the project root
+   * @default "../../packages/protected/content"
    */
   protectedDir?: string;
 }
@@ -74,15 +74,15 @@ export default function protectedRoutes(
     name: "protected-routes",
     hooks: {
       "astro:config:setup": ({ injectRoute, config, logger }) => {
-        // Resolve the protected pages directory
+        // Resolve the protected content directory
         const rootDir = fileURLToPath(config.root);
-        const protectedDir = options.protectedDir || "../../packages/protected/pages";
-        const pagesDir = join(rootDir, protectedDir);
+        const protectedDir = options.protectedDir || "../../packages/protected/content";
+        const contentDir = join(rootDir, protectedDir);
 
         // Check if the protected package exists
-        if (!existsSync(pagesDir)) {
+        if (!existsSync(contentDir)) {
           logger.info(
-            "No protected pages directory found at " + pagesDir
+            "No protected content directory found at " + contentDir
           );
           logger.info(
             "This is expected in public mirror builds where @charliegleason/protected is not available"
@@ -90,11 +90,11 @@ export default function protectedRoutes(
           return;
         }
 
-        // Find all .astro files in the protected pages directory
-        const routes = findAstroFiles(pagesDir, pagesDir);
+        // Find all .astro files in the protected content directory
+        const routes = findAstroFiles(contentDir, contentDir);
 
         if (routes.length === 0) {
-          logger.info("No protected pages found");
+          logger.info("No protected content found");
           return;
         }
 
