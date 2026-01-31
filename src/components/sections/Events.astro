@@ -1,4 +1,6 @@
 ---
+import Link from '../ui/Link.astro';
+
 interface EventItem {
   date?: string;
   title: string;
@@ -144,12 +146,7 @@ const blocks: Block[] = [
           )}{' '}
           {item.title}
           {item.link && (
-            <>, <a
-              href={item.link.href}
-              class="text-yellow-700 dark:text-yellow-500 hover:underline"
-            >
-              {item.link.title}
-            </a></>
+            <>, <Link href={item.link.href}>{item.link.title}</Link></>
           )}
         </li>
       ))}

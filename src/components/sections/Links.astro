@@ -1,5 +1,6 @@
 ---
 import Icon from '../ui/Icon.astro';
+import HR from '../ui/HR.astro';
 
 interface SocialLinkProps {
   icon: 'twitter' | 'dribbble' | 'github' | 'email';
@@ -15,14 +16,17 @@ const socials: SocialLinkProps[] = [
 ];
 ---
 
-<div class="flex flex-wrap justify-between gap-y-2">
+<div class="space-y-12">
+  <HR />
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
   {socials.map((social) => (
     <a
       href={social.url}
-      class="inline-flex gap-2 items-center text-sm hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors focus:text-yellow-600 dark:focus:text-yellow-400 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500 rounded-sm px-1 -mx-1"
+      class="inline-flex gap-2 items-center text-sm py-2 px-3 -mx-3 rounded-lg transition-colors hover:bg-yellow-400/20 focus:bg-yellow-400/20 hover:text-yellow-600 dark:hover:text-yellow-400 focus:text-yellow-600 dark:focus:text-yellow-400 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
     >
       <Icon name={social.icon} class="w-4 h-4" />
       <span class="font-display">{social.title}</span>
     </a>
   ))}
+  </div>
 </div>

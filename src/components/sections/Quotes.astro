@@ -1,10 +1,12 @@
 ---
-import Grid from '../ui/Grid.astro';
 import Quote from './Quote.astro';
+import HR from '../ui/HR.astro';
 import { quotes } from '../../data';
 ---
 
-<Grid cols={8}>
+<div class="space-y-12">
+  <HR />
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
   {quotes.map((quote) => (
     <Quote
       id={quote.id}
@@ -16,4 +18,5 @@ import { quotes } from '../../data';
       highlight={quote.highlight}
     />
   ))}
-</Grid>
+  </div>
+</div>

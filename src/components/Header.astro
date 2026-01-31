@@ -1,7 +1,8 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
-import Avatar from './ui/Avatar.astro';
-import Link from './ui/Link.astro';
+import ThemeToggle from "./ThemeToggle.astro";
+import Avatar from "./ui/Avatar.astro";
+import Link from "./ui/Link.astro";
+import VisitorCount from "./islands/VisitorCount.tsx";
 
 interface Props {
   symbol: string;
@@ -13,12 +14,15 @@ interface Props {
 const { symbol, photo, back = false, small = false } = Astro.props;
 ---
 
-<div class:list={[
-  'space-y-4',
-  !small ? 'pt-[10vh]' : '-mt-[3.5rem] sm:-mt-[5rem]'
-]}>
+<div
+  class:list={[
+    "space-y-4",
+    !small ? "pt-[10vh]" : "-mt-[3.5rem] sm:-mt-[5rem]",
+  ]}
+>
+  <ThemeToggle />
+  <VisitorCount client:load />
   <div class="flex items-center">
-    <ThemeToggle />
     <Avatar symbol={symbol} photo={photo} small={small} />
   </div>
   <div class="space-y-4 md:space-y-0 sm:flex justify-between items-end">
@@ -47,20 +51,24 @@ const { symbol, photo, back = false, small = false } = Astro.props;
         />
       </a>
       <h1>Charlie Gleason</h1>
-      <h2 class="bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty">
+      <h2
+        class="bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty"
+      >
         Designer, developer, creative coder, and&nbsp;musician
       </h2>
     </hgroup>
-    {back && (
-      <Link
-        icon="back"
-        href="/#case-studies"
-        background={false}
-        padding="large"
-        class="inline-block"
-      >
-        Back<span class="sm:hidden md:inline"> to projects</span>
-      </Link>
-    )}
+    {
+      back && (
+        <Link
+          icon="back"
+          href="/#case-studies"
+          background={false}
+          padding="large"
+          class="inline-block"
+        >
+          Back<span class="sm:hidden md:inline"> to projects</span>
+        </Link>
+      )
+    }
   </div>
 </div>

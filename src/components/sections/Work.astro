@@ -1,9 +1,12 @@
 ---
 import Tile from '../islands/Tile';
 import Title from '../ui/Title.astro';
+import HR from '../ui/HR.astro';
 ---
 
-<div id="highlights" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+<div class="space-y-12">
+  <HR />
+  <div id="highlights" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
   <div class="col-span-full">
     <Title>Project Highlights</Title>
   </div>
@@ -39,5 +42,6 @@ import Title from '../ui/Title.astro';
       type="work"
       color="indigo"
     />
+  </div>
   </div>
 </div>

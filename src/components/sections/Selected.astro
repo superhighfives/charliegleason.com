@@ -1,6 +1,7 @@
 ---
 import Link from '../ui/Link.astro';
 import Title from '../ui/Title.astro';
+import HR from '../ui/HR.astro';
 import { EMOJI_URL } from '../../lib/constants';
 
 interface Entry {
@@ -24,7 +25,9 @@ const { sections } = Astro.props;
 ---
 
 {sections.map((section) => (
-  <div class="space-y-8">
+  <div class="space-y-12">
+    <HR />
+    <div class="space-y-8">
     <Title>Selected {section.title}</Title>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-4 md:gap-x-12">
       {section.data.map((entry) => (
@@ -53,6 +56,7 @@ const { sections } = Astro.props;
           </div>
         </div>
       ))}
+    </div>
     </div>
   </div>
 ))}

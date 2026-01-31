@@ -2,6 +2,7 @@
 import Tile from '../islands/Tile';
 import Title from '../ui/Title.astro';
 import Link from '../ui/Link.astro';
+import HR from '../ui/HR.astro';
 import type { CaseStudyCard } from '../../data/caseStudies';
 
 interface Props {
@@ -23,7 +24,9 @@ function parseHero(hero: string, highlightText: string, highlightClasses: string
 }
 ---
 
-<div id="case-studies" class="grid gap-6 lg:gap-12 scroll-m-16">
+<div class="space-y-12">
+  <HR />
+  <div id="case-studies" class="grid gap-6 lg:gap-12 scroll-m-16">
   <div>
     <Title>{caseStudies.title}</Title>
   </div>
@@ -62,5 +65,6 @@ function parseHero(hero: string, highlightText: string, highlightClasses: string
         </div>
       );
     })}
+  </div>
   </div>
 </div>

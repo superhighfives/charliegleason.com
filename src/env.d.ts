@@ -1,5 +1,7 @@
 /// <reference path="../.astro/types.d.ts" />
 
+import type { VisitorCounter } from "./lib/visitor-counter";
+
 /**
  * Cloudflare environment bindings
  */
@@ -12,6 +14,8 @@ interface Env {
   ASSETS: Fetcher;
   /** External blog posts endpoint */
   CODE_ENDPOINT?: string;
+  /** Durable Object namespace for visitor counter */
+  VISITOR_COUNTER: DurableObjectNamespace<VisitorCounter>;
 }
 
 /**
