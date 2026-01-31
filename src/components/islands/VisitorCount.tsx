@@ -7,8 +7,11 @@ interface VisitorCountProps {
 export default function VisitorCount({ className = "" }: VisitorCountProps) {
   const [count, setCount] = useState<number | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [isUnavailable, setIsUnavailable] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reconnectAttemptsRef = useRef(0);
+  const maxReconnectAttempts = 3;
 
   useEffect(() => {
     function connect() {
@@ -21,6 +24,8 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
 
       ws.onopen = () => {
         setIsConnected(true);
+        setIsUnavailable(false);
+        reconnectAttemptsRef.current = 0;
       };
 
       ws.onmessage = (event) => {
@@ -38,14 +43,20 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
         setIsConnected(false);
         wsRef.current = null;
 
-        // Attempt to reconnect after a delay
-        reconnectTimeoutRef.current = setTimeout(() => {
-          connect();
-        }, 3000);
+        // Attempt to reconnect after a delay, but give up after max attempts
+        reconnectAttemptsRef.current += 1;
+        if (reconnectAttemptsRef.current < maxReconnectAttempts) {
+          reconnectTimeoutRef.current = setTimeout(() => {
+            connect();
+          }, 3000);
+        } else {
+          // Mark as unavailable (likely local dev without DO)
+          setIsUnavailable(true);
+        }
       };
 
-      ws.onerror = (error) => {
-        console.error("WebSocket error:", error);
+      ws.onerror = () => {
+        // Don't log errors - this is expected in local dev
         ws.close();
       };
     }
@@ -63,8 +74,8 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
     };
   }, []);
 
-  // Don't render anything until we have a count
-  if (count === null) {
+  // Don't render anything if unavailable (local dev) or no count yet
+  if (isUnavailable || count === null) {
     return null;
   }
 
