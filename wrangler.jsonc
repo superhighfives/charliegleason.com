@@ -28,14 +28,9 @@
 		"bindings": [
 			{
 				"name": "VISITOR_COUNTER",
-				"class_name": "VisitorCounter"
+				"class_name": "VisitorCounter",
+				"script_name": "visitor-counter"
 			}
 		]
-	},
-	"migrations": [
-		{
-			"tag": "v1",
-			"new_sqlite_classes": ["VisitorCounter"]
-		}
-	]
+	}
 }

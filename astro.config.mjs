@@ -14,10 +14,6 @@ export default defineConfig({
       enabled: true,
     },
     imageService: "cloudflare",
-    workerEntryPoint: {
-      path: "src/worker.ts",
-      namedExports: ["VisitorCounter"],
-    },
   }),
   integrations: [
     tailwind(),
