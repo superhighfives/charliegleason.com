@@ -30,6 +30,11 @@
 				"name": "VISITOR_COUNTER",
 				"class_name": "VisitorCounter",
 				"script_name": "visitor-counter"
+			},
+			{
+				"name": "LASTFM_TRACKER",
+				"class_name": "LastFmTracker",
+				"script_name": "lastfm-tracker"
 			}
 		]
 	}
