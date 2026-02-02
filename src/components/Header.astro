@@ -3,6 +3,7 @@ import ThemeToggle from "./ThemeToggle.astro";
 import Avatar from "./ui/Avatar.astro";
 import Link from "./ui/Link.astro";
 import VisitorCount from "./islands/VisitorCount.tsx";
+import LastFmNow from "./islands/LastFmNow.tsx";
 
 interface Props {
   symbol: string;
@@ -22,6 +23,7 @@ const { symbol, photo, back = false, small = false } = Astro.props;
 >
   <ThemeToggle />
   <VisitorCount client:load />
+  <LastFmNow client:load />
   <div class="flex items-center">
     <Avatar symbol={symbol} photo={photo} small={small} />
   </div>
