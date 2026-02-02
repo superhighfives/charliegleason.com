@@ -14,6 +14,8 @@ interface Env {
   CODE_ENDPOINT?: string;
   /** Durable Object namespace for visitor counter (external worker) */
   VISITOR_COUNTER: DurableObjectNamespace;
+  /** Durable Object namespace for Last.fm tracker (external worker) */
+  LASTFM_TRACKER: DurableObjectNamespace;
 }
 
 /**
