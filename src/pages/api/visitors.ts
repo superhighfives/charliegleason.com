@@ -1,5 +1,25 @@
 import type { APIRoute } from "astro";
 
+/**
+ * Creates a mock WebSocket response for local development.
+ * Sends mock visitor count data immediately after connection.
+ */
+function createMockVisitorWebSocket(): Response {
+  const { 0: client, 1: server } = new WebSocketPair();
+
+  server.accept();
+
+  // Send mock visitor count after a short delay
+  setTimeout(() => {
+    server.send(JSON.stringify({ count: 3 }));
+  }, 100);
+
+  return new Response(null, {
+    status: 101,
+    webSocket: client,
+  });
+}
+
 export const GET: APIRoute = async ({ request, locals }) => {
   const upgradeHeader = request.headers.get("Upgrade");
 
@@ -12,13 +32,9 @@ export const GET: APIRoute = async ({ request, locals }) => {
 
   const env = locals.runtime.env;
 
-  // Check if VISITOR_COUNTER binding is available
-  // In local dev without the external DO worker, this won't be available
+  // In local dev without the external DO worker, return mock data
   if (!env.VISITOR_COUNTER) {
-    return new Response("Visitor counter not available in local development", {
-      status: 503,
-      headers: { "Content-Type": "text/plain" },
-    });
+    return createMockVisitorWebSocket();
   }
 
   try {

@@ -1,5 +1,33 @@
 import type { APIRoute } from "astro";
 
+/**
+ * Creates a mock WebSocket response for local development.
+ * Sends mock Last.fm track data immediately after connection.
+ */
+function createMockLastFmWebSocket(): Response {
+  const { 0: client, 1: server } = new WebSocketPair();
+
+  server.accept();
+
+  // Send mock track data after a short delay
+  setTimeout(() => {
+    server.send(
+      JSON.stringify({
+        track: {
+          name: "Mock Song Title",
+          artist: "Mock Artist",
+          isNowPlaying: true,
+        },
+      })
+    );
+  }, 100);
+
+  return new Response(null, {
+    status: 101,
+    webSocket: client,
+  });
+}
+
 export const GET: APIRoute = async ({ request, locals }) => {
   const upgradeHeader = request.headers.get("Upgrade");
 
@@ -12,13 +40,9 @@ export const GET: APIRoute = async ({ request, locals }) => {
 
   const env = locals.runtime.env;
 
-  // Check if LASTFM_TRACKER binding is available
-  // In local dev without the external DO worker, this won't be available
+  // In local dev without the external DO worker, return mock data
   if (!env.LASTFM_TRACKER) {
-    return new Response("Last.fm tracker not available in local development", {
-      status: 503,
-      headers: { "Content-Type": "text/plain" },
-    });
+    return createMockLastFmWebSocket();
   }
 
   try {
