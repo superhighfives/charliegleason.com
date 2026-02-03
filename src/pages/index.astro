@@ -1,33 +1,70 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Container from '../components/ui/Container.astro';
-import Header from '../components/Header.astro';
-import Sections from '../components/ui/Sections.astro';
-import Footer from '../components/Footer.astro';
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/ui/Container.astro";
+import Header from "../components/Header.astro";
+import Sections from "../components/ui/Sections.astro";
+import Footer from "../components/Footer.astro";
 
-import Overview from '../components/sections/Overview.astro';
-import CaseStudies from '../components/sections/CaseStudies.astro';
-import Work from '../components/sections/Work.astro';
-import Selected from '../components/sections/Selected.astro';
-import Quotes from '../components/sections/Quotes.astro';
-import Links from '../components/sections/Links.astro';
+import Overview from "../components/sections/Overview.astro";
+import CaseStudies from "../components/sections/CaseStudies.astro";
+import Work from "../components/sections/Work.astro";
+import Selected from "../components/sections/Selected.astro";
+import Quotes from "../components/sections/Quotes.astro";
+import Links from "../components/sections/Links.astro";
 
-import { caseStudies, projects, articles, features } from '../data';
-import { sampleSize, random } from 'lodash-es';
+import { caseStudies, projects, articles, features } from "../data";
+import { sampleSize, random } from "lodash-es";
 
 // Emoji list for random favicon selection
-const emojiList = ['🌊', '🎨', '🎵', '💻', '🌈', '🎭', '🎪', '🎯', '🌟', '🔮', '🎸', '🎹', '🎺', '🎻', '🪗', '🥁', '🪘', '🎤', '🎧', '🎼', '🎬', '📷', '🖼️', '🎨', '🖌️', '✏️', '📝', '💡', '🔥', '⚡', '🌙', '☀️', '🌍', '🌎', '🌏'];
+const emojiList = [
+  "🌊",
+  "🎨",
+  "🎵",
+  "💻",
+  "🌈",
+  "🎭",
+  "🎪",
+  "🎯",
+  "🌟",
+  "🔮",
+  "🎸",
+  "🎹",
+  "🎺",
+  "🎻",
+  "🪗",
+  "🥁",
+  "🪘",
+  "🎤",
+  "🎧",
+  "🎼",
+  "🎬",
+  "📷",
+  "🖼️",
+  "🎨",
+  "🖌️",
+  "✏️",
+  "📝",
+  "💡",
+  "🔥",
+  "⚡",
+  "🌙",
+  "☀️",
+  "🌍",
+  "🌎",
+  "🌏",
+];
 
 // Generate random avatar and emoji for this request
-const symbol = sampleSize(emojiList, Math.ceil(Math.random() * 3)).join('');
-const photo = String(random(1, 10)).padStart(2, '0');
+const symbol = sampleSize(emojiList, Math.ceil(Math.random() * 3)).join("");
+const photo = String(random(1, 10)).padStart(2, "0");
 
 // Get user from locals (set by middleware)
 const user = Astro.locals.user;
-const isAuthenticated = user?.id === 'guest';
+const isAuthenticated = user?.id === "guest";
 
 // Fetch blog posts from external endpoint
-const codeEndpoint = import.meta.env.CODE_ENDPOINT || 'https://code.charliegleason.com';
+const codeEndpoint =
+  import.meta.env.CODE_ENDPOINT || "https://code.charliegleason.com";
 let posts: any[] = [];
 try {
   const response = await fetch(`${codeEndpoint}/posts.json`);
@@ -36,16 +73,19 @@ try {
     posts = data.slice(0, 6);
   }
 } catch (e) {
-  console.error('Error fetching posts:', e);
+  console.error("Error fetching posts:", e);
 }
 ---
 
 <Layout symbol={symbol}>
   <Container variant="wide">
     <Header symbol={symbol} photo={photo} />
-    <Sections class="pt-12">
+    <Sections>
       <Overview posts={posts} endpoint={codeEndpoint} />
-      <CaseStudies caseStudies={caseStudies} isAuthenticated={isAuthenticated} />
+      <CaseStudies
+        caseStudies={caseStudies}
+        isAuthenticated={isAuthenticated}
+      />
       <Work />
       <Selected sections={[projects, articles, features]} />
       <Quotes />
