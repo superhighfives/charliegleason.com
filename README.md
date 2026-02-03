@@ -47,9 +47,9 @@ This site uses:
 
 ### Protected Routes
 
-The `protected-routes` integration will automatically inject routes from `packages/protected/pages/` if that package exists. In this public mirror, no protected routes are available.
+The `protected-routes` integration will automatically inject routes from `apps/private/content/` if that package exists. In this public mirror, no protected routes are available.
 
-To add protected content, use the private monorepo which includes the `@charliegleason/protected` package.
+To add protected content, use the private monorepo which includes the `@charliegleason/private` package.
 
 ## Tech Stack
 

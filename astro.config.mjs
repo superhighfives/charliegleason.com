@@ -21,7 +21,7 @@ export default defineConfig({
     react(),
     protectedRoutes({
       // Path to protected content relative to project root
-      protectedDir: "../../packages/protected/content",
+      protectedDir: "../private/content",
     }),
   ],
 });

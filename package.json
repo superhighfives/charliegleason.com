@@ -29,7 +29,7 @@
     "unicode-emoji-json": "^0.8.0"
   },
   "optionalDependencies": {
-    "@charliegleason/protected": "workspace:*"
+    "@charliegleason/private": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

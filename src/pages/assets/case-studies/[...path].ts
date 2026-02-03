@@ -3,7 +3,7 @@
  * 
  * Serves assets from:
  * - public/assets/case-studies/ (public assets, served by Astro normally)
- * - packages/protected/assets/case-studies/ (protected assets, served dynamically)
+ * - apps/private/assets/case-studies/ (private assets, served dynamically)
  * 
  * This allows protected assets to stay in the protected package without being
  * copied to the public directory (which would be mirrored to the public repo).
@@ -35,16 +35,16 @@ export const GET: APIRoute = async ({ params }) => {
     return new Response("Not found", { status: 404 });
   }
 
-  // Try protected assets first (packages/protected/assets/case-studies/)
-  const protectedPath = join(
+  // Try private assets first (apps/private/assets/case-studies/)
+  const privatePath = join(
     process.cwd(),
-    "../../packages/protected/assets/case-studies",
+    "../private/assets/case-studies",
     path
   );
 
-  if (existsSync(protectedPath)) {
+  if (existsSync(privatePath)) {
     try {
-      const content = readFileSync(protectedPath);
+      const content = readFileSync(privatePath);
       const ext = "." + path.split(".").pop()?.toLowerCase();
       const contentType = MIME_TYPES[ext] || "application/octet-stream";
 

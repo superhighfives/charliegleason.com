@@ -18,7 +18,7 @@ let protectedRoutes: string[] = [];
 async function loadProtectedRoutes() {
   try {
     // Dynamic import from the protected package
-    const config = await import("@charliegleason/protected/config");
+    const config = await import("@charliegleason/private/config");
     protectedRoutes = config.protectedRoutes || config.default?.protectedRoutes || [];
   } catch {
     // Protected package not available (expected in public builds)

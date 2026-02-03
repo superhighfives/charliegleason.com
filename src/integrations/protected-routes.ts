@@ -1,5 +1,5 @@
 /**
- * Astro integration that injects protected routes from the @charliegleason/protected package
+ * Astro integration that injects protected routes from the @charliegleason/private package
  * 
  * This integration scans the protected pages directory and uses Astro's injectRoute API
  * to add them to the build. In public mirror builds where the protected package isn't
@@ -14,7 +14,7 @@ import { readdirSync, statSync, existsSync } from "node:fs";
 export interface ProtectedRoutesOptions {
   /**
    * Path to the protected content directory, relative to the project root
-   * @default "../../packages/protected/content"
+   * @default "../private/content"
    */
   protectedDir?: string;
 }
@@ -76,7 +76,7 @@ export default function protectedRoutes(
       "astro:config:setup": ({ injectRoute, config, logger }) => {
         // Resolve the protected content directory
         const rootDir = fileURLToPath(config.root);
-        const protectedDir = options.protectedDir || "../../packages/protected/content";
+        const protectedDir = options.protectedDir || "../private/content";
         const contentDir = join(rootDir, protectedDir);
 
         // Check if the protected package exists
@@ -85,7 +85,7 @@ export default function protectedRoutes(
             "No protected content directory found at " + contentDir
           );
           logger.info(
-            "This is expected in public mirror builds where @charliegleason/protected is not available"
+            "This is expected in public mirror builds where @charliegleason/private is not available"
           );
           return;
         }
