@@ -1,23 +1,17 @@
 ---
 import Events from "./Events.astro";
 import Introduction from "./Introduction.astro";
-import Posts from "./Posts.astro";
+import PostsIsland from "../islands/Posts.tsx";
 import HR from "../ui/HR.astro";
-
-interface Post {
-  slug: string;
-  url: string;
-  date: string;
-  title: string;
-  description: string;
-}
+import type { Posts } from "../../lib/posts";
 
 interface Props {
-  posts?: Post[];
+  posts?: Posts;
+  postsError?: string;
   endpoint?: string;
 }
 
-const { posts = [], endpoint = "" } = Astro.props;
+const { posts, postsError, endpoint = "" } = Astro.props;
 ---
 
 <div class="space-y-12">
@@ -28,7 +22,16 @@ const { posts = [], endpoint = "" } = Astro.props;
 
       <HR class="max-w-[4rem]" />
 
-      {posts && posts.length > 0 && <Posts posts={posts} endpoint={endpoint} />}
+      {
+        (posts || postsError) && (
+          <PostsIsland
+            client:load
+            initialPosts={posts}
+            initialError={postsError}
+            endpoint={endpoint}
+          />
+        )
+      }
     </div>
     <div class="lg:col-span-3">
       <Events />

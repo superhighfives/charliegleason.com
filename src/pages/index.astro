@@ -1,4 +1,5 @@
 ---
+import { Effect } from "effect";
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
 import Header from "../components/Header.astro";
@@ -14,7 +15,7 @@ import Links from "../components/sections/Links.astro";
 
 import { caseStudies, projects, articles, features } from "../data";
 import { sampleSize, random } from "lodash-es";
-import { fetchPosts } from "../lib/posts";
+import { fetchPosts, type Posts } from "../lib/posts";
 
 // Emoji list for random favicon selection
 const emojiList = [
@@ -63,17 +64,37 @@ const photo = String(random(1, 10)).padStart(2, "0");
 const user = Astro.locals.user;
 const isAuthenticated = user?.id === "guest";
 
-// Fetch blog posts from external endpoint
+// Fetch blog posts using Effect
 const codeEndpoint =
   import.meta.env.CODE_ENDPOINT || "https://code.charliegleason.com";
-const posts = await fetchPosts(codeEndpoint, 6);
+
+interface PostsState {
+  posts?: Posts;
+  error?: string;
+}
+
+const postsState: PostsState = await Effect.runPromise(
+  fetchPosts(codeEndpoint, 6).pipe(
+    Effect.map((posts) => ({ posts })),
+    Effect.catchAll((error) =>
+      Effect.gen(function* () {
+        yield* Effect.logError(`Initial posts fetch failed: ${error._tag}`);
+        return { error: "Unable to load recent posts" };
+      })
+    )
+  )
+);
 ---
 
 <Layout symbol={symbol}>
   <Container variant="wide">
     <Header symbol={symbol} photo={photo} />
     <Sections>
-      <Overview posts={posts} endpoint={codeEndpoint} />
+      <Overview
+        posts={postsState.posts}
+        postsError={postsState.error}
+        endpoint={codeEndpoint}
+      />
       <CaseStudies
         caseStudies={caseStudies}
         isAuthenticated={isAuthenticated}

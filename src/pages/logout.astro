@@ -1,10 +1,20 @@
 ---
+import { Effect } from "effect";
 import { logout } from "../lib/auth";
 
 const env = Astro.locals.runtime?.env;
 
 if (env) {
-  const result = await logout(Astro.request, env);
+  const result = await Effect.runPromise(
+    logout(Astro.request, env).pipe(
+      Effect.catchAll((error) =>
+        Effect.gen(function* () {
+          yield* Effect.logError(`Logout error: ${error._tag}`);
+          return { headers: {} };
+        })
+      )
+    )
+  );
 
   return new Response(null, {
     status: 302,

@@ -1,4 +1,9 @@
-import { Schema } from "effect";
+import { Effect, Schema } from "effect"
+import { FetchError, HttpError, ValidationError } from "./errors"
+
+// ─────────────────────────────────────────────────────────────
+// Schema Definitions
+// ─────────────────────────────────────────────────────────────
 
 /**
  * Schema for a single blog post from code.charliegleason.com
@@ -10,40 +15,70 @@ export const Post = Schema.Struct({
   description: Schema.String,
   date: Schema.String,
   tags: Schema.optional(Schema.Array(Schema.String)),
-});
+})
 
-export type Post = typeof Post.Type;
+export type Post = typeof Post.Type
 
 /**
  * Schema for the posts array
  */
-export const Posts = Schema.Array(Post);
+export const Posts = Schema.Array(Post)
 
-export type Posts = typeof Posts.Type;
+export type Posts = typeof Posts.Type
+
+// ─────────────────────────────────────────────────────────────
+// Effect-based Fetcher
+// ─────────────────────────────────────────────────────────────
 
 /**
- * Decode and validate posts data
+ * Fetch posts from the code endpoint with full type safety and error handling
  */
-export const decodePosts = Schema.decodeUnknownSync(Posts);
-
-/**
- * Fetch posts from the code endpoint with full type safety
- */
-export async function fetchPosts(
+export const fetchPosts = (
   endpoint: string,
   limit: number = 6
-): Promise<Posts> {
-  try {
-    const response = await fetch(`${endpoint}/posts.json`);
+): Effect.Effect<Posts, FetchError | HttpError | ValidationError> =>
+  Effect.gen(function* () {
+    const url = `${endpoint}/posts.json`
+
+    yield* Effect.logDebug(`Fetching posts from ${url}`)
+
+    const response = yield* Effect.tryPromise({
+      try: () => fetch(url),
+      catch: (error) =>
+        new FetchError({ url, message: "Network request failed", cause: error }),
+    })
+
     if (!response.ok) {
-      console.error(`Failed to fetch posts: ${response.status}`);
-      return [];
+      yield* Effect.logError(`HTTP ${response.status} from ${url}`)
+      return yield* Effect.fail(new HttpError({ statusCode: response.status, url }))
     }
-    const data = await response.json();
-    const posts = decodePosts(data);
-    return posts.slice(0, limit);
-  } catch (e) {
-    console.error("Error fetching posts:", e);
-    return [];
-  }
+
+    const data = yield* Effect.tryPromise({
+      try: () => response.json(),
+      catch: (error) =>
+        new FetchError({ url, message: "Failed to parse JSON", cause: error }),
+    })
+
+    const posts = yield* Schema.decodeUnknown(Posts)(data).pipe(
+      Effect.mapError(
+        (parseError) =>
+          new ValidationError({
+            message: "Invalid posts data structure",
+            issues: parseError.issues,
+          })
+      )
+    )
+
+    yield* Effect.logDebug(`Fetched ${posts.length} posts`)
+    return posts.slice(0, limit)
+  }).pipe(Effect.withLogSpan("fetchPosts"))
+
+// ─────────────────────────────────────────────────────────────
+// API Response Type
+// ─────────────────────────────────────────────────────────────
+
+export interface PostsApiResponse {
+  readonly success: boolean
+  readonly posts?: Posts
+  readonly error?: string
 }
