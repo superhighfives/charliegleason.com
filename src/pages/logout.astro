@@ -15,14 +15,15 @@ if (env) {
   );
   // Note: `headers` IS used below - false positive due to known Astro bug
   // where variables used after early returns are incorrectly flagged as unused.
+  // Using _headers to avoid the false positive.
   // See: https://github.com/withastro/astro/issues/14684
-  const { headers } = await Effect.runPromise(logoutEffect);
+  const { headers: _headers } = await Effect.runPromise(logoutEffect);
 
   return new Response(null, {
     status: 302,
     headers: {
       Location: "/",
-      ...headers,
+      ..._headers,
     },
   });
 }
