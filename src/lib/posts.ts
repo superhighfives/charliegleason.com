@@ -64,7 +64,7 @@ export const fetchPosts = (
         (parseError) =>
           new ValidationError({
             message: "Invalid posts data structure",
-            issues: parseError.issues,
+            issues: [parseError.issue],
           })
       )
     )

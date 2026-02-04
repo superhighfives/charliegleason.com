@@ -1,5 +1,8 @@
 ---
-import type { MetadataItem } from '../../content/config';
+interface MetadataItem {
+  name: string;
+  content: string | string[][];
+}
 
 interface Props {
   gradient: string;

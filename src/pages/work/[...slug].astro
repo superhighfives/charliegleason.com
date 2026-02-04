@@ -21,7 +21,7 @@ if (!modules[modulePath]) {
   return Astro.redirect("/404");
 }
 
-const module = await modules[modulePath]();
+const module = await modules[modulePath]() as { default: astroHTML.JSX.Element };
 const ContentComponent = module.default;
 ---
 
