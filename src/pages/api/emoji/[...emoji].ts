@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
-import { readFile } from 'fs/promises';
-import { join } from 'path';
+import { Effect } from 'effect';
+import { FetchError, HttpError } from '../../../lib/errors';
 
 // Emoji to key name mapping (matching the PNG filenames in /assets/emoji/)
 const emojiToKey: Record<string, string> = {
@@ -65,14 +65,12 @@ const emojiToKey: Record<string, string> = {
   '🦉': 'owl',
   '🎭': 'performing_arts',
   '🐖': 'pig2',
-  '💩': 'poop',
   '🙌': 'raised_hands',
   '🐀': 'rat',
   '💞': 'revolving_hearts',
   '🚀': 'rocket',
   '🎢': 'roller_coaster',
   '🏉': 'rugby_football',
-  '⛵': 'sailboat',
   '🎒': 'school_satchel',
   '🙈': 'see_no_evil',
   '🌱': 'seedling',
@@ -124,17 +122,35 @@ function getEmojiKey(emoji: string): string | undefined {
   return emojiToKey[emoji];
 }
 
-async function fetchImageToBase64(key: string, baseUrl: string): Promise<string | null> {
-  try {
-    const response = await fetch(`${baseUrl}/assets/emoji/${key}.png`);
-    if (!response.ok) return null;
-    const arrayBuffer = await response.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-    return base64;
-  } catch (e) {
-    console.error('Error fetching emoji image:', e);
-    return null;
-  }
+function fetchImageToBase64(key: string, baseUrl: string): Effect.Effect<string, FetchError | HttpError> {
+  const url = `${baseUrl}/assets/emoji/${key}.png`;
+  return Effect.tryPromise({
+    try: () => fetch(url),
+    catch: (error) => new FetchError({ url, message: `Failed to fetch ${url}`, cause: error }),
+  }).pipe(
+    Effect.flatMap((response): Effect.Effect<ArrayBuffer, FetchError | HttpError> => {
+      if (!response.ok) {
+        return Effect.fail(new HttpError({ statusCode: response.status, url }));
+      }
+      return Effect.tryPromise({
+        try: () => response.arrayBuffer(),
+        catch: (error) => new FetchError({ url, message: `Failed to read response body for ${url}`, cause: error }),
+      });
+    }),
+    Effect.map((arrayBuffer) => {
+      return btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+    })
+  );
+}
+
+function fetchImageToBase64Safe(key: string, baseUrl: string): Effect.Effect<string | null, never> {
+  return fetchImageToBase64(key, baseUrl).pipe(
+    Effect.catchAll(() => {
+      return Effect.logDebug(`Failed to fetch emoji image: ${key}`).pipe(
+        Effect.as(null)
+      );
+    })
+  );
 }
 
 function generateStyles(numImages: number, isAnimated: boolean): string {
@@ -242,14 +258,22 @@ export const GET: APIRoute = async ({ params, request }) => {
     `;
   }
 
-  // Fetch all images
-  const primaryImages = await Promise.all(
-    primaryKeys.map(key => fetchImageToBase64(key, baseUrl))
+  // Fetch all images using Effect
+  const fetchAllImages = Effect.all(
+    primaryKeys.map((key) => fetchImageToBase64Safe(key, baseUrl)),
+    { concurrency: 'unbounded' }
   );
-  
-  const supportingImages = animated 
-    ? await Promise.all(supportingKeys.map(key => fetchImageToBase64(key, baseUrl)))
-    : [];
+
+  const fetchSupportingImages = animated
+    ? Effect.all(
+        supportingKeys.map((key) => fetchImageToBase64Safe(key, baseUrl)),
+        { concurrency: 'unbounded' }
+      )
+    : Effect.succeed([] as (string | null)[]);
+
+  const [primaryImages, supportingImages] = await Effect.runPromise(
+    Effect.all([fetchAllImages, fetchSupportingImages])
+  );
 
   // Generate SVG
   const svgParts: string[] = [
