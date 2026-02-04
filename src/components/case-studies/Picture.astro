@@ -73,10 +73,8 @@ const theme = Astro.locals.theme || 'light';
 <script>
   // Client-side theme detection for image switching
   document.addEventListener('astro:page-load', () => {
-    const pictures = document.querySelectorAll('picture');
     const updateImages = () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      // Images will be handled by the picture sources
+      // Images will be handled by the picture sources based on prefers-color-scheme
     };
     
     // Watch for theme changes

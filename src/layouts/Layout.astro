@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { EMOJI_URL } from '../lib/constants';
-import { sampleSize, random } from 'lodash-es';
+import { sampleSize } from 'lodash-es';
 import egg from '../lib/egg';
 
 interface Props {
@@ -60,7 +60,7 @@ const {
     <div id="root">
       <slot />
     </div>
-    <script define:vars={{ egg }}>
+    <script is:inline define:vars={{ egg }}>
       console.info(
         '%c ',
         `padding-left:192px; padding-block:96px; background-image: url('${egg}'); background-size: 192px; background-repeat: no-repeat;`

@@ -5,22 +5,24 @@ import { logout } from "../lib/auth";
 const env = Astro.locals.runtime?.env;
 
 if (env) {
-  const result = await Effect.runPromise(
-    logout(Astro.request, env).pipe(
-      Effect.catchAll((error) =>
-        Effect.gen(function* () {
-          yield* Effect.logError(`Logout error: ${error._tag}`);
-          return { headers: {} };
-        })
-      )
-    )
+  const logoutEffect = logout(Astro.request, env).pipe(
+    Effect.catchAll((error) =>
+      Effect.gen(function* () {
+        yield* Effect.logError(`Logout error: ${error._tag}`);
+        return { headers: {} as Record<string, string> };
+      }),
+    ),
   );
+  // Note: `headers` IS used below - false positive due to known Astro bug
+  // where variables used after early returns are incorrectly flagged as unused.
+  // See: https://github.com/withastro/astro/issues/14684
+  const { headers } = await Effect.runPromise(logoutEffect);
 
   return new Response(null, {
     status: 302,
     headers: {
       Location: "/",
-      ...result.headers,
+      ...headers,
     },
   });
 }
