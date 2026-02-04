@@ -14,6 +14,7 @@ import Links from "../components/sections/Links.astro";
 
 import { caseStudies, projects, articles, features } from "../data";
 import { sampleSize, random } from "lodash-es";
+import { fetchPosts } from "../lib/posts";
 
 // Emoji list for random favicon selection
 const emojiList = [
@@ -65,16 +66,7 @@ const isAuthenticated = user?.id === "guest";
 // Fetch blog posts from external endpoint
 const codeEndpoint =
   import.meta.env.CODE_ENDPOINT || "https://code.charliegleason.com";
-let posts: any[] = [];
-try {
-  const response = await fetch(`${codeEndpoint}/posts.json`);
-  if (response.ok) {
-    const data = await response.json();
-    posts = data.slice(0, 6);
-  }
-} catch (e) {
-  console.error("Error fetching posts:", e);
-}
+const posts = await fetchPosts(codeEndpoint, 6);
 ---
 
 <Layout symbol={symbol}>

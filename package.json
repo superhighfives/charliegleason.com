@@ -21,6 +21,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "astro": "^5.16.11",
     "clsx": "^2.1.1",
+    "effect": "^3.19.15",
     "lodash-es": "^4.17.23",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -32,6 +33,7 @@
     "@charliegleason/private": "workspace:*"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.0.0",
     "wrangler": "^4.0.0"
   }
