@@ -23,8 +23,10 @@ export default function LastFmNow({ className = "" }: LastFmNowProps) {
 
   useEffect(() => {
     function connect() {
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-      const wsUrl = `${protocol}//${window.location.host}/api/lastfm`;
+      // Connect directly to the lastfm-tracker worker
+      // In production, this is a separate Cloudflare Worker that handles WebSockets
+      const wsUrl = import.meta.env.PUBLIC_LASTFM_TRACKER_URL
+        || "wss://lastfm-tracker.superhighfives.workers.dev";
 
       const ws = new WebSocket(wsUrl);
       wsRef.current = ws;

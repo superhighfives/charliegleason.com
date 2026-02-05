@@ -15,9 +15,10 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
 
   useEffect(() => {
     function connect() {
-      // Build WebSocket URL based on current location
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-      const wsUrl = `${protocol}//${window.location.host}/api/visitors`;
+      // Connect directly to the visitor-counter worker
+      // In production, this is a separate Cloudflare Worker that handles WebSockets
+      const wsUrl = import.meta.env.PUBLIC_VISITOR_COUNTER_URL 
+        || "wss://visitor-counter.superhighfives.workers.dev";
 
       const ws = new WebSocket(wsUrl);
       wsRef.current = ws;
