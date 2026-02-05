@@ -1,6 +1,16 @@
 /**
- * For more details on how to configure Wrangler, refer to:
- * https://developers.cloudflare.com/workers/wrangler/configuration/
+ * Wrangler configuration for the main Astro site.
+ * 
+ * WHAT GOES WHERE:
+ * - Bindings (KV, Durable Objects, R2) → here in wrangler.jsonc (committed to git)
+ * - Non-secret config → here under "vars" (committed to git)  
+ * - Secrets (AUTH_PASSWORD) → `wrangler secret put` (stored in Cloudflare, NOT in git)
+ * - Local secrets → .dev.vars file (gitignored)
+ *
+ * To set production secrets:
+ *   pnpm wrangler secret put AUTH_PASSWORD
+ *
+ * For more details: https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
