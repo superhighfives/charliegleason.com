@@ -1,0 +1,3 @@
+# Exclude server-side Worker code from public assets
+# See: https://developers.cloudflare.com/workers/static-assets/routing/#excluding-assets-from-being-uploaded
+_worker.js
