@@ -16,7 +16,7 @@ export default function LastFmNow({ className = "" }: LastFmNowProps) {
   const [isUnavailable, setIsUnavailable] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null
+    null,
   );
   const reconnectAttemptsRef = useRef(0);
   const maxReconnectAttempts = 3;
@@ -25,8 +25,9 @@ export default function LastFmNow({ className = "" }: LastFmNowProps) {
     function connect() {
       // Connect directly to the lastfm-tracker worker
       // In production, this is a separate Cloudflare Worker that handles WebSockets
-      const wsUrl = import.meta.env.PUBLIC_LASTFM_TRACKER_URL
-        || "wss://lastfm-tracker.superhighfives.workers.dev";
+      const wsUrl =
+        import.meta.env.PUBLIC_LASTFM_TRACKER_URL ||
+        "wss://lastfm-tracker.superhighfives.workers.dev";
 
       const ws = new WebSocket(wsUrl);
       wsRef.current = ws;
@@ -88,13 +89,11 @@ export default function LastFmNow({ className = "" }: LastFmNowProps) {
 
   return (
     <div
-      className={`absolute top-4 right-4 text-xs text-neutral-500 dark:text-neutral-400 text-right max-w-48 truncate ${className}`}
+      className={`text-xs text-neutral-500 dark:text-neutral-400 truncate ${className}`}
       title={isConnected ? "Connected" : "Reconnecting..."}
     >
-      <span className="block truncate">
-        {prefix} <span className="italic">{track.name}</span>
-      </span>
-      <span className="block truncate">by {track.artist}</span>
+      {prefix} <span className="italic">{track.name}</span>{" "}
+      <span className="italic">by {track.artist}</span>
     </div>
   );
 }

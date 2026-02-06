@@ -84,7 +84,7 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
 
   return (
     <div
-      className={`absolute top-4 left-4 text-xs text-neutral-500 dark:text-neutral-400 ${className}`}
+      className={`text-xs text-neutral-500 dark:text-neutral-400 ${className}`}
       title={isConnected ? "Connected" : "Reconnecting..."}
     >
       <span className="tabular-nums">{count}</span> {label}
