@@ -90,8 +90,10 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
   }, []);
 
   // Don't render if unavailable, no count, or only 1 visitor (yourself)
+  // Note: Return empty fragment instead of null to work around Astro bug #12283
+  // where returning null from a component with hooks causes "Invalid hook call" errors
   if (isUnavailable || count === null || count < 2) {
-    return null;
+    return <></>;
   }
 
   return (

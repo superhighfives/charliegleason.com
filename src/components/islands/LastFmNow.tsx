@@ -106,8 +106,10 @@ export default function LastFmNow({ className = "" }: LastFmNowProps) {
   }, []);
 
   // Don't render if unavailable or no track yet
+  // Note: Return empty fragment instead of null to work around Astro bug #12283
+  // where returning null from a component with hooks causes "Invalid hook call" errors
   if (isUnavailable || track === null) {
-    return null;
+    return <></>;
   }
 
   const prefix = track.isNowPlaying ? "Listening to" : "Last played";

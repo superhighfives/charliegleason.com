@@ -17,29 +17,35 @@ const hasHighlightInQuote = quote.includes(highlight);
 
 <blockquote
   class:list={[
-    'flex flex-col justify-between',
-    hero ? 'sm:col-span-2' : 'col-span-1'
+    "flex flex-col justify-between",
+    hero ? "sm:col-span-2" : "col-span-1",
   ]}
 >
   <p
     class:list={[
-      'pb-3 -indent-2 border-l border-neutral-300 dark:border-neutral-700 pl-6 flex-1 ml-4 text-neutral-800 dark:text-neutral-300',
-      hero ? 'text-xl' : 'text-md'
+      "pb-3 -indent-2 lg:border-l border-neutral-300 dark:border-neutral-700 lg:pl-6 flex-1 lg:ml-4 text-neutral-800 dark:text-neutral-300",
+      hero ? "text-xl" : "text-md",
     ]}
   >
     <span class="opacity-40">"</span>
-    {hasHighlightInQuote ? (
-      <>
-        {quote.split(highlight)[0]}
-        <strong class="text-yellow-700 dark:text-yellow-500">{highlight}</strong>
-        {quote.split(highlight)[1]}
-      </>
-    ) : (
-      <>
-        <strong class="text-yellow-700 dark:text-yellow-500">{highlight}</strong>
-        {' '}{quote}
-      </>
-    )}
+    {
+      hasHighlightInQuote ? (
+        <>
+          {quote.split(highlight)[0]}
+          <strong class="text-yellow-700 dark:text-yellow-500">
+            {highlight}
+          </strong>
+          {quote.split(highlight)[1]}
+        </>
+      ) : (
+        <>
+          <strong class="text-yellow-700 dark:text-yellow-500">
+            {highlight}
+          </strong>{" "}
+          {quote}
+        </>
+      )
+    }
     <span class="opacity-40">"</span>
   </p>
   <cite class="not-italic flex items-start">

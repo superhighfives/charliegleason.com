@@ -53,9 +53,9 @@ export const quotes: Quote[] = [
     name: 'Glen Maddern',
     role: 'Systems Engineer',
     company: 'Cloudflare',
-    highlight: 'Charlie has a formidable blend of talents',
+    highlight: 'Charlie has a formidable blend of talents:',
     quote:
-      ": a grounded, empathetic design sense, an artist's eye for subversion, and the tenacity to do whatever—and learn whatever—is necessary to ship projects.",
+      "a grounded, empathetic design sense, an artist's eye for subversion, and the tenacity to do whatever—and learn whatever—is necessary to ship projects.",
   },
   {
     id: 'will',
@@ -89,17 +89,17 @@ export const quotes: Quote[] = [
     name: 'Becky Bolton',
     role: 'Former Developer',
     company: 'Unbound',
-    highlight: 'Charlie is a developer of exceptional talent',
+    highlight: 'Charlie is a developer of exceptional talent.',
     quote:
-      '. He is personable and fun, and these qualities made him universally loved by the team around him.',
+      'He is personable and fun, and these qualities made him universally loved by the team around him.',
   },
   {
     id: 'jg',
     name: 'John Geyer',
     role: 'Technical Writing Lead',
     company: 'Salesforce',
-    highlight: '[Charlie is that] near-impossible combo of',
-    quote: 'crazy talented and down-to-earth.',
+    highlight: '[Charlie is that] near-impossible combo',
+    quote: 'of crazy talented and down-to-earth.',
   },
 ];
 
