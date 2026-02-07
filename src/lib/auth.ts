@@ -73,7 +73,7 @@ export const login = (
   Effect.gen(function* () {
     if (password !== env.AUTH_PASSWORD) {
       yield* Effect.logWarning("Login failed: invalid password")
-      return { _tag: "LoginFailure" as const, error: "Invalid password" }
+      return { _tag: "LoginFailure" as const, error: "Beep boop! Incorrect password! Please try again." }
     }
 
     const sessionId = yield* createSession(env.SESSION, "guest")

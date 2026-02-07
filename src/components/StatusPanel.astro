@@ -13,44 +13,19 @@ import LastFmNow from "./islands/LastFmNow.tsx";
 
 <style>
   .status-panel {
-    position: fixed;
+    position: absolute;
     z-index: 40;
     pointer-events: none;
+    top: 2.2rem;
+    left: 2rem;
   }
 
   .status-panel-content {
     display: flex;
+    align-items: flex-start;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.25rem;
     pointer-events: auto;
-  }
-
-  /* Desktop: top-left corner */
-  @media (min-width: 640px) {
-    .status-panel {
-      top: 2.5rem;
-      left: 2.5rem;
-    }
-
-    .status-panel-content {
-      align-items: flex-start;
-    }
-  }
-
-  /* Mobile: bottom center */
-  @media (max-width: 639px) {
-    .status-panel {
-      bottom: 2.5rem;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-    }
-
-    .status-panel-content {
-      flex-direction: row;
-      align-items: center;
-      gap: 0.5rem;
-    }
+    margin: 0 1px;
   }
 </style>

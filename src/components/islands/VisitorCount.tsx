@@ -20,7 +20,9 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
   const [isConnected, setIsConnected] = useState(false);
   const [isUnavailable, setIsUnavailable] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
-  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
   const reconnectAttemptsRef = useRef(0);
   const maxReconnectAttempts = 3;
 
@@ -28,8 +30,9 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
     function connect() {
       // Connect directly to the visitor-counter worker
       // In production, this is a separate Cloudflare Worker that handles WebSockets
-      const wsUrl = import.meta.env.PUBLIC_VISITOR_COUNTER_URL 
-        || "wss://visitor-counter.superhighfives.workers.dev";
+      const wsUrl =
+        import.meta.env.PUBLIC_VISITOR_COUNTER_URL ||
+        "wss://visitor-counter.superhighfives.workers.dev";
 
       const ws = new WebSocket(wsUrl);
       wsRef.current = ws;
@@ -94,17 +97,18 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
   return (
     <div
       className={`
-        flex items-center text-xs text-neutral-500 dark:text-neutral-400
-        px-2.5 py-1.5 rounded-full
+        flex items-center text-xs text-yellow-600 dark:text-yellow-400
+        px-3 py-1 rounded-full
         bg-white dark:bg-neutral-900
-        border border-neutral-200 dark:border-neutral-700
+        border border-yellow-400 dark:border-yellow-700
+        gap-1
         ${className}
       `}
       title={isConnected ? "Connected" : "Reconnecting..."}
     >
       <GlowingDot />
       <span className="tabular-nums">{count}</span>
-      <span className="ml-1">people here</span>
+      <span>people here</span>
     </div>
   );
 }

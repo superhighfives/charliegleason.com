@@ -1,29 +1,67 @@
 ---
-import '../styles/global.css';
-import { EMOJI_URL } from '../lib/constants';
-import { sampleSize } from 'lodash-es';
-import egg from '../lib/egg';
-import BackgroundGrid from '../components/BackgroundGrid.astro';
-import StatusPanel from '../components/StatusPanel.astro';
+import "../styles/global.css";
+import { EMOJI_URL } from "../lib/constants";
+import { sampleSize } from "lodash-es";
+import egg from "../lib/egg";
+import BackgroundGrid from "../components/BackgroundGrid.astro";
+import StatusPanel from "../components/StatusPanel.astro";
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   symbol?: string;
+  live?: boolean;
 }
 
 // Emoji list for random favicon selection
-const emojiList = ['🌊', '🎨', '🎵', '💻', '🌈', '🎭', '🎪', '🎯', '🌟', '🔮', '🎸', '🎹', '🎺', '🎻', '🪗', '🥁', '🪘', '🎤', '🎧', '🎼', '🎬', '📷', '🖼️', '🎨', '🖌️', '✏️', '📝', '💡', '🔥', '⚡', '🌙', '☀️', '🌍', '🌎', '🌏'];
+const emojiList = [
+  "🌊",
+  "🎨",
+  "🎵",
+  "💻",
+  "🌈",
+  "🎭",
+  "🎪",
+  "🎯",
+  "🌟",
+  "🔮",
+  "🎸",
+  "🎹",
+  "🎺",
+  "🎻",
+  "🪗",
+  "🥁",
+  "🪘",
+  "🎤",
+  "🎧",
+  "🎼",
+  "🎬",
+  "📷",
+  "🖼️",
+  "🎨",
+  "🖌️",
+  "✏️",
+  "📝",
+  "💡",
+  "🔥",
+  "⚡",
+  "🌙",
+  "☀️",
+  "🌍",
+  "🌎",
+  "🌏",
+];
 
-const theme = Astro.locals.theme || 'light';
-const themePreference = Astro.locals.themePreference || 'auto';
+const theme = Astro.locals.theme || "light";
+const themePreference = Astro.locals.themePreference || "auto";
 
 const {
-  title = 'Charlie Gleason • Designer, developer, creative coder, and musician.',
+  title = "Charlie Gleason • Designer, developer, creative coder, and musician.",
   description = "I'm a principal systems engineer at Cloudflare, looking after developer experience at the intersection of design, code, and machine learning.",
-  image = 'https://charliegleason.com/social-default.png',
-  symbol = sampleSize(emojiList, Math.ceil(Math.random() * 3)).join(''),
+  image = "https://charliegleason.com/social-default.png",
+  symbol = sampleSize(emojiList, Math.ceil(Math.random() * 3)).join(""),
+  live = true,
 } = Astro.props;
 ---
 
@@ -33,44 +71,48 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    
+
     <!-- Favicon -->
-    <link rel="icon" type="image/svg" href={`${EMOJI_URL}${symbol}?animated=false`} />
-    
+    <link
+      rel="icon"
+      type="image/svg"
+      href={`${EMOJI_URL}${symbol}?animated=false`}
+    />
+
     <!-- SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
-    
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
-    
+
     <!-- Fonts -->
     <link rel="stylesheet" href="https://use.typekit.net/qjo1mgb.css" />
-    
+
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>
     <BackgroundGrid />
-    <StatusPanel />
+    {live && <StatusPanel />}
     <div id="root">
       <slot />
     </div>
     <script is:inline define:vars={{ egg }}>
       console.info(
-        '%c ',
-        `padding-left:192px; padding-block:96px; background-image: url('${egg}'); background-size: 192px; background-repeat: no-repeat;`
+        "%c ",
+        `padding-left:192px; padding-block:96px; background-image: url('${egg}'); background-size: 192px; background-repeat: no-repeat;`,
       );
       console.info(
-        '👋 Interested in how this site was made? You can check out the source code at https://github.com/superhighfives/charliegleason.com'
+        "👋 Interested in how this site was made? You can check out the source code at https://github.com/superhighfives/charliegleason.com",
       );
     </script>
   </body>

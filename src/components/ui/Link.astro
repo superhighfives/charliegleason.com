@@ -1,5 +1,10 @@
 ---
-import Icon from './Icon.astro';
+import Icon from "./Icon.astro";
+
+const iconMap = {
+  back: "arrow-left",
+  forward: "arrow-right",
+} as const;
 
 interface Props {
   type?: 'default' | 'text';
@@ -7,7 +12,7 @@ interface Props {
   padding?: 'default' | 'large';
   class?: string;
   background?: boolean;
-  icon?: 'back' | 'forward';
+  icon?: keyof typeof iconMap;
   href?: string;
 }
 
@@ -63,9 +68,7 @@ const paddingClasses = padding === 'large' ? 'px-2 py-1 -my-0.5' : '';
     href={href}
     class:list={[defaultClasses, sizeClasses, backgroundClasses, paddingClasses, className]}
   >
-    {icon && (
-      <Icon class="w-4 mx-auto inline mr-2" name={icon} />
-    )}
+    {icon && <Icon name={iconMap[icon]} weight="bold" class="w-4 mx-auto inline mr-2" />}
     <slot />
   </a>
 )}

@@ -1,32 +1,49 @@
 ---
-import Icon from '../ui/Icon.astro';
-import HR from '../ui/HR.astro';
+import Icon from "../ui/Icon.astro";
+import HR from "../ui/HR.astro";
+
+const iconMap = {
+  twitter: "x-logo",
+  dribbble: "dribbble-logo",
+  github: "github-logo",
+  email: "envelope",
+} as const;
 
 interface SocialLinkProps {
-  icon: 'twitter' | 'dribbble' | 'github' | 'email';
+  icon: keyof typeof iconMap;
   title: string;
   url: string;
 }
 
 const socials: SocialLinkProps[] = [
-  { icon: 'twitter', title: 'Twitter', url: 'https://twitter.com/superhighfives' },
-  { icon: 'dribbble', title: 'Dribbble', url: 'https://dribbble.com/superhighfives' },
-  { icon: 'github', title: 'GitHub', url: 'https://github.com/superhighfives' },
-  { icon: 'email', title: 'Email', url: 'mailto:hi@charliegleason.com' },
+  {
+    icon: "twitter",
+    title: "Twitter / X",
+    url: "https://x.com/superhighfives",
+  },
+  {
+    icon: "dribbble",
+    title: "Dribbble",
+    url: "https://dribbble.com/superhighfives",
+  },
+  { icon: "github", title: "GitHub", url: "https://github.com/superhighfives" },
+  { icon: "email", title: "Email", url: "mailto:hi@charliegleason.com" },
 ];
 ---
 
 <div class="space-y-12">
   <HR />
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-  {socials.map((social) => (
-    <a
-      href={social.url}
-      class="inline-flex gap-2 items-center text-sm py-2 px-3 -mx-3 rounded-lg transition-colors hover:bg-yellow-400/20 focus:bg-yellow-400/20 hover:text-yellow-600 dark:hover:text-yellow-400 focus:text-yellow-600 dark:focus:text-yellow-400 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
-    >
-      <Icon name={social.icon} class="w-4 h-4" />
-      <span class="font-display">{social.title}</span>
-    </a>
-  ))}
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-y-0 gap-x-10 mx-3">
+    {
+      socials.map((social) => (
+        <a
+          href={social.url}
+          class="inline-flex gap-2 items-center justify-start text-sm py-2 px-3 -mx-3 rounded-lg transition-colors hover:bg-yellow-400/20 focus:bg-yellow-400/20 hover:text-yellow-600 dark:hover:text-yellow-400 focus:text-yellow-600 dark:focus:text-yellow-400 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
+        >
+          <Icon name={iconMap[social.icon]} weight="fill" class="w-4 h-4" />
+          <span class="font-display">{social.title}</span>
+        </a>
+      ))
+    }
   </div>
 </div>

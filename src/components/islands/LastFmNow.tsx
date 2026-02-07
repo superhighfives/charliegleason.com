@@ -16,18 +16,20 @@ interface EqualizerBarsProps {
 
 function EqualizerBars({ isAnimating }: EqualizerBarsProps) {
   return (
-    <span className="inline-flex items-end gap-[2px] h-3 w-3 mr-1.5 flex-shrink-0">
-      <span 
-        className={`w-[3px] bg-neutral-500 dark:bg-neutral-400 rounded-sm ${isAnimating ? 'animate-equalizer-1' : 'h-1'}`}
-        style={{ animationPlayState: isAnimating ? 'running' : 'paused' }}
+    <span
+      className={`inline-flex items-end gap-[1px] h-3 w-3 mr-1.5 flex-shrink-0 ${isAnimating ? "" : "opacity-50"}`}
+    >
+      <span
+        className={`w-[3px] bg-neutral-500 dark:bg-neutral-400 rounded-sm ${isAnimating ? "animate-equalizer-1" : "h-1"}`}
+        style={{ animationPlayState: isAnimating ? "running" : "paused" }}
       />
-      <span 
-        className={`w-[3px] bg-neutral-500 dark:bg-neutral-400 rounded-sm ${isAnimating ? 'animate-equalizer-2' : 'h-2'}`}
-        style={{ animationPlayState: isAnimating ? 'running' : 'paused' }}
+      <span
+        className={`w-[3px] bg-neutral-500 dark:bg-neutral-400 rounded-sm ${isAnimating ? "animate-equalizer-2" : "h-2"}`}
+        style={{ animationPlayState: isAnimating ? "running" : "paused" }}
       />
-      <span 
-        className={`w-[3px] bg-neutral-500 dark:bg-neutral-400 rounded-sm ${isAnimating ? 'animate-equalizer-3' : 'h-1.5'}`}
-        style={{ animationPlayState: isAnimating ? 'running' : 'paused' }}
+      <span
+        className={`w-[3px] bg-neutral-500 dark:bg-neutral-400 rounded-sm ${isAnimating ? "animate-equalizer-3" : "h-1.5"}`}
+        style={{ animationPlayState: isAnimating ? "running" : "paused" }}
       />
     </span>
   );
@@ -114,18 +116,18 @@ export default function LastFmNow({ className = "" }: LastFmNowProps) {
     <div
       className={`
         flex items-center text-xs text-neutral-500 dark:text-neutral-400
-        px-2.5 py-1.5 rounded-full
+        px-3 py-1 rounded-full
         bg-white dark:bg-neutral-900
         border border-neutral-200 dark:border-neutral-700
-        max-w-xs
+        max-w-[calc(100vw-4rem-84px)] gap-0.5
         ${className}
       `}
       title={isConnected ? "Connected" : "Reconnecting..."}
     >
       <EqualizerBars isAnimating={track.isNowPlaying} />
       <span className="truncate">
-        {prefix} <span className="italic">{track.name}</span>{" "}
-        <span className="italic">by {track.artist}</span>
+        {prefix} <span className="font-semibold">{track.name}</span>{" "}
+        <span>by</span> <span className="font-semibold">{track.artist}</span>
       </span>
     </div>
   );

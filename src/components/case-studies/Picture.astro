@@ -1,5 +1,5 @@
 ---
-import Icon from '../ui/Icon.astro';
+import Icon from "../ui/Icon.astro";
 
 interface Props {
   src: string;
@@ -63,7 +63,7 @@ const theme = Astro.locals.theme || 'light';
     </figcaption>
     {zoomable && (
       <div class="inline-flex items-center gap-2 text-yellow-700 dark:text-yellow-500 border border-yellow-500 dark:border-yellow-700 rounded-full px-2 py-1">
-        <Icon class="w-4 h-4" name="zoom" />
+        <Icon name="magnifying-glass-plus" weight="bold" class="w-4 h-4" />
         Zoomable<span class="hidden sm:block"> image</span>
       </div>
     )}
