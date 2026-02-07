@@ -10,6 +10,29 @@ interface LastFmNowProps {
   className?: string;
 }
 
+interface EqualizerBarsProps {
+  isAnimating: boolean;
+}
+
+function EqualizerBars({ isAnimating }: EqualizerBarsProps) {
+  return (
+    <span className="inline-flex items-end gap-[2px] h-3 w-3 mr-1.5 flex-shrink-0">
+      <span 
+        className={`w-[3px] bg-neutral-500 dark:bg-neutral-400 rounded-sm ${isAnimating ? 'animate-equalizer-1' : 'h-1'}`}
+        style={{ animationPlayState: isAnimating ? 'running' : 'paused' }}
+      />
+      <span 
+        className={`w-[3px] bg-neutral-500 dark:bg-neutral-400 rounded-sm ${isAnimating ? 'animate-equalizer-2' : 'h-2'}`}
+        style={{ animationPlayState: isAnimating ? 'running' : 'paused' }}
+      />
+      <span 
+        className={`w-[3px] bg-neutral-500 dark:bg-neutral-400 rounded-sm ${isAnimating ? 'animate-equalizer-3' : 'h-1.5'}`}
+        style={{ animationPlayState: isAnimating ? 'running' : 'paused' }}
+      />
+    </span>
+  );
+}
+
 export default function LastFmNow({ className = "" }: LastFmNowProps) {
   const [track, setTrack] = useState<Track | null>(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -89,11 +112,21 @@ export default function LastFmNow({ className = "" }: LastFmNowProps) {
 
   return (
     <div
-      className={`text-xs text-neutral-500 dark:text-neutral-400 truncate ${className}`}
+      className={`
+        flex items-center text-xs text-neutral-500 dark:text-neutral-400
+        px-2.5 py-1.5 rounded-full
+        bg-white dark:bg-neutral-900
+        border border-neutral-200 dark:border-neutral-700
+        max-w-xs
+        ${className}
+      `}
       title={isConnected ? "Connected" : "Reconnecting..."}
     >
-      {prefix} <span className="italic">{track.name}</span>{" "}
-      <span className="italic">by {track.artist}</span>
+      <EqualizerBars isAnimating={track.isNowPlaying} />
+      <span className="truncate">
+        {prefix} <span className="italic">{track.name}</span>{" "}
+        <span className="italic">by {track.artist}</span>
+      </span>
     </div>
   );
 }

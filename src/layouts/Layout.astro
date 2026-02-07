@@ -3,6 +3,8 @@ import '../styles/global.css';
 import { EMOJI_URL } from '../lib/constants';
 import { sampleSize } from 'lodash-es';
 import egg from '../lib/egg';
+import BackgroundGrid from '../components/BackgroundGrid.astro';
+import StatusPanel from '../components/StatusPanel.astro';
 
 interface Props {
   title?: string;
@@ -57,6 +59,8 @@ const {
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>
+    <BackgroundGrid />
+    <StatusPanel />
     <div id="root">
       <slot />
     </div>

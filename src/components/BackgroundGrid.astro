@@ -1,0 +1,105 @@
+---
+/**
+ * BackgroundGrid - Vertical lines with hatched gutters (pure CSS)
+ *
+ * Creates:
+ * - Thin vertical lines at body padding edges (2rem from viewport)
+ * - Thin vertical lines at content container edges (1800px centered)
+ * - Hatched pattern between those lines (the gutters)
+ */
+---
+
+<div class="background-grid" aria-hidden="true">
+  <!-- Hatched gutters -->
+  <div class="grid-gutter grid-gutter-left"></div>
+  <div class="grid-gutter grid-gutter-right"></div>
+
+  <!-- Vertical lines -->
+  <div class="grid-line grid-line-body-left"></div>
+  <div class="grid-line grid-line-body-right"></div>
+  <div class="grid-line grid-line-container-left"></div>
+  <div class="grid-line grid-line-container-right"></div>
+</div>
+
+<style>
+  .background-grid {
+    --body-padding: 2rem;
+    --content-padding: 2.5rem; /* lg:px-10 */
+    --max-content: calc(1600px - var(--content-padding) * 2);
+    /* Distance from edge to container = (viewport - content) / 2, but at least body-padding */
+    --container-inset: max(
+      var(--body-padding),
+      calc((100vw - var(--max-content)) / 2)
+    );
+    /* Gutter width = container-inset - body-padding, but at least 0 */
+    --gutter-width: max(
+      0px,
+      calc(var(--container-inset) - var(--body-padding))
+    );
+
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  /* Hatched pattern in the gutters */
+  .grid-gutter {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--gutter-width);
+    /* Diagonal hatch pattern */
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      currentColor 8px,
+      currentColor 9px
+    );
+    color: rgb(163 163 163 / 0.15);
+  }
+
+  .grid-gutter-left {
+    left: var(--body-padding);
+  }
+
+  .grid-gutter-right {
+    right: var(--body-padding);
+  }
+
+  :global(.dark) .grid-gutter {
+    color: rgb(82 82 82 / 0.3);
+  }
+
+  /* Vertical lines */
+  .grid-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: currentColor;
+    color: rgb(163 163 163 / 0.3);
+  }
+
+  .grid-line-body-left {
+    left: var(--body-padding);
+  }
+
+  .grid-line-body-right {
+    right: var(--body-padding);
+  }
+
+  .grid-line-container-left {
+    left: var(--container-inset);
+  }
+
+  .grid-line-container-right {
+    right: var(--container-inset);
+  }
+
+  :global(.dark) .grid-line {
+    color: rgb(82 82 82 / 0.5);
+  }
+</style>

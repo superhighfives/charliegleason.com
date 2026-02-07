@@ -1,0 +1,56 @@
+---
+import VisitorCount from "./islands/VisitorCount.tsx";
+import LastFmNow from "./islands/LastFmNow.tsx";
+---
+
+{/* Desktop: fixed top-left, Mobile: fixed bottom center */}
+<div class="status-panel">
+  <div class="status-panel-content">
+    <VisitorCount client:load />
+    <LastFmNow client:load />
+  </div>
+</div>
+
+<style>
+  .status-panel {
+    position: fixed;
+    z-index: 40;
+    pointer-events: none;
+  }
+
+  .status-panel-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    pointer-events: auto;
+  }
+
+  /* Desktop: top-left corner */
+  @media (min-width: 640px) {
+    .status-panel {
+      top: 2.5rem;
+      left: 2.5rem;
+    }
+
+    .status-panel-content {
+      align-items: flex-start;
+    }
+  }
+
+  /* Mobile: bottom center */
+  @media (max-width: 639px) {
+    .status-panel {
+      bottom: 2.5rem;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .status-panel-content {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+</style>

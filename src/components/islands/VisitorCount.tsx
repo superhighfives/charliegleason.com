@@ -4,6 +4,17 @@ interface VisitorCountProps {
   className?: string;
 }
 
+function GlowingDot() {
+  return (
+    <span className="relative inline-flex h-2 w-2 mr-1.5 flex-shrink-0">
+      {/* Glow effect */}
+      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75" />
+      {/* Solid dot */}
+      <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500 shadow-[0_0_8px_2px_rgba(234,179,8,0.6)]" />
+    </span>
+  );
+}
+
 export default function VisitorCount({ className = "" }: VisitorCountProps) {
   const [count, setCount] = useState<number | null>(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -75,19 +86,25 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
     };
   }, []);
 
-  // Don't render anything if unavailable (local dev) or no count yet
-  if (isUnavailable || count === null) {
+  // Don't render if unavailable, no count, or only 1 visitor (yourself)
+  if (isUnavailable || count === null || count < 2) {
     return null;
   }
 
-  const label = count === 1 ? "person here" : "people here";
-
   return (
     <div
-      className={`text-xs text-neutral-500 dark:text-neutral-400 ${className}`}
+      className={`
+        flex items-center text-xs text-neutral-500 dark:text-neutral-400
+        px-2.5 py-1.5 rounded-full
+        bg-white dark:bg-neutral-900
+        border border-neutral-200 dark:border-neutral-700
+        ${className}
+      `}
       title={isConnected ? "Connected" : "Reconnecting..."}
     >
-      <span className="tabular-nums">{count}</span> {label}
+      <GlowingDot />
+      <span className="tabular-nums">{count}</span>
+      <span className="ml-1">people here</span>
     </div>
   );
 }
