@@ -1,11 +1,20 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from "react";
 
-export type ColorType = 'yellow' | 'indigo' | 'pink' | 'amber' | 'emerald' | 'red' | 'rose' | 'blue' | 'sky';
+export type ColorType =
+  | "yellow"
+  | "indigo"
+  | "pink"
+  | "amber"
+  | "emerald"
+  | "red"
+  | "rose"
+  | "blue"
+  | "sky";
 
 function isTouchDevice(): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === "undefined") return false;
   return (
-    'ontouchstart' in window ||
+    "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
     // @ts-ignore
     navigator.msMaxTouchPoints > 0
@@ -40,11 +49,11 @@ function useMousePosition(ref: React.RefObject<HTMLDivElement | null>) {
 
     const setToZero = () => setPosition({ x: 0, y: 0 });
 
-    reference.addEventListener('mousemove', setFromEvent);
-    reference.addEventListener('mouseleave', setToZero);
+    reference.addEventListener("mousemove", setFromEvent);
+    reference.addEventListener("mouseleave", setToZero);
     return () => {
-      reference.removeEventListener('mousemove', setFromEvent);
-      reference.removeEventListener('mouseleave', setToZero);
+      reference.removeEventListener("mousemove", setFromEvent);
+      reference.removeEventListener("mouseleave", setToZero);
     };
   }, [ref]);
 
@@ -56,33 +65,37 @@ interface TileProps {
   title: string;
   href: string;
   color: ColorType;
-  type: 'case-studies' | 'work';
-  format?: 'png' | 'webp';
+  type: "case-studies" | "work";
+  format?: "png" | "webp";
   description?: string;
 }
 
 const variantsColors: Record<ColorType, string> = {
-  yellow: 'from-yellow-500 to-yellow-800 dark:to-yellow-300',
-  pink: 'from-pink-500 to-pink-800 dark:to-pink-300',
-  indigo: 'from-indigo-500 to-indigo-800 dark:to-indigo-300',
-  amber: 'from-amber-500 to-amber-800 dark:to-amber-300',
-  emerald: 'from-emerald-500 to-emerald-800 dark:to-emerald-300',
-  red: 'from-red-500 to-red-800 dark:to-red-300',
-  rose: 'from-rose-500 to-rose-800 dark:to-rose-300',
-  blue: 'from-blue-500 to-blue-800 dark:to-blue-300',
-  sky: 'from-sky-500 to-sky-800 dark:to-sky-300',
+  yellow: "from-yellow-500 to-yellow-800 dark:to-yellow-300",
+  pink: "from-pink-500 to-pink-800 dark:to-pink-300",
+  indigo: "from-indigo-500 to-indigo-800 dark:to-indigo-300",
+  amber: "from-amber-500 to-amber-800 dark:to-amber-300",
+  emerald: "from-emerald-500 to-emerald-800 dark:to-emerald-300",
+  red: "from-red-500 to-red-800 dark:to-red-300",
+  rose: "from-rose-500 to-rose-800 dark:to-rose-300",
+  blue: "from-blue-500 to-blue-800 dark:to-blue-300",
+  sky: "from-sky-500 to-sky-800 dark:to-sky-300",
 };
 
 const outlineColors: Record<ColorType, string> = {
-  yellow: 'group-focus:outline-yellow-600 dark:group-focus:outline-yellow-400 group-hover:outline-yellow-600 dark:group-hover:outline-yellow-400',
-  pink: 'group-focus:outline-pink-600 dark:group-focus:outline-pink-400 group-hover:outline-pink-600 dark:group-hover:outline-pink-400',
-  indigo: 'group-focus:outline-indigo-600 dark:group-focus:outline-indigo-400 group-hover:outline-indigo-600 dark:group-hover:outline-indigo-400',
-  amber: 'group-focus:outline-amber-600 dark:group-focus:outline-amber-400 group-hover:outline-amber-600 dark:group-hover:outline-amber-400',
-  emerald: 'group-focus:outline-emerald-600 dark:group-focus:outline-emerald-400 group-hover:outline-emerald-600 dark:group-hover:outline-emerald-400',
-  red: 'group-focus:outline-red-600 dark:group-focus:outline-red-400 group-hover:outline-red-600 dark:group-hover:outline-red-400',
-  rose: 'group-focus:outline-rose-600 dark:group-focus:outline-rose-400 group-hover:outline-rose-600 dark:group-hover:outline-rose-400',
-  blue: 'group-focus:outline-blue-600 dark:group-focus:outline-blue-400 group-hover:outline-blue-600 dark:group-hover:outline-blue-400',
-  sky: 'group-focus:outline-sky-600 dark:group-focus:outline-sky-400 group-hover:outline-sky-600 dark:group-hover:outline-sky-400',
+  yellow:
+    "group-focus:outline-yellow-600 dark:group-focus:outline-yellow-400 group-hover:outline-yellow-600 dark:group-hover:outline-yellow-400",
+  pink: "group-focus:outline-pink-600 dark:group-focus:outline-pink-400 group-hover:outline-pink-600 dark:group-hover:outline-pink-400",
+  indigo:
+    "group-focus:outline-indigo-600 dark:group-focus:outline-indigo-400 group-hover:outline-indigo-600 dark:group-hover:outline-indigo-400",
+  amber:
+    "group-focus:outline-amber-600 dark:group-focus:outline-amber-400 group-hover:outline-amber-600 dark:group-hover:outline-amber-400",
+  emerald:
+    "group-focus:outline-emerald-600 dark:group-focus:outline-emerald-400 group-hover:outline-emerald-600 dark:group-hover:outline-emerald-400",
+  red: "group-focus:outline-red-600 dark:group-focus:outline-red-400 group-hover:outline-red-600 dark:group-hover:outline-red-400",
+  rose: "group-focus:outline-rose-600 dark:group-focus:outline-rose-400 group-hover:outline-rose-600 dark:group-hover:outline-rose-400",
+  blue: "group-focus:outline-blue-600 dark:group-focus:outline-blue-400 group-hover:outline-blue-600 dark:group-hover:outline-blue-400",
+  sky: "group-focus:outline-sky-600 dark:group-focus:outline-sky-400 group-hover:outline-sky-600 dark:group-hover:outline-sky-400",
 };
 
 export default function Tile({
@@ -92,19 +105,19 @@ export default function Tile({
   href,
   color,
   type,
-  format = 'png',
+  format = "png",
 }: TileProps) {
   const ref = useRef<HTMLDivElement>(null);
   const position = useMousePosition(ref);
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
-    ref.current?.style.setProperty('--x', `${position.x.toFixed(2)}deg`);
-    ref.current?.style.setProperty('--y', `${position.y.toFixed(2)}deg`);
+    ref.current?.style.setProperty("--x", `${position.x.toFixed(2)}deg`);
+    ref.current?.style.setProperty("--y", `${position.y.toFixed(2)}deg`);
     if (!isTouchDevice()) {
       ref.current?.style.setProperty(
-        'perspective',
-        `${(ref.current?.getBoundingClientRect().width ?? 300) / 7.5}px`
+        "perspective",
+        `${(ref.current?.getBoundingClientRect().width ?? 300) / 7.5}px`,
       );
     }
   }, [position.x, position.y]);
@@ -115,9 +128,9 @@ export default function Tile({
       ([entry]) => {
         setInView(entry.isIntersecting && window.innerWidth < 640);
       },
-      { threshold: 0.75 }
+      { threshold: 0.75 },
     );
-    
+
     const current = ref.current;
     if (current) observer.observe(current);
     return () => {
@@ -128,11 +141,11 @@ export default function Tile({
   return (
     <a
       href={href}
-      className={`group block space-y-4 outline-none ${inView ? 'inframe' : ''}`}
+      className={`group block space-y-4 outline-none ${inView ? "inframe" : ""}`}
     >
       <div className="relative">
         <div
-          className={`aspect-[1.72/1] outline outline-2 outline-transparent group-focus:outline-none group-focus:shadow-outline outline-offset-2 ${outlineColors[color]} rounded-lg transition-all duration-300`}
+          className={`aspect-[1.72/1] outline outline-2 outline-transparent group-focus:outline-none group-focus:shadow-outline outline-offset-2 ${outlineColors[color]} rounded-2xl transition-all duration-300`}
           ref={ref}
         >
           <img
@@ -155,7 +168,9 @@ export default function Tile({
         />
       </div>
       <div className="flex gap-4 justify-between items-center">
-        <h2 className={`text-transparent bg-clip-text bg-gradient-to-bl ${variantsColors[color]} font-display text-xl whitespace-nowrap`}>
+        <h2
+          className={`text-transparent bg-clip-text bg-gradient-to-bl ${variantsColors[color]} font-display text-xl whitespace-nowrap`}
+        >
           {title}
         </h2>
         {description && (
