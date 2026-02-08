@@ -1,5 +1,5 @@
-export { articles, type Article } from './articles';
-export { features, type Feature } from './features';
-export { projects, type Project } from './projects';
-export { quotes, type Quote } from './quotes';
-export { caseStudies, type CaseStudyCard } from './caseStudies';
+export { type Article, articles } from "./articles";
+export { type CaseStudyCard, caseStudies } from "./caseStudies";
+export { type Feature, features } from "./features";
+export { type Project, projects } from "./projects";
+export { type Quote, quotes } from "./quotes";

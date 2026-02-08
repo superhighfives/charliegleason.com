@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef, type ReactNode } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 function isTouchDevice(): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === "undefined") return false;
   return (
-    'ontouchstart' in window ||
+    "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
-    // @ts-ignore
+    // @ts-expect-error
     navigator.msMaxTouchPoints > 0
   );
 }
@@ -34,9 +34,9 @@ function useMousePosition(ref: React.RefObject<HTMLDivElement | null>) {
       }
     };
 
-    reference.addEventListener('mousemove', setFromEvent);
+    reference.addEventListener("mousemove", setFromEvent);
     return () => {
-      reference.removeEventListener('mousemove', setFromEvent);
+      reference.removeEventListener("mousemove", setFromEvent);
     };
   }, [ref]);
 
@@ -57,39 +57,44 @@ function Image({
   alt,
   themed = false,
   mobile = false,
-  className = '',
+  className = "",
   children = null,
 }: ImageProps) {
   const baseImage = src;
-  const darkImage = baseImage.replace(/\.(\w+)$/, '-dark.$1');
-  const mobileImage = baseImage.replace(/\.(\w+)$/, '-mobile.$1');
-  const mobileDarkImage = darkImage.replace(/\.(\w+)$/, '-mobile.$1');
+  const darkImage = baseImage.replace(/\.(\w+)$/, "-dark.$1");
+  const mobileImage = baseImage.replace(/\.(\w+)$/, "-mobile.$1");
+  const mobileDarkImage = darkImage.replace(/\.(\w+)$/, "-mobile.$1");
 
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    const isDark = document.documentElement.classList.contains('dark');
-    setTheme(isDark ? 'dark' : 'light');
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark ? "dark" : "light");
 
     const observer = new MutationObserver(() => {
-      const isDark = document.documentElement.classList.contains('dark');
-      setTheme(isDark ? 'dark' : 'light');
+      const isDark = document.documentElement.classList.contains("dark");
+      setTheme(isDark ? "dark" : "light");
     });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
     return () => observer.disconnect();
   }, []);
 
   return (
     <>
-      <picture className={`overflow-hidden rounded-lg inline-flex align-top ${className}`}>
-        {mobile && themed && theme === 'dark' && (
+      <picture
+        className={`overflow-hidden rounded-lg inline-flex align-top ${className}`}
+      >
+        {mobile && themed && theme === "dark" && (
           <source media="(max-width: 799px)" srcSet={mobileDarkImage} />
         )}
-        {themed && theme === 'dark' && <source srcSet={darkImage} />}
-        {mobile && (theme === 'light' || !themed) && (
+        {themed && theme === "dark" && <source srcSet={darkImage} />}
+        {mobile && (theme === "light" || !themed) && (
           <source media="(max-width: 799px)" srcSet={mobileImage} />
         )}
-        {theme === 'light' && <source srcSet={baseImage} />}
+        {theme === "light" && <source srcSet={baseImage} />}
         <img src={baseImage} alt={alt} />
       </picture>
       {children}
@@ -104,13 +109,18 @@ interface FrameProps {
   children: ReactNode;
 }
 
-function Frame({ caption, zoomable = false, forceBackground = false, children }: FrameProps) {
+function Frame({
+  caption,
+  zoomable = false,
+  forceBackground = false,
+  children,
+}: FrameProps) {
   return (
     <figure className="relative text-center font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose">
       {children}
       <div
         className={`flex flex-col mx-auto justify-center items-center gap-4 px-8 ${
-          forceBackground ? 'mt-4 mb-8 sm:mt-8 sm:mb-16' : 'mt-8'
+          forceBackground ? "mt-4 mb-8 sm:mt-8 sm:mb-16" : "mt-8"
         }`}
       >
         <figcaption className="max-w-lg leading-relaxed text-balance flex-shrink px-8">
@@ -122,6 +132,7 @@ function Frame({ caption, zoomable = false, forceBackground = false, children }:
               className="w-4 h-4 fill-current pointer-events-none"
               viewBox="0 0 58 58"
               xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
             >
               <path
                 fillRule="evenodd"
@@ -163,38 +174,46 @@ export default function PictureZoom({
       setIgnoreZoom(isTouchDevice());
     };
     handleResize();
-    window.addEventListener('resize', handleResize, false);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize, false);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
     if (!isTouchDevice() && ref.current?.parentElement) {
-      const x = position.x - (factor - 2) * ((factor * -position.x) / 2 + position.x);
-      const y = position.y - (factor - 2) * ((factor * -position.y) / 2 + position.y);
+      const x =
+        position.x - (factor - 2) * ((factor * -position.x) / 2 + position.x);
+      const y =
+        position.y - (factor - 2) * ((factor * -position.y) / 2 + position.y);
       const pointerX = (position.x - (ref.current?.clientWidth ?? 0) / 2) * -1;
       const pointerY = (position.y - (ref.current?.clientHeight ?? 0) / 2) * -1;
-      ref.current.parentElement.style.setProperty('--x', `${x}px`);
-      ref.current.parentElement.style.setProperty('--y', `${y}px`);
-      ref.current.parentElement.style.setProperty('--pointer-x', `${pointerX}px`);
-      ref.current.parentElement.style.setProperty('--pointer-y', `${pointerY}px`);
+      ref.current.parentElement.style.setProperty("--x", `${x}px`);
+      ref.current.parentElement.style.setProperty("--y", `${y}px`);
+      ref.current.parentElement.style.setProperty(
+        "--pointer-x",
+        `${pointerX}px`,
+      );
+      ref.current.parentElement.style.setProperty(
+        "--pointer-y",
+        `${pointerY}px`,
+      );
     } else {
       setIgnoreZoom(true);
     }
   }, [position.x, position.y, factor]);
 
   const zoom: Record<2 | 4, string> = {
-    2: 'scale-[2]',
-    4: 'scale-[4]',
+    2: "scale-[2]",
+    4: "scale-[4]",
   };
 
   const mask: Record<2 | 4, string> = {
-    2: '[clip-path:circle(100px_at_var(--pointer-x)_var(--pointer-y))]',
-    4: '[clip-path:circle(50px_at_var(--pointer-x)_var(--pointer-y))]',
+    2: "[clip-path:circle(100px_at_var(--pointer-x)_var(--pointer-y))]",
+    4: "[clip-path:circle(50px_at_var(--pointer-x)_var(--pointer-y))]",
   };
 
   const bgClass = forceBackground
-    ? 'dark:bg-black dark:shadow-[0_0_0_100px_rgba(0,0,0,1)]'
-    : 'dark:bg-neutral-900 dark:shadow-[0_0_0_100px_rgba(23,23,23,1)]';
+    ? "dark:bg-black dark:shadow-[0_0_0_100px_rgba(0,0,0,1)]"
+    : "dark:bg-neutral-900 dark:shadow-[0_0_0_100px_rgba(23,23,23,1)]";
 
   if (ignoreZoom) {
     return (

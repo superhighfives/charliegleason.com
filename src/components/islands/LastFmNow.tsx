@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Track {
   name: string;
@@ -109,6 +109,7 @@ export default function LastFmNow({ className = "" }: LastFmNowProps) {
   // Note: Return empty fragment instead of null to work around Astro bug #12283
   // where returning null from a component with hooks causes "Invalid hook call" errors
   if (isUnavailable || track === null) {
+    // biome-ignore lint/complexity/noUselessFragments: Required for Astro hydration workaround
     return <></>;
   }
 

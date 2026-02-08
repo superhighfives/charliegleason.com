@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type ColorType =
   | "yellow"
@@ -16,7 +16,7 @@ function isTouchDevice(): boolean {
   return (
     "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
-    // @ts-ignore
+    // @ts-expect-error
     navigator.msMaxTouchPoints > 0
   );
 }

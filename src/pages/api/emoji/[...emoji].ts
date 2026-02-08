@@ -1,98 +1,98 @@
-import type { APIRoute } from 'astro';
-import { Effect } from 'effect';
-import { FetchError, HttpError } from '../../../lib/errors';
+import type { APIRoute } from "astro";
+import { Effect } from "effect";
+import { FetchError, HttpError } from "../../../lib/errors";
 
 // Emoji to key name mapping (matching the PNG filenames in /assets/emoji/)
 const emojiToKey: Record<string, string> = {
-  '💯': '100',
-  '⚓': 'anchor',
-  '🎨': 'art',
-  '🎈': 'balloon',
-  '🍌': 'banana',
-  '🏖️': 'beach_with_umbrella',
-  '🏖': 'beach_with_umbrella',
-  '🍻': 'beers',
-  '😊': 'blush',
-  '⛵': 'boat',
-  '📚': 'books',
-  '💡': 'bulb',
-  '🤙': 'call_me_hand',
-  '📷': 'camera',
-  '🎠': 'carousel_horse',
-  '🌸': 'cherry_blossom',
-  '🍫': 'chocolate_bar',
-  '🎪': 'circus_tent',
-  '☕': 'coffee',
-  '💻': 'computer',
-  '🎊': 'confetti_ball',
-  '👑': 'crown',
-  '💃': 'dancer',
-  '😵': 'dizzy_face',
-  '💫': 'dizzy',
-  '🌏': 'earth_asia',
-  '🍆': 'eggplant',
-  '🍂': 'fallen_leaf',
-  '🎡': 'ferris_wheel',
-  '🔥': 'fire',
-  '😳': 'flushed',
-  '🍟': 'fries',
-  '💝': 'gift_heart',
-  '🎸': 'guitar',
-  '🍔': 'hamburger',
-  '💩': 'hankey',
-  '🎧': 'headphones',
-  '🙉': 'hear_no_evil',
-  '🚁': 'helicopter',
-  '🌶️': 'hot_pepper',
-  '🌶': 'hot_pepper',
-  '🏡': 'house_with_garden',
-  '🏠': 'house',
-  '🏯': 'japanese_castle',
-  '😂': 'joy',
-  '💋': 'kiss',
-  '🍭': 'lollipop',
-  '🔍': 'mag',
-  '🪄': 'magic_wand',
-  '🎤': 'microphone',
-  '🐒': 'monkey',
-  '🕌': 'mosque',
-  '💪': 'muscle',
-  '🎹': 'musical_keyboard',
-  '🎵': 'musical_note',
-  '📔': 'notebook_with_decorative_cover',
-  '🎶': 'notes',
-  '🌊': 'ocean',
-  '🦉': 'owl',
-  '🎭': 'performing_arts',
-  '🐖': 'pig2',
-  '🙌': 'raised_hands',
-  '🐀': 'rat',
-  '💞': 'revolving_hearts',
-  '🚀': 'rocket',
-  '🎢': 'roller_coaster',
-  '🏉': 'rugby_football',
-  '🎒': 'school_satchel',
-  '🙈': 'see_no_evil',
-  '🌱': 'seedling',
-  '💀': 'skull',
-  '✨': 'sparkles',
-  '💖': 'sparkling_heart',
-  '🙊': 'speak_no_evil',
-  '🦑': 'squid',
-  '⭐': 'star',
-  '🌟': 'star2',
-  '🚂': 'steam_locomotive',
-  '🍓': 'strawberry',
-  '🎉': 'tada',
-  '🗼': 'tokyo_tower',
-  '🎩': 'tophat',
-  '⛱️': 'umbrella_on_ground',
-  '⛱': 'umbrella_on_ground',
-  '📼': 'vhs',
-  '🎮': 'video_game',
-  '🍉': 'watermelon',
-  '🗺️': 'world_map',
-  '🗺': 'world_map',
+  "💯": "100",
+  "⚓": "anchor",
+  "🎨": "art",
+  "🎈": "balloon",
+  "🍌": "banana",
+  "🏖️": "beach_with_umbrella",
+  "🏖": "beach_with_umbrella",
+  "🍻": "beers",
+  "😊": "blush",
+  "⛵": "boat",
+  "📚": "books",
+  "💡": "bulb",
+  "🤙": "call_me_hand",
+  "📷": "camera",
+  "🎠": "carousel_horse",
+  "🌸": "cherry_blossom",
+  "🍫": "chocolate_bar",
+  "🎪": "circus_tent",
+  "☕": "coffee",
+  "💻": "computer",
+  "🎊": "confetti_ball",
+  "👑": "crown",
+  "💃": "dancer",
+  "😵": "dizzy_face",
+  "💫": "dizzy",
+  "🌏": "earth_asia",
+  "🍆": "eggplant",
+  "🍂": "fallen_leaf",
+  "🎡": "ferris_wheel",
+  "🔥": "fire",
+  "😳": "flushed",
+  "🍟": "fries",
+  "💝": "gift_heart",
+  "🎸": "guitar",
+  "🍔": "hamburger",
+  "💩": "hankey",
+  "🎧": "headphones",
+  "🙉": "hear_no_evil",
+  "🚁": "helicopter",
+  "🌶️": "hot_pepper",
+  "🌶": "hot_pepper",
+  "🏡": "house_with_garden",
+  "🏠": "house",
+  "🏯": "japanese_castle",
+  "😂": "joy",
+  "💋": "kiss",
+  "🍭": "lollipop",
+  "🔍": "mag",
+  "🪄": "magic_wand",
+  "🎤": "microphone",
+  "🐒": "monkey",
+  "🕌": "mosque",
+  "💪": "muscle",
+  "🎹": "musical_keyboard",
+  "🎵": "musical_note",
+  "📔": "notebook_with_decorative_cover",
+  "🎶": "notes",
+  "🌊": "ocean",
+  "🦉": "owl",
+  "🎭": "performing_arts",
+  "🐖": "pig2",
+  "🙌": "raised_hands",
+  "🐀": "rat",
+  "💞": "revolving_hearts",
+  "🚀": "rocket",
+  "🎢": "roller_coaster",
+  "🏉": "rugby_football",
+  "🎒": "school_satchel",
+  "🙈": "see_no_evil",
+  "🌱": "seedling",
+  "💀": "skull",
+  "✨": "sparkles",
+  "💖": "sparkling_heart",
+  "🙊": "speak_no_evil",
+  "🦑": "squid",
+  "⭐": "star",
+  "🌟": "star2",
+  "🚂": "steam_locomotive",
+  "🍓": "strawberry",
+  "🎉": "tada",
+  "🗼": "tokyo_tower",
+  "🎩": "tophat",
+  "⛱️": "umbrella_on_ground",
+  "⛱": "umbrella_on_ground",
+  "📼": "vhs",
+  "🎮": "video_game",
+  "🍉": "watermelon",
+  "🗺️": "world_map",
+  "🗺": "world_map",
 };
 
 // List of available emoji keys for random selection
@@ -104,17 +104,19 @@ function sampleSize<T>(array: T[], n: number): T[] {
 }
 
 function parseEmoji(input: string): string[] {
-  if (input === 'random') {
+  if (input === "random") {
     const count = Math.ceil(Math.random() * 3);
     return sampleSize(emojiList, count);
   }
-  
+
   // Split graphemes (handles multi-codepoint emoji)
-  const graphemes = [...new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(input)]
+  const graphemes = [
+    ...new Intl.Segmenter("en", { granularity: "grapheme" }).segment(input),
+  ]
     .map((s) => s.segment)
     .filter((emoji) => emojiToKey[emoji])
     .slice(0, 3);
-  
+
   return graphemes;
 }
 
@@ -122,34 +124,50 @@ function getEmojiKey(emoji: string): string | undefined {
   return emojiToKey[emoji];
 }
 
-function fetchImageToBase64(key: string, baseUrl: string): Effect.Effect<string, FetchError | HttpError> {
+function fetchImageToBase64(
+  key: string,
+  baseUrl: string,
+): Effect.Effect<string, FetchError | HttpError> {
   const url = `${baseUrl}/assets/emoji/${key}.png`;
   return Effect.tryPromise({
     try: () => fetch(url),
-    catch: (error) => new FetchError({ url, message: `Failed to fetch ${url}`, cause: error }),
+    catch: (error) =>
+      new FetchError({ url, message: `Failed to fetch ${url}`, cause: error }),
   }).pipe(
-    Effect.flatMap((response): Effect.Effect<ArrayBuffer, FetchError | HttpError> => {
-      if (!response.ok) {
-        return Effect.fail(new HttpError({ statusCode: response.status, url }));
-      }
-      return Effect.tryPromise({
-        try: () => response.arrayBuffer(),
-        catch: (error) => new FetchError({ url, message: `Failed to read response body for ${url}`, cause: error }),
-      });
-    }),
+    Effect.flatMap(
+      (response): Effect.Effect<ArrayBuffer, FetchError | HttpError> => {
+        if (!response.ok) {
+          return Effect.fail(
+            new HttpError({ statusCode: response.status, url }),
+          );
+        }
+        return Effect.tryPromise({
+          try: () => response.arrayBuffer(),
+          catch: (error) =>
+            new FetchError({
+              url,
+              message: `Failed to read response body for ${url}`,
+              cause: error,
+            }),
+        });
+      },
+    ),
     Effect.map((arrayBuffer) => {
       return btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-    })
+    }),
   );
 }
 
-function fetchImageToBase64Safe(key: string, baseUrl: string): Effect.Effect<string | null, never> {
+function fetchImageToBase64Safe(
+  key: string,
+  baseUrl: string,
+): Effect.Effect<string | null, never> {
   return fetchImageToBase64(key, baseUrl).pipe(
     Effect.catchAll(() => {
       return Effect.logDebug(`Failed to fetch emoji image: ${key}`).pipe(
-        Effect.as(null)
+        Effect.as(null),
       );
-    })
+    }),
   );
 }
 
@@ -192,11 +210,14 @@ function generateStyles(numImages: number, isAnimated: boolean): string {
       }
 
       ${[...Array(numImages)]
-        .map((_, i) => `
+        .map(
+          (_, i) => `
         .other-${i} {
           animation-delay: ${i * 0.15}s;
         }
-      `).join('')}
+      `,
+        )
+        .join("")}
 
       [class^=primary] {
         animation: fade-in 0.2s steps(1, end) forwards;
@@ -208,22 +229,25 @@ function generateStyles(numImages: number, isAnimated: boolean): string {
 
 export const GET: APIRoute = async ({ params, request }) => {
   const url = new URL(request.url);
-  const animated = url.searchParams.get('animated') !== 'false';
-  const detailed = url.searchParams.get('detailed') !== 'false';
-  
-  const emojiParam = params.emoji || 'random';
+  const animated = url.searchParams.get("animated") !== "false";
+  const detailed = url.searchParams.get("detailed") !== "false";
+
+  const emojiParam = params.emoji || "random";
   const emojis = parseEmoji(emojiParam);
-  
+
   // Fallback to random if no valid emoji found
-  const finalEmojis = emojis.length > 0 ? emojis : sampleSize(emojiList, Math.ceil(Math.random() * 3));
-  
+  const finalEmojis =
+    emojis.length > 0
+      ? emojis
+      : sampleSize(emojiList, Math.ceil(Math.random() * 3));
+
   // Get keys for primary emoji
   const primaryKeys = finalEmojis.map(getEmojiKey).filter(Boolean) as string[];
-  
+
   // Get random supporting emoji for animation
   const supportingKeys = sampleSize(
-    Object.values(emojiToKey).filter(k => !primaryKeys.includes(k)),
-    10
+    Object.values(emojiToKey).filter((k) => !primaryKeys.includes(k)),
+    10,
   );
 
   const baseUrl = `${url.protocol}//${url.host}`;
@@ -261,24 +285,24 @@ export const GET: APIRoute = async ({ params, request }) => {
   // Fetch all images using Effect
   const fetchAllImages = Effect.all(
     primaryKeys.map((key) => fetchImageToBase64Safe(key, baseUrl)),
-    { concurrency: 'unbounded' }
+    { concurrency: "unbounded" },
   );
 
   const fetchSupportingImages = animated
     ? Effect.all(
         supportingKeys.map((key) => fetchImageToBase64Safe(key, baseUrl)),
-        { concurrency: 'unbounded' }
+        { concurrency: "unbounded" },
       )
     : Effect.succeed([] as (string | null)[]);
 
   const [primaryImages, supportingImages] = await Effect.runPromise(
-    Effect.all([fetchAllImages, fetchSupportingImages])
+    Effect.all([fetchAllImages, fetchSupportingImages]),
   );
 
   // Generate SVG
   const svgParts: string[] = [
     `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">`,
-    `<circle cx="50%" cy="50%" r="${detailed ? '50%' : '45%'}" fill="#fbe047" />`,
+    `<circle cx="50%" cy="50%" r="${detailed ? "50%" : "45%"}" fill="#fbe047" />`,
     generateStyles(supportingImages.length, animated),
   ];
 
@@ -298,16 +322,16 @@ export const GET: APIRoute = async ({ params, request }) => {
           <image
             opacity="0"
             class="other-${i}"
-            x="${detailed ? '10' : '0'}"
-            y="${detailed ? '10' : '0'}"
-            width="${detailed ? '80' : '100'}"
-            height="${detailed ? '80' : '100'}"
+            x="${detailed ? "10" : "0"}"
+            y="${detailed ? "10" : "0"}"
+            width="${detailed ? "80" : "100"}"
+            height="${detailed ? "80" : "100"}"
             href="data:image/png;charset=utf-8;base64,${base64}"
           />
         `);
       }
     });
-    svgParts.push('</g>');
+    svgParts.push("</g>");
   }
 
   // Primary emoji
@@ -317,10 +341,10 @@ export const GET: APIRoute = async ({ params, request }) => {
         <image
           opacity="0"
           class="primary-${i}"
-          x="${detailed ? '5' : '0'}"
-          y="${detailed ? '5' : '0'}"
-          width="${detailed ? '90' : '100'}"
-          height="${detailed ? '90' : '100'}"
+          x="${detailed ? "5" : "0"}"
+          y="${detailed ? "5" : "0"}"
+          width="${detailed ? "90" : "100"}"
+          height="${detailed ? "90" : "100"}"
           href="data:image/png;charset=utf-8;base64,${base64}"
           mask="url(#slice-${i})"
         />
@@ -330,7 +354,9 @@ export const GET: APIRoute = async ({ params, request }) => {
 
   // Masks for slicing multiple emoji
   if (primaryKeys.length === 1) {
-    svgParts.push(`<mask id="slice-0"><rect width="100" height="100" fill="#fff" /></mask>`);
+    svgParts.push(
+      `<mask id="slice-0"><rect width="100" height="100" fill="#fff" /></mask>`,
+    );
   } else if (primaryKeys.length === 2) {
     svgParts.push(`
       <mask id="slice-0"><path d="M0 100h100V0L0 100Z" fill="#fff" /></mask>
@@ -344,15 +370,15 @@ export const GET: APIRoute = async ({ params, request }) => {
     `);
   }
 
-  svgParts.push('</svg>');
+  svgParts.push("</svg>");
 
-  const svg = svgParts.join('\n');
+  const svg = svgParts.join("\n");
 
   return new Response(svg, {
     status: 200,
     headers: {
-      'Content-Type': 'image/svg+xml',
-      'Cache-Control': 'no-cache', // Don't cache since it has time-based elements
+      "Content-Type": "image/svg+xml",
+      "Cache-Control": "no-cache", // Don't cache since it has time-based elements
     },
   });
 };

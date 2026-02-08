@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface VisitorCountProps {
   className?: string;
@@ -93,6 +93,7 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
   // Note: Return empty fragment instead of null to work around Astro bug #12283
   // where returning null from a component with hooks causes "Invalid hook call" errors
   if (isUnavailable || count === null || count < 2) {
+    // biome-ignore lint/complexity/noUselessFragments: Required for Astro hydration workaround
     return <></>;
   }
 

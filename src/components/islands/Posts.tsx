@@ -1,10 +1,10 @@
-import { useState } from "react"
-import type { Posts as PostsType, PostsApiResponse } from "../../lib/posts"
+import { useState } from "react";
+import type { PostsApiResponse, Posts as PostsType } from "../../lib/posts";
 
 interface PostsProps {
-  initialPosts?: PostsType
-  initialError?: string
-  endpoint: string
+  initialPosts?: PostsType;
+  initialError?: string;
+  endpoint: string;
 }
 
 export default function Posts({
@@ -12,32 +12,32 @@ export default function Posts({
   initialError,
   endpoint,
 }: PostsProps) {
-  const [posts, setPosts] = useState<PostsType | undefined>(initialPosts)
-  const [error, setError] = useState<string | undefined>(initialError)
-  const [isLoading, setIsLoading] = useState(false)
+  const [posts, setPosts] = useState<PostsType | undefined>(initialPosts);
+  const [error, setError] = useState<string | undefined>(initialError);
+  const [isLoading, setIsLoading] = useState(false);
 
   const retry = async () => {
-    setIsLoading(true)
-    setError(undefined)
+    setIsLoading(true);
+    setError(undefined);
 
     try {
       const response = await fetch(
-        `/api/posts?endpoint=${encodeURIComponent(endpoint)}&limit=6`
-      )
-      const data: PostsApiResponse = await response.json()
+        `/api/posts?endpoint=${encodeURIComponent(endpoint)}&limit=6`,
+      );
+      const data: PostsApiResponse = await response.json();
 
       if (data.success && data.posts) {
-        setPosts(data.posts)
-        setError(undefined)
+        setPosts(data.posts);
+        setError(undefined);
       } else {
-        setError(data.error || "Unable to load posts")
+        setError(data.error || "Unable to load posts");
       }
     } catch {
-      setError("Network error - please try again")
+      setError("Network error - please try again");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   // Error state with retry
   if (error || !posts) {
@@ -57,6 +57,7 @@ export default function Posts({
         <div className="text-sm text-neutral-500 dark:text-neutral-400 space-y-3">
           <p>{error || "Unable to load posts"}</p>
           <button
+            type="button"
             onClick={retry}
             disabled={isLoading}
             className="text-xs px-3 py-1.5 rounded-md bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -65,7 +66,7 @@ export default function Posts({
           </button>
         </div>
       </div>
-    )
+    );
   }
 
   // Success state
@@ -102,5 +103,5 @@ export default function Posts({
         ))}
       </div>
     </div>
-  )
+  );
 }

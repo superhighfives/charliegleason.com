@@ -48,15 +48,15 @@ const user = Astro.locals.user;
 
   <img
     src={`/assets/case-studies/${data.slug}/banner.webp`}
-    width="1800"
+    width="1716"
     height="540"
-    class="w-full mx-auto rounded hidden sm:block max-w-screen-3xl px-px"
+    class="max-w-full mx-auto rounded hidden sm:block shadow-md border-t"
     alt=""
   />
 
   <Container variant="full">
     <main
-      class="sm:border border-neutral-200 dark:border-neutral-700 pb-8 max-sm:pt-16 xl:pb-20 rounded bg-white dark:bg-neutral-900 mx-px"
+      class="sm:border border-neutral-200 dark:border-neutral-700 pb-8 max-sm:pt-16 xl:pb-20 rounded-lg bg-white dark:bg-neutral-900 mx-px shadow-2xl shadow-black/5"
     >
       <div
         class="grid grid-cols-prose-sm sm:grid-cols-prose pt-0 xl:pt-16 pb-2 xl:pb-16 xl:gap-x-8 gap-y-8 rounded-md bg-white dark:bg-neutral-900 relative"
@@ -109,7 +109,7 @@ const user = Astro.locals.user;
         </div>
       </div>
     </main>
-    <div class="max-w-screen-2xl mx-auto lg:px-10">
+    <div class="max-w-screen-2xl mx-auto lg:px-7">
       <Footer user={user} />
     </div>
   </Container>

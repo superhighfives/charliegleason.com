@@ -1,9 +1,9 @@
 export function isTouchDevice(): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === "undefined") return false;
   return (
-    'ontouchstart' in window ||
+    "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
-    // @ts-ignore - TS doesn't know about this property
+    // @ts-expect-error - TS doesn't know about this property
     navigator.msMaxTouchPoints > 0
   );
 }

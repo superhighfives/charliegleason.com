@@ -1,17 +1,17 @@
 /**
  * Dynamic asset route for case study assets.
- * 
+ *
  * Serves assets from:
  * - public/assets/case-studies/ (public assets, served by Astro normally)
  * - apps/private/assets/case-studies/ (private assets, served dynamically)
- * 
+ *
  * This allows protected assets to stay in the protected package without being
  * copied to the public directory (which would be mirrored to the public repo).
  */
 
-import type { APIRoute } from "astro";
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import type { APIRoute } from "astro";
 
 const MIME_TYPES: Record<string, string> = {
   ".webp": "image/webp",
@@ -25,7 +25,7 @@ const MIME_TYPES: Record<string, string> = {
 
 export const GET: APIRoute = async ({ params }) => {
   const path = params.path;
-  
+
   if (!path) {
     return new Response("Not found", { status: 404 });
   }
@@ -39,13 +39,13 @@ export const GET: APIRoute = async ({ params }) => {
   const privatePath = join(
     process.cwd(),
     "../private/assets/case-studies",
-    path
+    path,
   );
 
   if (existsSync(privatePath)) {
     try {
       const content = readFileSync(privatePath);
-      const ext = "." + path.split(".").pop()?.toLowerCase();
+      const ext = `.${path.split(".").pop()?.toLowerCase()}`;
       const contentType = MIME_TYPES[ext] || "application/octet-stream";
 
       return new Response(content, {
@@ -55,7 +55,7 @@ export const GET: APIRoute = async ({ params }) => {
           "Cache-Control": "public, max-age=31536000, immutable",
         },
       });
-    } catch (e) {
+    } catch {
       // Fall through to 404
     }
   }

@@ -1,15 +1,15 @@
 /**
  * Astro integration that injects protected routes from the @charliegleason/private package
- * 
+ *
  * This integration scans the protected pages directory and uses Astro's injectRoute API
  * to add them to the build. In public mirror builds where the protected package isn't
  * available, it gracefully skips route injection.
  */
 
-import type { AstroIntegration } from "astro";
-import { fileURLToPath } from "node:url";
+import { existsSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
-import { readdirSync, statSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import type { AstroIntegration } from "astro";
 
 export interface ProtectedRoutesOptions {
   /**
@@ -52,14 +52,15 @@ function findAstroFiles(dir: string, baseDir: string): RouteInfo[] {
             .replace(/index$/, ""); // Handle index routes
 
         routes.push({
-          pattern: pattern.endsWith("/") && pattern !== "/"
-            ? pattern.slice(0, -1)
-            : pattern,
+          pattern:
+            pattern.endsWith("/") && pattern !== "/"
+              ? pattern.slice(0, -1)
+              : pattern,
           entrypoint: fullPath,
         });
       }
     }
-  } catch (error) {
+  } catch {
     // Directory doesn't exist or isn't readable
     return [];
   }
@@ -68,7 +69,7 @@ function findAstroFiles(dir: string, baseDir: string): RouteInfo[] {
 }
 
 export default function protectedRoutes(
-  options: ProtectedRoutesOptions = {}
+  options: ProtectedRoutesOptions = {},
 ): AstroIntegration {
   return {
     name: "protected-routes",
@@ -81,11 +82,9 @@ export default function protectedRoutes(
 
         // Check if the protected package exists
         if (!existsSync(contentDir)) {
+          logger.info(`No protected content directory found at ${contentDir}`);
           logger.info(
-            "No protected content directory found at " + contentDir
-          );
-          logger.info(
-            "This is expected in public mirror builds where @charliegleason/private is not available"
+            "This is expected in public mirror builds where @charliegleason/private is not available",
           );
           return;
         }
