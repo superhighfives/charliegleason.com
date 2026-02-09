@@ -10,7 +10,6 @@ const emojiToKey: Record<string, string> = {
   "🎈": "balloon",
   "🍌": "banana",
   "🏖️": "beach_with_umbrella",
-  "🏖": "beach_with_umbrella",
   "🍻": "beers",
   "😊": "blush",
   "⛵": "boat",
@@ -87,12 +86,10 @@ const emojiToKey: Record<string, string> = {
   "🗼": "tokyo_tower",
   "🎩": "tophat",
   "⛱️": "umbrella_on_ground",
-  "⛱": "umbrella_on_ground",
   "📼": "vhs",
   "🎮": "video_game",
   "🍉": "watermelon",
   "🗺️": "world_map",
-  "🗺": "world_map",
 };
 
 // List of available emoji keys for random selection

@@ -32,8 +32,14 @@ async function loadProtectedRoutes() {
 loadProtectedRoutes();
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const { request, redirect, locals } = context;
+  const { request, redirect, locals, rewrite } = context;
   const url = new URL(request.url);
+
+  // Rewrite /emoji to /api/emoji
+  if (url.pathname === "/emoji" || url.pathname.startsWith("/emoji/")) {
+    const newPath = url.pathname.replace(/^\/emoji/, "/api/emoji");
+    return rewrite(newPath + url.search);
+  }
 
   // Get user from session cookie using Effect
   const env = locals.runtime?.env;
