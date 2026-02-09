@@ -19,8 +19,6 @@ const { symbol, photo, back = false, small = false } = Astro.props;
     !small ? "pt-[10vh]" : "-mt-[4rem] sm:-mt-[5.5rem]",
   ]}
 >
-  <ThemeToggle />
-
   <div class="flex items-center">
     <Avatar symbol={symbol} photo={photo} small={small} />
   </div>

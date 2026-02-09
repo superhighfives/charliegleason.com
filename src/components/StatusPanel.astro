@@ -4,28 +4,17 @@ import LastFmNow from "./islands/LastFmNow.tsx";
 ---
 
 {/* Desktop: fixed top-left, Mobile: fixed bottom center */}
-<div class="status-panel">
-  <div class="status-panel-content">
+  <div class="status-panel">
     <VisitorCount client:load />
     <LastFmNow client:load />
   </div>
-</div>
 
 <style>
   .status-panel {
-    position: absolute;
-    z-index: 40;
-    pointer-events: none;
-    top: 2.2rem;
-    left: 2rem;
-  }
-
-  .status-panel-content {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     gap: 0.25rem;
     pointer-events: auto;
-    margin: 0 1px;
   }
 </style>

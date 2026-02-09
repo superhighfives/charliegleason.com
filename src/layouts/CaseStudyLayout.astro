@@ -5,6 +5,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Link from "../components/ui/Link.astro";
 import { sampleSize, random } from "lodash-es";
+import Links from "../components/sections/Links.astro";
 
 export interface CaseStudyData {
   title: string;
@@ -40,23 +41,22 @@ const user = Astro.locals.user;
   description={data.description}
   image={data.ogImage}
   symbol={symbol}
-  live={false}
 >
   <Container variant="wide">
-    <Header symbol={symbol} photo={photo} small />
+    <Header symbol={symbol} photo={photo} />
   </Container>
 
   <img
     src={`/assets/case-studies/${data.slug}/banner.webp`}
-    width="1716"
+    width="1510"
     height="540"
-    class="max-w-full mx-auto rounded hidden sm:block shadow-md border-t"
+    class="max-w-full mx-auto rounded hidden sm:block shadow-md border border-neutral-200 dark:border-neutral-700"
     alt=""
   />
 
   <Container variant="full">
     <main
-      class="sm:border border-neutral-200 dark:border-neutral-700 pb-8 max-sm:pt-16 xl:pb-20 rounded-lg bg-white dark:bg-neutral-900 mx-px shadow-2xl shadow-black/5"
+      class="max-sm:pt-16 rounded-lg bg-white dark:bg-neutral-900 mx-px shadow-2xl shadow-black/5"
     >
       <div
         class="grid grid-cols-prose-sm sm:grid-cols-prose pt-0 xl:pt-16 pb-2 xl:pb-16 xl:gap-x-8 gap-y-8 rounded-md bg-white dark:bg-neutral-900 relative"
@@ -92,24 +92,14 @@ const user = Astro.locals.user;
       </div>
 
       <div
-        class="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-8 gap-y-8 xl:gap-y-16 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:py-8 [&>.sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:ml-4 [&>.content]:xl:col-content [&>.lg-content]:xl:col-lg-content max-w-none [&>.sidebar]:bg-neutral-100 [&>.sidebar]:pb-2 [&>.sidebar]:dark:bg-neutral-800 [&>.sidebar]:px-8 [&>.sidebar]:rounded-lg overflow-hidden pb-2"
+        class="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-8 gap-y-8 xl:gap-y-16 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:py-8 [&>.sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:ml-4 [&>.content]:xl:col-content [&>.lg-content]:xl:col-lg-content max-w-none [&>.sidebar]:bg-neutral-100 [&>.sidebar]:pb-2 [&>.sidebar]:dark:bg-neutral-800 [&>.sidebar]:px-8 [&>.sidebar]:rounded-lg overflow-hidden"
       >
         <slot />
-
-        <div class="pt-4">
-          <Link
-            icon="back"
-            background={false}
-            href="/#case-studies"
-            padding="large"
-            class="inline-block not-prose"
-          >
-            Back to projects
-          </Link>
-        </div>
       </div>
     </main>
-    <div class="max-w-screen-2xl mx-auto lg:px-7">
+    
+    <div class="max-w-screen-2xl mx-auto lg:px-7 space-y-12">
+      <Links />
       <Footer user={user} />
     </div>
   </Container>

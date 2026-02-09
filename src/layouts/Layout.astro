@@ -5,13 +5,13 @@ import { sampleSize } from "lodash-es";
 import egg from "../lib/egg";
 import BackgroundGrid from "../components/BackgroundGrid.astro";
 import StatusPanel from "../components/StatusPanel.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   symbol?: string;
-  live?: boolean;
 }
 
 // Emoji list for random favicon selection
@@ -61,7 +61,6 @@ const {
   description = "I'm a principal systems engineer at Cloudflare, looking after developer experience at the intersection of design, code, and machine learning.",
   image = "https://charliegleason.com/social-default.png",
   symbol = sampleSize(emojiList, Math.ceil(Math.random() * 3)).join(""),
-  live = true,
 } = Astro.props;
 ---
 
@@ -102,7 +101,12 @@ const {
   </head>
   <body>
     <BackgroundGrid />
-    {live && <StatusPanel />}
+
+    <div class="max-w-screen-2xl mx-auto flex justify-between lg:px-2">
+      <StatusPanel />
+      <ThemeToggle />
+    </div>
+
     <div id="root">
       <slot />
     </div>
