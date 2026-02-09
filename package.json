@@ -8,7 +8,8 @@
     "preview": "astro build && wrangler dev",
     "astro": "astro",
     "deploy": "astro build && wrangler deploy",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "generate:images": "tsx lib/generateImages.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
@@ -35,8 +36,16 @@
     "@charliegleason/private": "workspace:*"
   },
   "devDependencies": {
+    "@types/fontkit": "^2.0.7",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.0.0",
+    "@types/node-emoji": "^2.1.0",
+    "@types/sharp": "^0.32.0",
+    "canvas": "^2.11.2",
+    "fontkit": "^2.0.2",
+    "node-emoji": "^1.11.0",
+    "sharp": "^0.33.2",
+    "tsx": "^4.19.0",
     "wrangler": "^4.0.0"
   }
 }
