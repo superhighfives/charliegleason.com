@@ -123,6 +123,7 @@ export default function LastFmNow({ className = "" }: LastFmNowProps) {
         bg-white dark:bg-neutral-900
         border border-neutral-200 dark:border-neutral-700
         max-w-[calc(100vw-4rem-84px)] gap-0.5
+        animate-fade-in
         ${className}
       `}
       title={isConnected ? "Connected" : "Reconnecting..."}

@@ -105,6 +105,7 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
         bg-white dark:bg-neutral-900
         border border-yellow-400 dark:border-yellow-700
         gap-1
+        animate-fade-in
         ${className}
       `}
       title={isConnected ? "Connected" : "Reconnecting..."}

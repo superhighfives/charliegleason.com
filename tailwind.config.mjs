@@ -11,8 +11,13 @@ export default {
         'equalizer-1': 'equalizer-1 0.8s ease-in-out infinite',
         'equalizer-2': 'equalizer-2 0.6s ease-in-out infinite',
         'equalizer-3': 'equalizer-3 0.7s ease-in-out infinite',
+        'fade-in': 'fade-in 0.3s ease-out forwards',
       },
       keyframes: {
+        'fade-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
         'equalizer-1': {
           '0%, 100%': { height: '0.25rem' },
           '50%': { height: '0.75rem' },
