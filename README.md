@@ -12,8 +12,8 @@ This repo houses the [charliegleason.com](https://charliegleason.com/) app, buil
 To get up and running, fork the repo and install the dependencies:
 
 ```sh
-$ gh repo fork superhighfives/astro.charliegleason.com
-$ cd astro.charliegleason.com
+$ gh repo fork superhighfives/charliegleason.com
+$ cd charliegleason.com
 $ pnpm install
 ```
 
@@ -23,7 +23,7 @@ Copy and fill in the required environment variables:
 $ cp .dev.vars.example .dev.vars
 ```
 
-Also, if you make any changes to the emoji images, or add new ones to the [emoji-list.ts](https://github.com/superhighfives/astro.charliegleason.com/blob/main/lib/emoji-list.ts) file, you'll need to re-generate images:
+Also, if you make any changes to the emoji images, or add new ones to the [emoji-list.ts](https://github.com/superhighfives/charliegleason.com/blob/main/lib/emoji-list.ts) file, you'll need to re-generate images:
 
 ```sh
 $ pnpm generate:images
@@ -71,7 +71,7 @@ $ pnpm wrangler secret put AUTH_PASSWORD
 
 ## Interesting Bits
 
-Probably the most unique thing about the project is the automagic emoji generator, which is housed in the [api/emoji/[...emoji].ts](https://github.com/superhighfives/astro.charliegleason.com/blob/main/src/pages/api/emoji/%5B...emoji%5D.ts) file.
+Probably the most unique thing about the project is the automagic emoji generator, which is housed in the [api/emoji/[...emoji].ts](https://github.com/superhighfives/charliegleason.com/blob/main/src/pages/api/emoji/%5B...emoji%5D.ts) file.
 
 It generates an animated SVG, with base64 encoded raster images, on the fly. It has a couple of options available as part of the API, too. You can add the following url params:
 
@@ -80,7 +80,7 @@ It generates an animated SVG, with base64 encoded raster images, on the fly. It 
 | `animated` | boolean | true | Describes whether the SVG animates through a collection of images before landing on the final one |
 | `detailed` | boolean | true | Describes whether the SVG includes the time it was generated (as a 12 hour clock) around the outside edge |
 
-You can also pass up to three emoji to the API url to see the generation in real time (the emoji need to be in the [emoji-list.ts](https://github.com/superhighfives/astro.charliegleason.com/blob/main/lib/emoji-list.ts) file, or used on the site).
+You can also pass up to three emoji to the API url to see the generation in real time (the emoji need to be in the [emoji-list.ts](https://github.com/superhighfives/charliegleason.com/blob/main/lib/emoji-list.ts) file, or used on the site).
 
 Examples:
 - https://charliegleason.com/api/emoji/💃🐒
