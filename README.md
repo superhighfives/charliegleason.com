@@ -4,6 +4,8 @@
 
 This repo houses the [charliegleason.com](https://charliegleason.com/) app, built to work On The Edge, with Cloudflare Workers. It was made using [Astro](https://astro.build/).
 
+> **Note:** This is a public mirror of `apps/web/` from a private monorepo. It's automatically synced on every push to main. The full monorepo also includes [visitor-counter](https://github.com/superhighfives/visitor-counter) and [lastfm-tracker](https://github.com/superhighfives/lastfm-tracker) Durable Objects that power some of the site's real-time features.
+
 - Learn more about [Astro via their Docs](https://docs.astro.build/)
 - Learn more about [Cloudflare Workers](https://workers.cloudflare.com/)
 
