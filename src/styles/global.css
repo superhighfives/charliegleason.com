@@ -39,12 +39,13 @@ body {
   visibility: hidden;
 }
 
+@media (min-width: theme('screens.sm')) {
 body::before,
 body::after,
 #root::before,
 #root::after {
   content: '';
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   z-index: 100;
@@ -52,6 +53,8 @@ body::after,
   margin-left: 1rem;
   margin-right: 1rem;
   background: theme('colors.white');
+  position: fixed;
+}
 }
 
 #root {
