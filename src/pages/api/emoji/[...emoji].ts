@@ -296,9 +296,27 @@ export const GET: APIRoute = async ({ params, request }) => {
     Effect.all([fetchAllImages, fetchSupportingImages]),
   );
 
+  // Build mask definitions for slicing primary emoji
+  let maskDefs = "";
+  if (primaryKeys.length === 1) {
+    maskDefs = `<mask id="slice-0"><rect width="100" height="100" fill="#fff" /></mask>`;
+  } else if (primaryKeys.length === 2) {
+    maskDefs = `
+      <mask id="slice-0"><path d="M0 100h100V0L0 100Z" fill="#fff" /></mask>
+      <mask id="slice-1"><path d="M100 0H0v100L100 0Z" fill="#fff" /></mask>
+    `;
+  } else if (primaryKeys.length === 3) {
+    maskDefs = `
+      <mask id="slice-0"><path d="M50 0v50L0 79V0h50Z" fill="#fff" /></mask>
+      <mask id="slice-1"><path d="M50 0v50l50 29V0H50Z" fill="#fff" /></mask>
+      <mask id="slice-2"><path d="M100 79v21H0V79l50-29 50 29Z" fill="#fff" /></mask>
+    `;
+  }
+
   // Generate SVG
   const svgParts: string[] = [
     `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">`,
+    ...(maskDefs ? [`<defs>${maskDefs}</defs>`] : []),
     `<circle cx="50%" cy="50%" r="${detailed ? "50%" : "45%"}" fill="#fbe047" />`,
     generateStyles(supportingImages.length, animated),
   ];
@@ -348,24 +366,6 @@ export const GET: APIRoute = async ({ params, request }) => {
       `);
     }
   });
-
-  // Masks for slicing multiple emoji
-  if (primaryKeys.length === 1) {
-    svgParts.push(
-      `<mask id="slice-0"><rect width="100" height="100" fill="#fff" /></mask>`,
-    );
-  } else if (primaryKeys.length === 2) {
-    svgParts.push(`
-      <mask id="slice-0"><path d="M0 100h100V0L0 100Z" fill="#fff" /></mask>
-      <mask id="slice-1"><path d="M100 0H0v100L100 0Z" fill="#fff" /></mask>
-    `);
-  } else if (primaryKeys.length === 3) {
-    svgParts.push(`
-      <mask id="slice-0"><path d="M50 0v50L0 79V0h50Z" fill="#fff" /></mask>
-      <mask id="slice-1"><path d="M50 0v50l50 29V0H50Z" fill="#fff" /></mask>
-      <mask id="slice-2"><path d="M100 79v21H0V79l50-29 50 29Z" fill="#fff" /></mask>
-    `);
-  }
 
   svgParts.push("</svg>");
 
