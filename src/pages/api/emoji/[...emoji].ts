@@ -168,7 +168,7 @@ function fetchImageToBase64Safe(
   );
 }
 
-function generateStyles(numImages: number, isAnimated: boolean): string {
+function generateReducedMotionStyles(isAnimated: boolean): string {
   if (!isAnimated) {
     return `
       <style>
@@ -181,47 +181,26 @@ function generateStyles(numImages: number, isAnimated: boolean): string {
 
   return `
     <style>
-      image {
-        animation: fade-in-and-out 0.2s steps(1, end) forwards;
-      }
-
       @media (prefers-reduced-motion) {
-        image {
-          animation: none;
+        image animate {
+          display: none;
         }
         [class^=primary] {
           opacity: 1;
         }
       }
-
-      @keyframes fade-in-and-out {
-        0% { opacity: 0; }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { opacity: 0; }
-      }
-
-      @keyframes fade-in {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-      }
-
-      ${[...Array(numImages)]
-        .map(
-          (_, i) => `
-        .other-${i} {
-          animation-delay: ${i * 0.15}s;
-        }
-      `,
-        )
-        .join("")}
-
-      [class^=primary] {
-        animation: fade-in 0.2s steps(1, end) forwards;
-        animation-delay: ${(numImages - 1) * 0.15}s;
-      }
     </style>
   `;
+}
+
+function generateSupportingAnimation(index: number): string {
+  const delay = index * 0.15;
+  return `<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="0.2s" begin="${delay}s" fill="freeze" calcMode="discrete" />`;
+}
+
+function generatePrimaryAnimation(numSupportingImages: number): string {
+  const delay = numSupportingImages * 0.15;
+  return `<set attributeName="opacity" to="1" begin="${delay}s" fill="freeze" />`;
 }
 
 export const GET: APIRoute = async ({ params, request }) => {
@@ -318,7 +297,7 @@ export const GET: APIRoute = async ({ params, request }) => {
     `<svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">`,
     ...(maskDefs ? [`<defs>${maskDefs}</defs>`] : []),
     `<circle cx="50%" cy="50%" r="${detailed ? "50%" : "45%"}" fill="#fbe047" />`,
-    generateStyles(supportingImages.length, animated),
+    generateReducedMotionStyles(animated),
   ];
 
   // Clock hands (detailed mode)
@@ -336,13 +315,12 @@ export const GET: APIRoute = async ({ params, request }) => {
         svgParts.push(`
           <image
             opacity="0"
-            class="other-${i}"
             x="${detailed ? "10" : "0"}"
             y="${detailed ? "10" : "0"}"
             width="${detailed ? "80" : "100"}"
             height="${detailed ? "80" : "100"}"
             href="data:image/png;charset=utf-8;base64,${base64}"
-          />
+          >${generateSupportingAnimation(i)}</image>
         `);
       }
     });
@@ -352,9 +330,12 @@ export const GET: APIRoute = async ({ params, request }) => {
   // Primary emoji
   primaryImages.forEach((base64, i) => {
     if (base64) {
+      const animTag = animated
+        ? generatePrimaryAnimation(supportingImages.length)
+        : "";
       svgParts.push(`
         <image
-          opacity="0"
+          opacity="${animated ? "0" : "1"}"
           class="primary-${i}"
           x="${detailed ? "5" : "0"}"
           y="${detailed ? "5" : "0"}"
@@ -362,7 +343,7 @@ export const GET: APIRoute = async ({ params, request }) => {
           height="${detailed ? "90" : "100"}"
           href="data:image/png;charset=utf-8;base64,${base64}"
           mask="url(#slice-${i})"
-        />
+        >${animTag}</image>
       `);
     }
   });
