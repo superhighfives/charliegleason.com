@@ -26,8 +26,8 @@ const { posts, postsError, endpoint = "" } = Astro.props;
         (posts || postsError) && (
           <PostsIsland
             client:load
-            initialPosts={posts}
-            initialError={postsError}
+            posts={posts}
+            error={postsError}
             endpoint={endpoint}
           />
         )

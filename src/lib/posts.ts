@@ -14,6 +14,7 @@ export const Post = Schema.Struct({
   title: Schema.String,
   description: Schema.String,
   date: Schema.String,
+  imageUrl: Schema.String,
   tags: Schema.optional(Schema.Array(Schema.String)),
 });
 
@@ -35,7 +36,7 @@ export type Posts = typeof Posts.Type;
  */
 export const fetchPosts = (
   endpoint: string,
-  limit: number = 6,
+  limit: number = 4,
 ): Effect.Effect<Posts, FetchError | HttpError | ValidationError> =>
   Effect.gen(function* () {
     const url = `${endpoint}/posts.json`;

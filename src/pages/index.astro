@@ -74,7 +74,7 @@ interface PostsState {
 }
 
 const postsState: PostsState = await Effect.runPromise(
-  fetchPosts(codeEndpoint, 6).pipe(
+  fetchPosts(codeEndpoint).pipe(
     Effect.map((posts) => ({ posts })),
     Effect.catchAll((error) =>
       Effect.gen(function* () {
