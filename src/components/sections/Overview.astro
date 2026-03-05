@@ -23,7 +23,7 @@ const { posts, postsError, endpoint = "" } = Astro.props;
       <HR class="max-w-[4rem]" />
 
       {
-        (posts || postsError) && (
+        posts && (
           <PostsIsland
             client:load
             posts={posts}

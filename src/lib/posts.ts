@@ -14,7 +14,7 @@ export const Post = Schema.Struct({
   title: Schema.String,
   description: Schema.String,
   date: Schema.String,
-  imageUrl: Schema.String,
+  imageUrl: Schema.optional(Schema.String),
   tags: Schema.optional(Schema.Array(Schema.String)),
 });
 
