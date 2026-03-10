@@ -11,9 +11,6 @@ import protectedAssets from "./src/integrations/protected-assets";
 export default defineConfig({
   output: "server",
   adapter: cloudflare({
-    platformProxy: {
-      enabled: true,
-    },
     imageService: "cloudflare",
   }),
   integrations: [

@@ -1,3 +1,4 @@
+import { env } from "cloudflare:workers";
 import type { APIRoute } from "astro";
 import { Effect } from "effect";
 import { proxyWebSocket } from "../../lib/durable-objects";
@@ -30,7 +31,7 @@ function createMockLastFmWebSocket(): Response {
   });
 }
 
-export const GET: APIRoute = async ({ request, locals }) => {
+export const GET: APIRoute = async ({ request }) => {
   const upgradeHeader = request.headers.get("Upgrade");
 
   if (!upgradeHeader || upgradeHeader !== "websocket") {
@@ -39,8 +40,6 @@ export const GET: APIRoute = async ({ request, locals }) => {
       headers: { "Content-Type": "text/plain" },
     });
   }
-
-  const env = locals.runtime.env;
 
   const program = proxyWebSocket(
     request,

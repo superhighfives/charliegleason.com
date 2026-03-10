@@ -12,17 +12,17 @@
     "generate:images": "tsx lib/generateImages.ts"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
-    "@astrojs/cloudflare": "^12.6.12",
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/check": "^0.9.7",
+    "@astrojs/cloudflare": "^13.0.2",
+    "@astrojs/mdx": "^5.0.0",
+    "@astrojs/react": "^5.0.0",
     "@astrojs/tailwind": "^6.0.2",
     "@heroicons/react": "^2.2.0",
     "@phosphor-icons/core": "^2.1.1",
     "@phosphor-icons/react": "^2.1.10",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.19",
-    "astro": "^5.17.1",
+    "astro": "^6.0.2",
     "clsx": "^2.1.1",
     "effect": "^3.19.15",
     "lodash-es": "^4.17.23",
@@ -46,6 +46,6 @@
     "node-emoji": "^1.11.0",
     "sharp": "^0.33.2",
     "tsx": "^4.19.0",
-    "wrangler": "^4.0.0"
+    "wrangler": "^4.72.0"
   }
 }

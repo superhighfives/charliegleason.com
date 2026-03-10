@@ -8,6 +8,7 @@
  */
 
 import { defineMiddleware } from "astro:middleware";
+import { env } from "cloudflare:workers";
 import { Effect } from "effect";
 import { getUserFromRequest } from "./lib/auth";
 import { getThemeFromRequest } from "./lib/theme";
@@ -42,8 +43,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // Get user from session cookie using Effect
-  const env = locals.runtime?.env;
-
   if (env) {
     const userProgram = getUserFromRequest(request, env).pipe(
       Effect.catchAll((error) =>

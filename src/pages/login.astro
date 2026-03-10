@@ -1,4 +1,5 @@
 ---
+import { env } from "cloudflare:workers";
 import { Effect } from "effect";
 import Layout from "../layouts/Layout.astro";
 import { login, safeRedirect } from "../lib/auth";
@@ -23,8 +24,6 @@ if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
   const password = formData.get("password") as string;
   const formRedirectTo = safeRedirect(formData.get("redirectTo") as string);
-
-  const env = Astro.locals.runtime?.env;
 
   if (!env) {
     error = "Server configuration error";
