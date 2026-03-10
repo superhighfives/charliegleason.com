@@ -35,6 +35,9 @@
   "optionalDependencies": {
     "@charliegleason/private": "workspace:*"
   },
+  "engines": {
+    "node": "^20.19.1 || >=22.12.0"
+  },
   "devDependencies": {
     "@types/fontkit": "^2.0.7",
     "@types/lodash-es": "^4.17.12",
