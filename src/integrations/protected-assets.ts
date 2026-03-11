@@ -147,7 +147,11 @@ export default function protectedAssets(
       // Build hook to copy assets to dist
       "astro:build:done": ({ dir, logger }) => {
         const distDir = fileURLToPath(dir);
-        const projectRoot = join(distDir, "..");
+        // In SSR mode, dir is dist/client/, so we need to go up two levels
+        // to get to the project root (apps/web/)
+        const projectRoot = distDir.endsWith("/client/")
+          ? join(distDir, "../..")
+          : join(distDir, "..");
         const privateAssetsRoot = join(projectRoot, protectedAssetsDir);
 
         // Check if the protected assets directory exists
