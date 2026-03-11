@@ -42,7 +42,7 @@ export default {
         content: 'main-start / content-start',
         'lg-content': 'rail-start / content-start',
         wide: 'main-start / rail-end',
-        sidebar: 'content-start / main-end',
+        sidebar: 'content-start / rail-end',
         full: 'full-start / full-end',
       },
       screens: {
