@@ -13,10 +13,11 @@ export interface User {
   readonly id: string;
 }
 
-export interface Env {
-  readonly SESSION: KVNamespace;
-  readonly AUTH_PASSWORD: string;
-}
+/**
+ * Env type for auth functions - uses Cloudflare.Env which includes
+ * SESSION (from wrangler.jsonc) and AUTH_PASSWORD (augmented in env.d.ts)
+ */
+export type Env = Pick<Cloudflare.Env, "SESSION" | "AUTH_PASSWORD">;
 
 /**
  * Parse a cookie value from a cookie header string

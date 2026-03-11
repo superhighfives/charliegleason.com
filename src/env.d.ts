@@ -1,5 +1,15 @@
-/// <reference path="../.astro/types.d.ts" />
+/// <reference types="astro/client" />
 /// <reference path="../worker-configuration.d.ts" />
+
+/**
+ * Augment Cloudflare.Env with secrets not in wrangler.jsonc
+ * (secrets are set via `wrangler secret put`, not in config)
+ */
+declare namespace Cloudflare {
+  interface Env {
+    AUTH_PASSWORD: string;
+  }
+}
 
 /**
  * User object stored in session
