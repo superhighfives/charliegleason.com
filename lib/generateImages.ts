@@ -3,9 +3,11 @@ import type { Canvas } from "canvas";
 import type { Glyph } from "fontkit";
 
 const require = createRequire(import.meta.url);
-const fontkit = require("fontkit");
+// biome-ignore lint/suspicious/noExplicitAny: fontkit has no ESM export
+const fontkit: any = require("fontkit");
 
 import { createCanvas, Image } from "canvas";
+// @ts-expect-error node-emoji v1 has no type declarations
 import nodeEmoji from "node-emoji";
 import sharp from "sharp";
 import requiredEmoji from "./emoji-list.js";
@@ -13,8 +15,7 @@ import requiredEmoji from "./emoji-list.js";
 const font = fontkit.openSync(
   "/System/Library/Fonts/Apple Color Emoji.ttc",
   "AppleColorEmoji",
-  // biome-ignore lint/suspicious/noExplicitAny: fontkit loaded via createRequire has no proper types
-) as any;
+);
 
 interface ExtendedGlyph extends Glyph {
   getImageForSize: (size: number) => { data: Buffer };
@@ -96,7 +97,7 @@ if (font) {
       }).then(async (canvas: Canvas) => {
         console.log(`✅ Generated ${id}: ${emoji}`);
         const buffer = canvas.toBuffer();
-        const image = await sharp(buffer).png({ quality: 75 });
+        const image = sharp(buffer).png({ quality: 75 });
         await image.toFile(`public/assets/emoji/${id}.png`);
       });
     } else {
