@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { prepareWithSegments, layoutWithLines } from "@chenglou/pretext";
+import { layoutWithLines, prepareWithSegments } from "@chenglou/pretext";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface PretextHeroProps {
   text: string;
@@ -17,13 +17,13 @@ function getFont(fontSize: number): string {
 function getColors(theme: "light" | "dark") {
   if (theme === "dark") {
     return {
-      from: { r: 234, g: 179, b: 8 },   // yellow-500
-      to: { r: 253, g: 224, b: 71 },     // yellow-300
+      from: { r: 234, g: 179, b: 8 }, // yellow-500
+      to: { r: 253, g: 224, b: 71 }, // yellow-300
     };
   }
   return {
-    from: { r: 202, g: 138, b: 4 },      // yellow-600
-    to: { r: 133, g: 77, b: 14 },        // yellow-800 (faded to transparent effect)
+    from: { r: 202, g: 138, b: 4 }, // yellow-600
+    to: { r: 133, g: 77, b: 14 }, // yellow-800 (faded to transparent effect)
   };
 }
 
@@ -64,7 +64,11 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
 
     // Use Pretext to measure and lay out the text
     const prepared = prepareWithSegments(text, font);
-    const { lines, height } = layoutWithLines(prepared, containerWidth, lineHeight);
+    const { lines, height } = layoutWithLines(
+      prepared,
+      containerWidth,
+      lineHeight,
+    );
 
     // Size canvas
     const canvasHeight = Math.ceil(height);
@@ -125,7 +129,8 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
         if (charProgress >= 1) {
           const shimmerSpeed = 0.002;
           const shimmerOffset = charIndex * 0.15;
-          shimmerAlpha = 0.85 + 0.15 * Math.sin(elapsed * shimmerSpeed + shimmerOffset);
+          shimmerAlpha =
+            0.85 + 0.15 * Math.sin(elapsed * shimmerSpeed + shimmerOffset);
         }
 
         const alpha = easedProgress * shimmerAlpha;
@@ -214,12 +219,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
 
   return (
     <div ref={containerRef} className={className}>
-      <canvas
-        ref={canvasRef}
-        role="img"
-        aria-label={text}
-        className="block"
-      />
+      <canvas ref={canvasRef} role="img" aria-label={text} className="block" />
     </div>
   );
 }
