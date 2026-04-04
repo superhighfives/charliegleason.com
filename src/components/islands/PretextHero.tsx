@@ -1,4 +1,4 @@
-import { layoutWithLines, prepareWithSegments } from "@chenglou/pretext";
+import { layout, prepare } from "@chenglou/pretext";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface PretextHeroProps {
@@ -44,15 +44,71 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-interface LayoutCache {
+interface LayoutLine {
   text: string;
+  width: number;
+}
+
+interface LayoutCache {
+  displayText: string;
   font: string;
+  letterSpacing: string;
   containerWidth: number;
   dpr: number;
-  lines: Array<{ text: string; width: number }>;
+  lines: LayoutLine[];
   height: number;
   lineHeight: number;
   totalChars: number;
+}
+
+/**
+ * Word-wrap text using canvas measureText, which respects ctx.letterSpacing.
+ * This gives accurate line-breaking that matches CSS rendering with
+ * letter-spacing applied.
+ */
+function wrapText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+): LayoutLine[] {
+  const words = text.split(" ");
+  const lines: LayoutLine[] = [];
+  let currentLine = "";
+
+  for (const word of words) {
+    const testLine = currentLine ? `${currentLine} ${word}` : word;
+    const metrics = ctx.measureText(testLine);
+
+    if (metrics.width > maxWidth && currentLine) {
+      lines.push({
+        text: currentLine,
+        width: ctx.measureText(currentLine).width,
+      });
+      currentLine = word;
+    } else {
+      currentLine = testLine;
+    }
+  }
+
+  if (currentLine) {
+    lines.push({
+      text: currentLine,
+      width: ctx.measureText(currentLine).width,
+    });
+  }
+
+  return lines;
+}
+
+function applyLetterSpacing(
+  ctx: CanvasRenderingContext2D,
+  spacing: string,
+): void {
+  if ("letterSpacing" in ctx) {
+    (
+      ctx as CanvasRenderingContext2D & { letterSpacing: string }
+    ).letterSpacing = spacing;
+  }
 }
 
 export default function PretextHero({ text, className }: PretextHeroProps) {
@@ -94,38 +150,56 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     const displayText = transform === "uppercase" ? text.toUpperCase() : text;
     const style = getComputedStyle(fallback);
     const lineHeight = Number.parseFloat(style.lineHeight) || 24;
+    const letterSpacing = style.letterSpacing || "0px";
+
+    // Use Pretext to pre-compute paragraph height for fast arithmetic checks
+    const prepared = prepare(displayText, font);
+    const pretextLayout = layout(prepared, containerWidth, lineHeight);
 
     // Reuse cached layout if inputs haven't changed
     let cache = layoutCacheRef.current;
     if (
       !cache ||
-      cache.text !== displayText ||
+      cache.displayText !== displayText ||
       cache.font !== font ||
+      cache.letterSpacing !== letterSpacing ||
       cache.containerWidth !== containerWidth ||
       cache.dpr !== dpr
     ) {
-      const prepared = prepareWithSegments(displayText, font);
-      const result = layoutWithLines(prepared, containerWidth, lineHeight);
+      // Set up context for measurement (letterSpacing affects measureText)
+      ctx.font = font;
+      applyLetterSpacing(ctx, letterSpacing);
+
+      // Word-wrap using canvas measureText which respects letterSpacing
+      const lines = wrapText(ctx, displayText, containerWidth);
 
       let totalChars = 0;
-      for (const line of result.lines) {
+      for (const line of lines) {
         totalChars += line.text.length;
       }
 
+      // Use Pretext's height if no letter-spacing, otherwise compute from lines
+      const hasLetterSpacing =
+        letterSpacing !== "0px" && letterSpacing !== "normal";
+      const height = hasLetterSpacing
+        ? lines.length * lineHeight
+        : pretextLayout.height;
+
       cache = {
-        text: displayText,
+        displayText,
         font,
+        letterSpacing,
         containerWidth,
         dpr,
-        lines: result.lines,
-        height: result.height,
+        lines,
+        height,
         lineHeight,
         totalChars,
       };
       layoutCacheRef.current = cache;
 
       // Only resize canvas when layout changes
-      const canvasHeight = Math.ceil(cache.height);
+      const canvasHeight = Math.ceil(height);
       canvas.width = Math.ceil(containerWidth * dpr);
       canvas.height = Math.ceil(canvasHeight * dpr);
       canvas.style.width = `${containerWidth}px`;
@@ -147,6 +221,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     const colors = getColors(theme);
     ctx.font = font;
     ctx.textBaseline = "top";
+    applyLetterSpacing(ctx, letterSpacing);
 
     const reducedMotion = prefersReducedMotion();
     const revealDuration = reducedMotion ? 0 : 800;
@@ -239,6 +314,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
 
     const observer = new ResizeObserver(() => {
       cancelPendingFrames();
+      layoutCacheRef.current = null;
       startTimeRef.current = performance.now() - 2000; // Skip reveal on resize
       draw();
     });
