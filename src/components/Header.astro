@@ -1,6 +1,7 @@
 ---
 import Avatar from "./ui/Avatar.astro";
 import Link from "./ui/Link.astro";
+import PretextHero from "./islands/PretextHero.tsx";
 
 interface Props {
   symbol: string;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const { symbol, photo, back = false, small = false } = Astro.props;
+const subtitleText = "Designer, developer, creative coder, and\u00a0musician";
 ---
 
 <div
@@ -50,8 +52,13 @@ const { symbol, photo, back = false, small = false } = Astro.props;
       <h2
         class="bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty"
       >
-        Designer, developer, creative coder, and&nbsp;musician
+        <span class="pretext-fallback">{subtitleText}</span>
       </h2>
+      <PretextHero
+        client:load
+        text={subtitleText}
+        className="pretext-canvas"
+      />
     </hgroup>
     {
       back && (
