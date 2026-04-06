@@ -22,13 +22,13 @@ function getTextTransform(el: HTMLElement): string {
 function getColors(theme: "light" | "dark") {
   if (theme === "dark") {
     return {
-      from: { r: 234, g: 179, b: 8 }, // yellow-500
-      to: { r: 253, g: 224, b: 71 }, // yellow-300
+      from: { r: 234, g: 179, b: 8 },
+      to: { r: 253, g: 224, b: 71 },
     };
   }
   return {
-    from: { r: 202, g: 138, b: 4 }, // yellow-600
-    to: { r: 133, g: 77, b: 14 }, // yellow-800
+    from: { r: 202, g: 138, b: 4 },
+    to: { r: 133, g: 77, b: 14 },
   };
 }
 
@@ -44,15 +44,15 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-// Characters used for the scramble effect — uppercase letters and symbols
-const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+=?/";
+// Scramble glyph pool — dense, technical characters
+const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%@&+=?!/<>[]{}*~^";
 
-function getScrambleChar(seed: number): string {
-  return SCRAMBLE_CHARS[Math.abs(seed) % SCRAMBLE_CHARS.length];
+function scrambleChar(seed: number): string {
+  return GLYPHS[Math.abs(seed) % GLYPHS.length];
 }
 
-// Simple seeded random for deterministic glitch timing per character
-function seededRandom(seed: number): number {
+// Deterministic pseudo-random from a seed
+function rand(seed: number): number {
   const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
   return x - Math.floor(x);
 }
@@ -85,9 +85,7 @@ function wrapText(
 
   for (const word of words) {
     const testLine = currentLine ? `${currentLine} ${word}` : word;
-    const metrics = ctx.measureText(testLine);
-
-    if (metrics.width > maxWidth && currentLine) {
+    if (ctx.measureText(testLine).width > maxWidth && currentLine) {
       lines.push({
         text: currentLine,
         width: ctx.measureText(currentLine).width,
@@ -151,8 +149,8 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
 
     const dpr = window.devicePixelRatio || 1;
     const containerWidth = container.offsetWidth;
+    if (containerWidth === 0) return; // Not laid out yet
 
-    // Derive font from the fallback span's computed styles
     const font = getFontFromElement(fallback);
     const transform = getTextTransform(fallback);
     const displayText = transform === "uppercase" ? text.toUpperCase() : text;
@@ -160,11 +158,9 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     const lineHeight = Number.parseFloat(style.lineHeight) || 24;
     const letterSpacing = style.letterSpacing || "0px";
 
-    // Use Pretext to pre-compute paragraph height for fast arithmetic checks
     const prepared = prepare(displayText, font);
     const pretextLayout = layout(prepared, containerWidth, lineHeight);
 
-    // Reuse cached layout if inputs haven't changed
     let cache = layoutCacheRef.current;
     if (
       !cache ||
@@ -211,7 +207,6 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     }
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
     const canvasHeight = Math.ceil(cache.height);
     ctx.clearRect(0, 0, containerWidth, canvasHeight);
 
@@ -227,130 +222,149 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
 
     const reducedMotion = prefersReducedMotion();
 
-    // --- Scramble reveal timing ---
-    // Each character scrambles through random glyphs before settling
-    const scrambleDuration = 1200; // total time for all chars to finish
-    const charScrambleTime = 600; // how long each char scrambles
-    const charStagger = scrambleDuration / Math.max(cache.totalChars, 1);
-    const scrambleCycleRate = 40; // ms per scramble tick
+    // ─── SCRAMBLE TIMING ───
+    // All chars start scrambling immediately, then lock left-to-right
+    const totalLockTime = 1400; // time for all chars to lock in
+    const perCharLock = 500; // each char's scramble-to-lock duration
+    const lockStagger = totalLockTime / Math.max(cache.totalChars, 1);
+    const cycleRate = 35; // ms between glyph changes (fast flicker)
+    const tick = Math.floor(elapsed / cycleRate);
 
-    // --- Glitch timing ---
-    // Rare glitch: ~every 4-8s, a short burst of RGB split + offset
-    const glitchCycleSec = 5;
-    const glitchPhase = ((elapsed / 1000) % glitchCycleSec) / glitchCycleSec;
-    // Glitch active in a narrow window (5% of cycle)
-    const glitchActive =
+    // ─── GLITCH TIMING ───
+    const glitchCycle = 6000; // ms between glitch bursts
+    const glitchWindow = 300; // ms glitch lasts
+    const settled = elapsed > totalLockTime + perCharLock;
+    const timeSinceSettle = elapsed - (totalLockTime + perCharLock);
+    const inGlitchWindow =
       !reducedMotion &&
-      elapsed > scrambleDuration + charScrambleTime &&
-      glitchPhase > 0.92;
-    const glitchIntensity = glitchActive
-      ? Math.sin(((glitchPhase - 0.92) / 0.08) * Math.PI)
+      settled &&
+      timeSinceSettle > 0 &&
+      timeSinceSettle % glitchCycle < glitchWindow;
+    const glitchT = inGlitchWindow
+      ? (timeSinceSettle % glitchCycle) / glitchWindow
       : 0;
+    // Intensity peaks in the middle of the window
+    const glitchI = Math.sin(glitchT * Math.PI);
+
+    // Occasional full-line horizontal jolt during glitch
+    const lineJoltX =
+      inGlitchWindow && glitchI > 0.5
+        ? (rand(tick * 3) - 0.5) * 6 * glitchI
+        : 0;
 
     let charIndex = 0;
 
     for (let i = 0; i < cache.lines.length; i++) {
       const line = cache.lines[i];
       const y = i * cache.lineHeight;
-
       let xOffset = 0;
 
       for (let j = 0; j < line.text.length; j++) {
         const char = line.text[j];
         const isSpace = char === " " || char === "\u00a0";
+        const charW = ctx.measureText(char).width;
 
         // Gradient color
-        const gradientT = line.text.length > 1 ? j / (line.text.length - 1) : 0;
-        const r = Math.round(lerp(colors.from.r, colors.to.r, gradientT));
-        const g = Math.round(lerp(colors.from.g, colors.to.g, gradientT));
-        const b = Math.round(lerp(colors.from.b, colors.to.b, gradientT));
+        const gt = line.text.length > 1 ? j / (line.text.length - 1) : 0;
+        const r = Math.round(lerp(colors.from.r, colors.to.r, gt));
+        const g = Math.round(lerp(colors.from.g, colors.to.g, gt));
+        const b = Math.round(lerp(colors.from.b, colors.to.b, gt));
 
         if (reducedMotion || isSpace) {
-          // No animation for reduced motion or spaces
           if (!isSpace) {
             ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
             ctx.fillText(char, xOffset, y);
           }
+          xOffset += charW;
+          charIndex++;
+          continue;
+        }
+
+        // ─── SCRAMBLE STATE ───
+        const lockDelay = charIndex * lockStagger;
+        const lockElapsed = Math.max(0, elapsed - lockDelay);
+        // 0 → 1: how far through the lock-in process
+        const lockProgress = Math.min(1, lockElapsed / perCharLock);
+        const locked = lockProgress >= 1;
+
+        // Pick display character
+        let displayChar: string;
+        if (locked) {
+          displayChar = char;
         } else {
-          const charDelay = charIndex * charStagger;
-          const charElapsed = Math.max(0, elapsed - charDelay);
-          const charProgress = Math.min(1, charElapsed / charScrambleTime);
-
-          // Determine which character to show
-          let displayChar: string;
-          if (charProgress >= 1) {
-            // Settled — show real character
+          // Scramble: rapid cycling, increasingly likely to flash correct char
+          const lockChance = lockProgress ** 2; // accelerating bias
+          if (rand(charIndex * 997 + tick) < lockChance) {
             displayChar = char;
-          } else if (charProgress < 0.1) {
-            // Not started yet — show nothing or a faint glyph
-            displayChar = "";
           } else {
-            // Scrambling — cycle through random characters
-            const scrambleTick = Math.floor(charElapsed / scrambleCycleRate);
-            // Bias toward correct char as progress increases
-            const lockChance = easeOutCubic(charProgress);
-            if (seededRandom(charIndex * 1000 + scrambleTick) < lockChance) {
-              displayChar = char;
-            } else {
-              displayChar = getScrambleChar(charIndex * 31 + scrambleTick);
-            }
-          }
-
-          // Fade in during early scramble phase
-          const fadeProgress = Math.min(1, charProgress / 0.3);
-          const alpha = easeOutCubic(fadeProgress);
-
-          if (displayChar) {
-            // --- Glitch effect: RGB channel split ---
-            if (glitchActive && seededRandom(charIndex * 7 + 99) > 0.3) {
-              const glitchOffset = glitchIntensity * 2;
-              // Red channel (shifted left)
-              ctx.fillStyle = `rgba(${Math.min(255, r + 100)}, ${Math.max(0, g - 80)}, ${Math.max(0, b - 80)}, ${alpha * 0.6})`;
-              ctx.fillText(displayChar, xOffset - glitchOffset, y);
-              // Blue channel (shifted right)
-              ctx.fillStyle = `rgba(${Math.max(0, r - 80)}, ${Math.max(0, g - 40)}, ${Math.min(255, b + 100)}, ${alpha * 0.6})`;
-              ctx.fillText(displayChar, xOffset + glitchOffset, y);
-            }
-
-            // Main character
-            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
-
-            // Slight y-jitter during scramble
-            const jitter =
-              charProgress < 1
-                ? (seededRandom(
-                    charIndex * 13 + Math.floor(elapsed / scrambleCycleRate),
-                  ) -
-                    0.5) *
-                  2 *
-                  (1 - charProgress)
-                : 0;
-
-            ctx.fillText(displayChar, xOffset, y + jitter);
+            displayChar = scrambleChar(charIndex * 31 + tick);
           }
         }
 
-        xOffset += ctx.measureText(char).width;
+        // Alpha: characters are immediately visible
+        const alpha = Math.min(1, lockElapsed / 80); // fast fade-in (~80ms)
+
+        // ─── DRAW CHARACTER ───
+        const dx = xOffset + lineJoltX;
+
+        // Y-jitter while scrambling (decreases as lock approaches)
+        const jitter = locked
+          ? 0
+          : (rand(charIndex * 13 + tick) - 0.5) * 3 * (1 - lockProgress);
+
+        // Lock-in flash: brief brightness boost when char locks
+        const lockFlash =
+          lockProgress > 0.9 && lockProgress < 1
+            ? 1 + 2 * (1 - (1 - lockProgress) / 0.1) // bright flash
+            : 1;
+
+        // ─── GLITCH: RGB SPLIT ───
+        if (inGlitchWindow && rand(charIndex * 7 + tick) > 0.4) {
+          const splitX = glitchI * 3;
+          // Red ghost (left)
+          ctx.fillStyle = `rgba(255, ${Math.max(0, g - 100)}, ${Math.max(0, b - 100)}, ${0.5 * glitchI})`;
+          ctx.fillText(displayChar, dx - splitX, y + jitter);
+          // Cyan ghost (right)
+          ctx.fillStyle = `rgba(${Math.max(0, r - 100)}, 255, 255, ${0.4 * glitchI})`;
+          ctx.fillText(displayChar, dx + splitX, y + jitter);
+        }
+
+        // Main character
+        const fr = Math.min(255, Math.round(r * lockFlash));
+        const fg = Math.min(255, Math.round(g * lockFlash));
+        const fb = Math.min(255, Math.round(b * lockFlash));
+        ctx.fillStyle = `rgba(${fr}, ${fg}, ${fb}, ${alpha})`;
+        ctx.fillText(displayChar, dx, y + jitter);
+
+        xOffset += charW;
         charIndex++;
       }
     }
 
-    // Animation loop
+    // ─── SCAN LINE during glitch ───
+    if (inGlitchWindow && glitchI > 0.3) {
+      const scanY = (rand(tick * 2 + 7) * canvasHeight) | 0;
+      const scanH = (1 + rand(tick * 3) * 2) | 0;
+      ctx.fillStyle = `rgba(255, 255, 255, ${0.08 * glitchI})`;
+      ctx.fillRect(0, scanY, containerWidth, scanH);
+    }
+
+    // ─── ANIMATION LOOP ───
     cancelPendingFrames();
-    const allSettled = elapsed > scrambleDuration + charScrambleTime;
     if (reducedMotion) {
-      // No animation loop
-    } else if (allSettled) {
-      // Idle: low framerate, just for glitch checks
-      timeoutRef.current = setTimeout(
-        () => {
-          timeoutRef.current = null;
-          animationRef.current = requestAnimationFrame(draw);
-        },
-        glitchActive ? 16 : 100,
-      );
-    } else {
+      // Static render, no loop
+    } else if (!settled) {
+      // Scramble phase: full framerate
       animationRef.current = requestAnimationFrame(draw);
+    } else if (inGlitchWindow) {
+      // Glitch burst: full framerate
+      animationRef.current = requestAnimationFrame(draw);
+    } else {
+      // Idle: check periodically for next glitch window
+      timeoutRef.current = setTimeout(() => {
+        timeoutRef.current = null;
+        animationRef.current = requestAnimationFrame(draw);
+      }, 100);
     }
   }, [text, cancelPendingFrames]);
 
@@ -358,7 +372,8 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     const start = () => {
       startTimeRef.current = 0;
       setReady(true);
-      draw();
+      // Use rAF to ensure the container has been laid out at full width
+      requestAnimationFrame(() => draw());
     };
 
     if (document.fonts?.ready) {
@@ -370,14 +385,13 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     return () => cancelPendingFrames();
   }, [draw, cancelPendingFrames]);
 
-  // Re-draw on resize
   useEffect(() => {
     if (!ready) return;
 
     const observer = new ResizeObserver(() => {
       cancelPendingFrames();
       layoutCacheRef.current = null;
-      startTimeRef.current = performance.now() - 5000;
+      startTimeRef.current = performance.now() - 10000;
       draw();
     });
 
@@ -385,13 +399,13 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     return () => observer.disconnect();
   }, [ready, draw, cancelPendingFrames]);
 
-  // Re-draw on theme change
   useEffect(() => {
     if (!ready) return;
 
     const observer = new MutationObserver(() => {
       cancelPendingFrames();
-      startTimeRef.current = performance.now() - 5000;
+      layoutCacheRef.current = null;
+      startTimeRef.current = performance.now() - 10000;
       draw();
     });
 
@@ -404,7 +418,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
   }, [ready, draw, cancelPendingFrames]);
 
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={containerRef} className={`${className || ""} w-full`}>
       <span
         ref={fallbackRef}
         className={
