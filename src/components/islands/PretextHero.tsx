@@ -1,5 +1,11 @@
 import { layout, prepare } from "@chenglou/pretext";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 interface PretextHeroProps {
   text: string;
@@ -142,9 +148,10 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    // Read computed styles from the h2 element (sibling of our parent)
+    // Read computed styles from the h2 element
     const styleSource =
-      container.parentElement?.parentElement?.querySelector("h2") || container;
+      container.closest("[data-pretext-wrapper]")?.querySelector("h2") ||
+      container;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -379,10 +386,11 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     }
   }, [text, cancelPendingFrames]);
 
-  // Hide the fallback h2 on mount (before fonts load, before first draw)
-  useEffect(() => {
-    const h2 =
-      containerRef.current?.parentElement?.parentElement?.querySelector("h2");
+  // Hide the fallback h2 synchronously before browser paints
+  useLayoutEffect(() => {
+    const h2 = containerRef.current
+      ?.closest("[data-pretext-wrapper]")
+      ?.querySelector("h2");
     if (h2) (h2 as HTMLElement).style.visibility = "hidden";
   }, []);
 
