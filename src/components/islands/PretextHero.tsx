@@ -255,6 +255,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
         : 0;
 
     let charIndex = 0;
+    let maxLineWidth = 0;
 
     for (let i = 0; i < cache.lines.length; i++) {
       const line = cache.lines[i];
@@ -341,6 +342,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
         xOffset += charW;
         charIndex++;
       }
+      if (xOffset > maxLineWidth) maxLineWidth = xOffset;
     }
 
     // ─── SCAN LINE during glitch ───
@@ -348,7 +350,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
       const scanY = (rand(tick * 2 + 7) * canvasHeight) | 0;
       const scanH = (1 + rand(tick * 3) * 2) | 0;
       ctx.fillStyle = `rgba(255, 255, 255, ${0.08 * glitchI})`;
-      ctx.fillRect(0, scanY, containerWidth, scanH);
+      ctx.fillRect(0, scanY, maxLineWidth, scanH);
     }
 
     // ─── ANIMATION LOOP ───
