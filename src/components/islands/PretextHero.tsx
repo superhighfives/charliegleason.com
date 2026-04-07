@@ -225,18 +225,22 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     const reducedMotion = prefersReducedMotion();
 
     // ─── SCRAMBLE TIMING ───
-    // All chars start scrambling immediately, then lock left-to-right
+    // Rescramble every 30 seconds
+    const loopDuration = 30000;
+    const loopElapsed = elapsed % loopDuration;
+
     const totalLockTime = 1400; // time for all chars to lock in
     const perCharLock = 500; // each char's scramble-to-lock duration
+    const scrambleDuration = totalLockTime + perCharLock;
     const lockStagger = totalLockTime / Math.max(cache.totalChars, 1);
     const cycleRate = 35; // ms between glyph changes (fast flicker)
-    const tick = Math.floor(elapsed / cycleRate);
+    const tick = Math.floor(elapsed / cycleRate); // global tick (no loop reset)
 
     // ─── GLITCH TIMING ───
     const glitchCycle = 6000; // ms between glitch bursts
     const glitchWindow = 300; // ms glitch lasts
-    const settled = elapsed > totalLockTime + perCharLock;
-    const timeSinceSettle = elapsed - (totalLockTime + perCharLock);
+    const settled = loopElapsed > scrambleDuration;
+    const timeSinceSettle = loopElapsed - scrambleDuration;
     const inGlitchWindow =
       !reducedMotion &&
       settled &&
@@ -285,7 +289,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
 
         // ─── SCRAMBLE STATE ───
         const lockDelay = charIndex * lockStagger;
-        const lockElapsed = Math.max(0, elapsed - lockDelay);
+        const lockElapsed = Math.max(0, loopElapsed - lockDelay);
         // 0 → 1: how far through the lock-in process
         const lockProgress = Math.min(1, lockElapsed / perCharLock);
         const locked = lockProgress >= 1;
@@ -359,19 +363,19 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
       // Static render, no loop
     } else if (!settled) {
       // Scramble phase: full framerate
+      hasAnimatedRef.current = true;
+      animationRef.current = requestAnimationFrame(draw);
+    } else if (inGlitchWindow) {
+      // Glitch burst: full framerate
       animationRef.current = requestAnimationFrame(draw);
     } else {
-      hasAnimatedRef.current = true;
-      if (inGlitchWindow) {
-        // Glitch burst: full framerate
+      // Idle: poll to catch next scramble loop or glitch window
+      const timeUntilNextLoop = loopDuration - loopElapsed;
+      const pollRate = Math.min(timeUntilNextLoop, 100);
+      timeoutRef.current = setTimeout(() => {
+        timeoutRef.current = null;
         animationRef.current = requestAnimationFrame(draw);
-      } else {
-        // Idle: check periodically for next glitch window
-        timeoutRef.current = setTimeout(() => {
-          timeoutRef.current = null;
-          animationRef.current = requestAnimationFrame(draw);
-        }, 100);
-      }
+      }, pollRate);
     }
   }, [text, cancelPendingFrames]);
 
