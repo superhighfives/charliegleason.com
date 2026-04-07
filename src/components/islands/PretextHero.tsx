@@ -1,11 +1,5 @@
 import { layout, prepare } from "@chenglou/pretext";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface PretextHeroProps {
   text: string;
@@ -385,14 +379,6 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
       }, pollRate);
     }
   }, [text, cancelPendingFrames]);
-
-  // Hide the fallback h2 synchronously before browser paints
-  useLayoutEffect(() => {
-    const h2 = containerRef.current
-      ?.closest("[data-pretext-wrapper]")
-      ?.querySelector("h2");
-    if (h2) (h2 as HTMLElement).style.visibility = "hidden";
-  }, []);
 
   // Main initialization: wait for fonts, then start drawing
   useEffect(() => {

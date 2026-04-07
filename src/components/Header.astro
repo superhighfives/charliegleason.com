@@ -50,9 +50,14 @@ const subtitleText = "Designer, developer, creative coder, and\u00a0musician";
       </a>
       <h1>Charlie Gleason</h1>
       <div class="relative mt-1" data-pretext-wrapper>
+        <noscript>
+          <style>
+            #hero-subtitle { visibility: visible !important; }
+          </style>
+        </noscript>
         <h2
           id="hero-subtitle"
-          class="bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty"
+          class="invisible bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty"
         >
           {subtitleText}
         </h2>
