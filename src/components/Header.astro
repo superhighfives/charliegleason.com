@@ -1,6 +1,7 @@
 ---
 import Avatar from "./ui/Avatar.astro";
 import Link from "./ui/Link.astro";
+import PretextHero from "./islands/PretextHero.tsx";
 
 interface Props {
   symbol: string;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const { symbol, photo, back = false, small = false } = Astro.props;
+const subtitleText = "Designer, developer, creative coder, and\u00a0musician";
 ---
 
 <div
@@ -22,7 +24,7 @@ const { symbol, photo, back = false, small = false } = Astro.props;
     <Avatar symbol={symbol} photo={photo} small={small} />
   </div>
   <div class="space-y-4 md:space-y-0 sm:flex justify-between items-end">
-    <hgroup class="font-display uppercase tracking-wider text-xs">
+    <hgroup class="font-display uppercase tracking-wider text-xs w-full">
       <a
         href="/"
         class="relative block transition-opacity opacity-90 rounded-lg
@@ -47,11 +49,25 @@ const { symbol, photo, back = false, small = false } = Astro.props;
         />
       </a>
       <h1>Charlie Gleason</h1>
-      <h2
-        class="bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty"
-      >
-        Designer, developer, creative coder, and&nbsp;musician
-      </h2>
+      <div class="relative mt-1" data-pretext-wrapper>
+        <noscript>
+          <style>
+            #hero-subtitle { visibility: visible !important; }
+          </style>
+        </noscript>
+        <h2
+          id="hero-subtitle"
+          class="invisible bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty"
+        >
+          {subtitleText}
+        </h2>
+        <div aria-hidden="true" class="absolute inset-0">
+          <PretextHero
+            client:load
+            text={subtitleText}
+          />
+        </div>
+      </div>
     </hgroup>
     {
       back && (
