@@ -51,10 +51,12 @@ const subtitleText = "Designer, developer, creative coder, and\u00a0musician";
       <h1>Charlie Gleason</h1>
       <div class="relative mt-1">
         <h2
+          id="hero-subtitle"
           class="bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty"
         >
           {subtitleText}
         </h2>
+        <script is:inline>document.getElementById('hero-subtitle').style.visibility='hidden'</script>
         <div aria-hidden="true" class="absolute inset-0">
           <PretextHero
             client:load

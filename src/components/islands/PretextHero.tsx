@@ -120,7 +120,6 @@ function applyLetterSpacing(
 export default function PretextHero({ text, className }: PretextHeroProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const fallbackRef = useRef<HTMLSpanElement>(null);
   const animationRef = useRef<number>(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const startTimeRef = useRef<number>(0);
@@ -141,20 +140,23 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
-    const fallback = fallbackRef.current;
-    if (!canvas || !container || !fallback) return;
+    if (!canvas || !container) return;
+
+    // Read computed styles from the h2 element (sibling of our parent)
+    const styleSource =
+      container.parentElement?.parentElement?.querySelector("h2") || container;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
     const containerWidth = container.offsetWidth;
-    if (containerWidth === 0) return; // Not laid out yet
+    if (containerWidth === 0) return;
 
-    const font = getFontFromElement(fallback);
-    const transform = getTextTransform(fallback);
+    const font = getFontFromElement(styleSource as HTMLElement);
+    const transform = getTextTransform(styleSource as HTMLElement);
     const displayText = transform === "uppercase" ? text.toUpperCase() : text;
-    const style = getComputedStyle(fallback);
+    const style = getComputedStyle(styleSource);
     const lineHeight = Number.parseFloat(style.lineHeight) || 24;
     const letterSpacing = style.letterSpacing || "0px";
 
@@ -425,23 +427,8 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     return () => observer.disconnect();
   }, [ready, draw, cancelPendingFrames]);
 
-  // Hide the CSS fallback h2 text (keeps layout space via visibility:hidden)
-  useEffect(() => {
-    if (!ready) return;
-    const wrapper = containerRef.current?.parentElement;
-    const h2 = wrapper?.parentElement?.querySelector("h2");
-    if (h2) h2.style.visibility = "hidden";
-  }, [ready]);
-
   return (
     <div ref={containerRef} className={`${className || ""} w-full h-full`}>
-      <span
-        ref={fallbackRef}
-        className="absolute w-px h-px p-0 -m-px overflow-hidden border-0"
-        style={{ clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap" }}
-      >
-        {text}
-      </span>
       <canvas ref={canvasRef} className={ready ? "block" : "hidden"} />
     </div>
   );
