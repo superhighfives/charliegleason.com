@@ -356,15 +356,18 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     } else if (!settled) {
       // Scramble phase: full framerate
       animationRef.current = requestAnimationFrame(draw);
-    } else if (inGlitchWindow) {
-      // Glitch burst: full framerate
-      animationRef.current = requestAnimationFrame(draw);
     } else {
-      // Idle: check periodically for next glitch window
-      timeoutRef.current = setTimeout(() => {
-        timeoutRef.current = null;
+      hasAnimatedRef.current = true;
+      if (inGlitchWindow) {
+        // Glitch burst: full framerate
         animationRef.current = requestAnimationFrame(draw);
-      }, 100);
+      } else {
+        // Idle: check periodically for next glitch window
+        timeoutRef.current = setTimeout(() => {
+          timeoutRef.current = null;
+          animationRef.current = requestAnimationFrame(draw);
+        }, 100);
+      }
     }
   }, [text, cancelPendingFrames]);
 
@@ -385,13 +388,18 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     return () => cancelPendingFrames();
   }, [draw, cancelPendingFrames]);
 
+  const hasAnimatedRef = useRef(false);
+
   useEffect(() => {
     if (!ready) return;
 
     const observer = new ResizeObserver(() => {
       cancelPendingFrames();
       layoutCacheRef.current = null;
-      startTimeRef.current = performance.now() - 10000;
+      // Only skip animation on subsequent resizes, not the initial layout
+      if (hasAnimatedRef.current) {
+        startTimeRef.current = performance.now() - 10000;
+      }
       draw();
     });
 
@@ -421,14 +429,8 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     <div ref={containerRef} className={`${className || ""} w-full`}>
       <span
         ref={fallbackRef}
-        className={
-          ready
-            ? "absolute w-px h-px p-0 -m-px overflow-hidden border-0"
-            : undefined
-        }
-        style={
-          ready ? { clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap" } : undefined
-        }
+        className="absolute w-px h-px p-0 -m-px overflow-hidden border-0"
+        style={{ clip: "rect(0, 0, 0, 0)", whiteSpace: "nowrap" }}
       >
         {text}
       </span>
