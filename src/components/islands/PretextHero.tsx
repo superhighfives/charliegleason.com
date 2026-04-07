@@ -425,8 +425,16 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     return () => observer.disconnect();
   }, [ready, draw, cancelPendingFrames]);
 
+  // Hide the CSS fallback h2 text (keeps layout space via visibility:hidden)
+  useEffect(() => {
+    if (!ready) return;
+    const wrapper = containerRef.current?.parentElement;
+    const h2 = wrapper?.parentElement?.querySelector("h2");
+    if (h2) h2.style.visibility = "hidden";
+  }, [ready]);
+
   return (
-    <div ref={containerRef} className={`${className || ""} w-full`}>
+    <div ref={containerRef} className={`${className || ""} w-full h-full`}>
       <span
         ref={fallbackRef}
         className="absolute w-px h-px p-0 -m-px overflow-hidden border-0"
