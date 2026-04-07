@@ -228,6 +228,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     // Rescramble every 30 seconds
     const loopDuration = 30000;
     const loopElapsed = elapsed % loopDuration;
+    const isFirstLoop = elapsed < loopDuration;
 
     const totalLockTime = 1400; // time for all chars to lock in
     const perCharLock = 500; // each char's scramble-to-lock duration
@@ -308,8 +309,8 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
           }
         }
 
-        // Alpha: characters are immediately visible
-        const alpha = Math.min(1, lockElapsed / 80); // fast fade-in (~80ms)
+        // First loop: fade in from blank. Subsequent loops: always fully visible
+        const alpha = isFirstLoop ? Math.min(1, lockElapsed / 80) : 1;
 
         // ─── DRAW CHARACTER ───
         const dx = xOffset + lineJoltX;
