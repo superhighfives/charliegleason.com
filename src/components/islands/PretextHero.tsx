@@ -238,7 +238,7 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     const tick = Math.floor(elapsed / cycleRate); // global tick (no loop reset)
 
     // ─── GLITCH TIMING ───
-    const glitchCycle = 6000; // ms between glitch bursts
+    const glitchCycle = 8000; // ms between glitch bursts
     const glitchWindow = 300; // ms glitch lasts
     const settled = loopElapsed > scrambleDuration;
     const timeSinceSettle = loopElapsed - scrambleDuration;
@@ -364,7 +364,6 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
       // Static render, no loop
     } else if (!settled) {
       // Scramble phase: full framerate
-      hasAnimatedRef.current = true;
       animationRef.current = requestAnimationFrame(draw);
     } else if (inGlitchWindow) {
       // Glitch burst: full framerate
@@ -380,12 +379,19 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     }
   }, [text, cancelPendingFrames]);
 
+  // Hide the fallback h2 on mount (before fonts load, before first draw)
+  useEffect(() => {
+    const h2 =
+      containerRef.current?.parentElement?.parentElement?.querySelector("h2");
+    if (h2) (h2 as HTMLElement).style.visibility = "hidden";
+  }, []);
+
+  // Main initialization: wait for fonts, then start drawing
   useEffect(() => {
     const start = () => {
-      startTimeRef.current = 0;
+      startTimeRef.current = performance.now();
       setReady(true);
-      // Use rAF to ensure the container has been laid out at full width
-      requestAnimationFrame(() => draw());
+      draw();
     };
 
     if (document.fonts?.ready) {
@@ -397,18 +403,19 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     return () => cancelPendingFrames();
   }, [draw, cancelPendingFrames]);
 
-  const hasAnimatedRef = useRef(false);
-
+  // Re-layout on resize (skip scramble animation, just re-draw settled state)
   useEffect(() => {
     if (!ready) return;
 
+    let initialFire = true;
     const observer = new ResizeObserver(() => {
+      // ResizeObserver fires immediately on observe — skip that one
+      if (initialFire) {
+        initialFire = false;
+        return;
+      }
       cancelPendingFrames();
       layoutCacheRef.current = null;
-      // Only skip animation on subsequent resizes, not the initial layout
-      if (hasAnimatedRef.current) {
-        startTimeRef.current = performance.now() - 10000;
-      }
       draw();
     });
 
@@ -416,13 +423,13 @@ export default function PretextHero({ text, className }: PretextHeroProps) {
     return () => observer.disconnect();
   }, [ready, draw, cancelPendingFrames]);
 
+  // Re-draw on theme change
   useEffect(() => {
     if (!ready) return;
 
     const observer = new MutationObserver(() => {
       cancelPendingFrames();
       layoutCacheRef.current = null;
-      startTimeRef.current = performance.now() - 10000;
       draw();
     });
 
