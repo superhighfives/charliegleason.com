@@ -45,7 +45,7 @@ export default function Posts({ error, posts, endpoint }: PostsProps) {
                 {post.title}
               </span>
               {post.description && (
-                <p className="text-xs text-neutral-600 dark:text-neutral-400 max-w-full">
+                <p className="text-xs text-pretty text-neutral-600 dark:text-neutral-400 max-w-full">
                   {post.description}
                 </p>
               )}
