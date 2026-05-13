@@ -174,7 +174,7 @@ export default function Tile({
           {title}
         </h2>
         {description && (
-          <h2 className="text-xxs text-neutral-600 dark:text-neutral-400">
+          <h2 className="text-xxs text-pretty text-neutral-600 dark:text-neutral-400">
             {description}
           </h2>
         )}
