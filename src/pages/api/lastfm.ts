@@ -44,19 +44,18 @@ export const GET: APIRoute = async ({ request }) => {
   ).pipe(
     // The DO response comes from a subrequest, so its headers are immutable —
     // the theme/client-hints middleware then throws trying to append to them.
-    // Re-wrap non-WebSocket (JSON) responses in a fresh Response with mutable
-    // headers. WebSocket (101) responses must pass through untouched.
-    Effect.map((response) =>
-      isWebSocket
-        ? response
-        : new Response(response.body, {
-            status: response.status,
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-          }),
-    ),
+    // Re-wrap non-WebSocket responses with a mutable copy of the original
+    // headers (preserving Content-Type, Cache-Control, etc.), ensuring CORS.
+    // WebSocket (101) responses must pass through untouched.
+    Effect.map((response) => {
+      if (isWebSocket) return response;
+      const headers = new Headers(response.headers);
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(response.body, {
+        status: response.status,
+        headers,
+      });
+    }),
     Effect.catchTag("UnavailableError", () =>
       Effect.succeed(
         isWebSocket
