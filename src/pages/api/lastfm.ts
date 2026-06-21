@@ -32,14 +32,9 @@ function createMockLastFmWebSocket(): Response {
 }
 
 export const GET: APIRoute = async ({ request }) => {
-  const upgradeHeader = request.headers.get("Upgrade");
-
-  if (!upgradeHeader || upgradeHeader !== "websocket") {
-    return new Response("Expected WebSocket upgrade", {
-      status: 426,
-      headers: { "Content-Type": "text/plain" },
-    });
-  }
+  // WebSocket clients get a live stream; plain GETs get the current track as
+  // JSON (for HTTP pollers such as the SSH terminal). The DO handles both.
+  const isWebSocket = request.headers.get("Upgrade") === "websocket";
 
   const program = proxyWebSocket(
     request,
@@ -48,7 +43,20 @@ export const GET: APIRoute = async ({ request }) => {
     "global",
   ).pipe(
     Effect.catchTag("UnavailableError", () =>
-      Effect.succeed(createMockLastFmWebSocket()),
+      Effect.succeed(
+        isWebSocket
+          ? createMockLastFmWebSocket()
+          : Response.json(
+              {
+                track: {
+                  name: "Mock Song Title",
+                  artist: "Mock Artist",
+                  isNowPlaying: true,
+                },
+              },
+              { headers: { "Access-Control-Allow-Origin": "*" } },
+            ),
+      ),
     ),
     Effect.catchTag("DurableObjectError", (err) =>
       Effect.gen(function* () {
