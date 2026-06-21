@@ -6,7 +6,13 @@ export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
   const endpoint =
     url.searchParams.get("endpoint") || "https://code.charliegleason.com";
-  const limit = parseInt(url.searchParams.get("limit") || "6", 10);
+  // `limit=all` returns every post (used by surfaces with no display cap, e.g.
+  // the SSH terminal); otherwise default to the homepage's latest 6.
+  const limitParam = url.searchParams.get("limit");
+  const limit =
+    limitParam === "all"
+      ? Number.POSITIVE_INFINITY
+      : parseInt(limitParam || "6", 10);
 
   const program = fetchPosts(endpoint, limit).pipe(
     Effect.map(
