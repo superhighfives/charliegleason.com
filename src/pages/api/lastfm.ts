@@ -42,6 +42,21 @@ export const GET: APIRoute = async ({ request }) => {
     "LastFmTracker",
     "global",
   ).pipe(
+    // The DO response comes from a subrequest, so its headers are immutable —
+    // the theme/client-hints middleware then throws trying to append to them.
+    // Re-wrap non-WebSocket (JSON) responses in a fresh Response with mutable
+    // headers. WebSocket (101) responses must pass through untouched.
+    Effect.map((response) =>
+      isWebSocket
+        ? response
+        : new Response(response.body, {
+            status: response.status,
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }),
+    ),
     Effect.catchTag("UnavailableError", () =>
       Effect.succeed(
         isWebSocket
