@@ -19,11 +19,13 @@ const CORS_HEADERS = {
 };
 
 export const GET: APIRoute = () => {
+  // Pass the full `{ title, data }` sections through (rather than just `.data`)
+  // so consumers inherit the site's section titles instead of hardcoding them.
   const body = {
     profile,
-    projects: projects.data,
-    articles: articles.data,
-    features: features.data,
+    projects,
+    articles,
+    features,
   };
 
   return new Response(JSON.stringify(body), {
