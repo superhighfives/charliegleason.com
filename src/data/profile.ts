@@ -233,8 +233,8 @@ export const contact: ContactLink[] = [
     description: "@superhighfives",
   },
   {
-    label: "Twitter",
-    url: "https://twitter.com/superhighfives",
+    label: "X",
+    url: "https://x.com/superhighfives",
     icon: "🐦",
     description: "@superhighfives",
   },

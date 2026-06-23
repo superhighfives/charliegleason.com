@@ -103,5 +103,5 @@ Examples:
 
 ## Thanks
 
-- [Matt Stobbs](https://twitter.com/matt_stobbs) and his [Complete Guide to Dark Mode with Remix](https://www.mattstobbs.com/remix-dark-mode/) (the original site was built with Remix)
-- [Glen Maddern](https://twitter.com/glenmaddern) for the Remix and Cloudflare help
+- [Matt Stobbs](https://x.com/matt_stobbs) and his [Complete Guide to Dark Mode with Remix](https://www.mattstobbs.com/remix-dark-mode/) (the original site was built with Remix)
+- [Glen Maddern](https://x.com/glenmaddern) for the Remix and Cloudflare help
