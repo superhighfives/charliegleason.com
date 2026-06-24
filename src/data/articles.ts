@@ -15,7 +15,7 @@ export const articles: { title: string; data: Article[] } = {
       title: "Testing Web Design Color Contrast",
       subtitle:
         "An overview of three tools and techniques for testing and verifying accessible color contrast of your design.",
-      url: "https://web.dev/testing-web-design-color-contrast/",
+      url: "https://web.dev/articles/testing-web-design-color-contrast",
     },
     {
       icon: "🎨",

@@ -170,7 +170,7 @@ export const talks: Talk[] = [
 
 export const education: Education[] = [
   {
-    degree: "Masters of Computer Science",
+    degree: "Master of Computer Science",
     school: "RMIT University, Melbourne",
     years: "2011 - incomplete",
   },

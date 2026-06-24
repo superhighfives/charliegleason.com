@@ -28,7 +28,7 @@ export const projects: { title: string; data: Project[] } = {
       title: "Tweetflight",
       property: "Music Video",
       subtitle: "A Twitter-powered music video",
-      url: "http://tweetflight.wewerebrightly.com/",
+      url: "https://tweetflight.wewerebrightly.com/",
     },
     {
       icon: "🪄",
@@ -77,7 +77,7 @@ export const projects: { title: string; data: Project[] } = {
       title: "This Kind of Agility",
       property: "Website",
       subtitle: "Arrested Development episode selector",
-      url: "http://thiskindofagility.superhighfives.com/",
+      url: "https://thiskindofagility.superhighfives.com/",
     },
   ],
 };
