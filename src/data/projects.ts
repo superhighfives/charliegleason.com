@@ -49,7 +49,7 @@ export const projects: { title: string; data: Project[] } = {
       title: "Drag It Down On You",
       property: "Microsite",
       subtitle: "Lyric karaoke for Ceres, from the album of the same name",
-      url: "https://dragitdownonyou.com/",
+      url: "https://web.archive.org/web/20240812233528/http://www.dragitdownonyou.com/",
     },
     {
       icon: "🏉",
@@ -63,7 +63,7 @@ export const projects: { title: string; data: Project[] } = {
       title: "I Will Never Let You Go",
       property: "Music Video",
       subtitle: "A WebGL-powered music video",
-      url: "https://iwillneverletyougo.com/",
+      url: "https://iwillneverletyougo.wewerebrightly.com/",
     },
     {
       icon: "🌏",
