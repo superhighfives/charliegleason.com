@@ -1,20 +1,6 @@
 ---
-import VisitorCount from "./islands/VisitorCount.tsx";
-import LastFmNow from "./islands/LastFmNow.tsx";
+import StatusPanelIsland from "./islands/StatusPanel.tsx";
 ---
 
 {/* Desktop: fixed top-left, Mobile: fixed bottom center */}
-  <div class="status-panel">
-    <VisitorCount client:load />
-    <LastFmNow client:load />
-  </div>
-
-<style>
-  .status-panel {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.25rem;
-    pointer-events: auto;
-  }
-</style>
+<StatusPanelIsland client:load />

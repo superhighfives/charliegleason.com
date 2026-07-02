@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 interface VisitorCountProps {
   className?: string;
+  /** Called once when the component reaches a terminal state (has a count or is unavailable). */
+  onSettled?: () => void;
 }
 
 function GlowingDot() {
@@ -15,11 +17,15 @@ function GlowingDot() {
   );
 }
 
-export default function VisitorCount({ className = "" }: VisitorCountProps) {
+export default function VisitorCount({
+  className = "",
+  onSettled,
+}: VisitorCountProps) {
   const [count, setCount] = useState<number | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isUnavailable, setIsUnavailable] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
+  const hasSettledRef = useRef(false);
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   );
@@ -89,6 +95,16 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
     };
   }, []);
 
+  // Signal the parent once we know whether we'll render, so the status panel
+  // can fade both islands in together.
+  useEffect(() => {
+    if (hasSettledRef.current) return;
+    if (isUnavailable || count !== null) {
+      hasSettledRef.current = true;
+      onSettled?.();
+    }
+  }, [isUnavailable, count, onSettled]);
+
   // Don't render if unavailable, no count, or only 1 visitor (yourself)
   // Note: Return empty fragment instead of null to work around Astro bug #12283
   // where returning null from a component with hooks causes "Invalid hook call" errors
@@ -105,7 +121,6 @@ export default function VisitorCount({ className = "" }: VisitorCountProps) {
         bg-white dark:bg-neutral-900
         border border-yellow-400 dark:border-yellow-700
         gap-1
-        animate-fade-in
         ${className}
       `}
       title={isConnected ? "Connected" : "Reconnecting..."}
