@@ -35,10 +35,15 @@ export default function StatusPanel() {
   }, [reveal]);
 
   return (
+    // Until revealed, `inert` keeps the still-hidden panel out of the
+    // accessibility tree and tab order and stops it from intercepting
+    // clicks/taps — otherwise it would sit invisibly over the page.
     <div
+      inert={!ready}
       className={`
-        status-panel flex flex-col items-start gap-1 pointer-events-auto
-        transition-opacity duration-300 ${ready ? "opacity-100" : "opacity-0"}
+        status-panel flex flex-col items-start gap-1
+        transition-opacity duration-300
+        ${ready ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
       `}
     >
       <VisitorCount onSettled={handleSettled} />
