@@ -21,17 +21,6 @@ const command = "ssh charliegleason.com";
          active:translate-y-0
          focus-visible:outline"
 >
-  {/* Copied pill — floats up out of the chip on success */}
-  <span
-    class="ssh-copied pointer-events-none absolute -top-2 left-1/2 -translate-x-1/2
-           rounded-full bg-yellow-500 dark:bg-yellow-400 px-2 py-0.5
-           text-[0.5rem] font-display uppercase tracking-wider text-yellow-950
-           opacity-0"
-    aria-hidden="true"
-  >
-    Copied
-  </span>
-
   {/* Faux traffic lights — grey until hover, then they light up */}
   <span class="hidden sm:flex items-center gap-1.5" aria-hidden="true">
     <span
@@ -48,15 +37,28 @@ const command = "ssh charliegleason.com";
     ></span>
   </span>
 
-  {/* The command */}
+  {
+    /* The command — the label swaps to a yellow "Copied" on success. Both
+      words are stacked; the command sizes the box and "Copied" overlays it,
+      so the chip width never changes as they cross-fade. */
+  }
   <span class="flex items-baseline">
     <span class="mr-2 select-none text-yellow-600 dark:text-yellow-400">❯</span>
-    <span>{command}</span>
+    <span class="relative inline-block">
+      <span
+        class="inline-block transition-opacity duration-200 motion-reduce:transition-none
+               group-[.is-copied]/ssh:opacity-0">{command}</span>
+      <span
+        class="absolute inset-0 text-left opacity-0 transition-opacity duration-200
+               motion-reduce:transition-none group-[.is-copied]/ssh:opacity-100
+               text-yellow-600 dark:text-yellow-400"
+        aria-hidden="true">Copied!</span
+      >
+    </span>
     <span
       class="ssh-caret ml-0.5 inline-block h-[1em] w-[0.55em] translate-y-[0.1em]
              bg-yellow-600/80 dark:bg-yellow-400/80"
-      aria-hidden="true"
-    ></span>
+      aria-hidden="true"></span>
   </span>
 
   {/* Copy → check icon stack */}
@@ -91,7 +93,9 @@ const command = "ssh charliegleason.com";
     </svg>
   </span>
 
-  {/* Screen-reader-only success announcement (the visual pill is aria-hidden) */}
+  {
+    /* Screen-reader-only success announcement (the visual pill is aria-hidden) */
+  }
   <span class="sr-only" aria-live="polite" data-ssh-status></span>
 </button>
 
@@ -133,17 +137,6 @@ const command = "ssh charliegleason.com";
     transform: scale(1);
   }
 
-  .ssh-copied {
-    transition:
-      opacity 0.25s ease,
-      transform 0.25s ease;
-    transform: translate(-50%, 4px);
-  }
-  .is-copied .ssh-copied {
-    opacity: 1;
-    transform: translate(-50%, -2px);
-  }
-
   /* Yellow ring flash on copy */
   .is-copied {
     animation: ssh-flash 0.5s ease-out;
@@ -163,8 +156,7 @@ const command = "ssh charliegleason.com";
     .is-copied {
       animation: none;
     }
-    .ssh-icon,
-    .ssh-copied {
+    .ssh-icon {
       transition: none;
     }
   }
@@ -197,31 +189,33 @@ const command = "ssh charliegleason.com";
     }
   }
 
-  document.querySelectorAll<HTMLButtonElement>("[data-ssh-copy]").forEach((button) => {
-    const status = button.querySelector<HTMLElement>("[data-ssh-status]");
-    let timeout: ReturnType<typeof setTimeout> | undefined;
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-ssh-copy]")
+    .forEach((button) => {
+      const status = button.querySelector<HTMLElement>("[data-ssh-status]");
+      let timeout: ReturnType<typeof setTimeout> | undefined;
 
-    button.addEventListener("click", async () => {
-      const command = button.dataset.command ?? "";
+      button.addEventListener("click", async () => {
+        const command = button.dataset.command ?? "";
 
-      // Only celebrate if the copy actually succeeded — otherwise the check
-      // and "Copied" pill would lie to the user.
-      const copied = await copyText(command);
-      if (!copied) return;
+        // Only celebrate if the copy actually succeeded — otherwise the check
+        // and "Copied" pill would lie to the user.
+        const copied = await copyText(command);
+        if (!copied) return;
 
-      // Announce success to assistive tech (the visual pill is aria-hidden).
-      if (status) status.textContent = `Copied "${command}" to clipboard`;
+        // Announce success to assistive tech (the visual pill is aria-hidden).
+        if (status) status.textContent = `Copied "${command}" to clipboard`;
 
-      // Re-trigger the flash animation cleanly if clicked repeatedly.
-      button.classList.remove("is-copied");
-      void button.offsetWidth;
-      button.classList.add("is-copied");
-
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
+        // Re-trigger the flash animation cleanly if clicked repeatedly.
         button.classList.remove("is-copied");
-        if (status) status.textContent = "";
-      }, 1800);
+        void button.offsetWidth;
+        button.classList.add("is-copied");
+
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          button.classList.remove("is-copied");
+          if (status) status.textContent = "";
+        }, 1800);
+      });
     });
-  });
 </script>

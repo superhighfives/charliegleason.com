@@ -11,8 +11,8 @@ html {
 }
 
 body {
-  color: theme('colors.neutral.900');
-  background: theme('colors.white');
+  color: theme("colors.neutral.900");
+  background: theme("colors.white");
 }
 
 /*
@@ -39,22 +39,22 @@ body {
   visibility: hidden;
 }
 
-@media (min-width: theme('screens.sm')) {
-body::before,
-body::after,
-#root::before,
-#root::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  height: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  background: theme('colors.white');
-  position: fixed;
-}
+@media (min-width: theme("screens.sm")) {
+  body::before,
+  body::after,
+  #root::before,
+  #root::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    background: theme("colors.white");
+    position: fixed;
+  }
 }
 
 #root {
@@ -68,7 +68,7 @@ body::after,
 }
 
 /* Tailwind small breakpoint */
-@media (max-width: theme('screens.sm')) {
+@media (max-width: theme("screens.sm")) {
   body::before,
   body::after,
   #root::before,
@@ -78,12 +78,12 @@ body::after,
 }
 
 body::before {
-  border-bottom: 2px solid theme('colors.yellow.500');
+  border-bottom: 2px solid theme("colors.yellow.500");
   top: 0;
 }
 
 body::after {
-  border-top: 2px solid theme('colors.yellow.500');
+  border-top: 2px solid theme("colors.yellow.500");
   bottom: 0;
 }
 
@@ -115,7 +115,7 @@ body::after {
 .dark body::after,
 .dark #root::before,
 .dark #root::after {
-  background: theme('colors.neutral.900');
+  background: theme("colors.neutral.900");
 }
 
 .dark #root::before {
@@ -127,7 +127,7 @@ body::after {
 }
 
 .dark body {
-  color: theme('colors.neutral.100');
+  color: theme("colors.neutral.100");
 }
 
 /*
@@ -135,13 +135,13 @@ body::after {
  */
 
 *::selection {
-  color: theme('colors.yellow.900');
-  background: theme('colors.yellow.300');
+  color: theme("colors.yellow.900");
+  background: theme("colors.yellow.300");
 }
 
 html.dark *::selection {
-  color: theme('colors.yellow.300');
-  background: theme('colors.yellow.900');
+  color: theme("colors.yellow.300");
+  background: theme("colors.yellow.900");
 }
 
 /*
