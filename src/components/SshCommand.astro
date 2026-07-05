@@ -90,6 +90,9 @@ const command = "ssh charliegleason.com";
       <path d="M20 6 9 17l-5-5"></path>
     </svg>
   </span>
+
+  {/* Screen-reader-only success announcement (the visual pill is aria-hidden) */}
+  <span class="sr-only" aria-live="polite" data-ssh-status></span>
 </button>
 
 <style>
@@ -168,30 +171,46 @@ const command = "ssh charliegleason.com";
 </style>
 
 <script>
+  async function copyText(text: string): Promise<boolean> {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // Fallback for insecure contexts / browsers without the async
+      // clipboard API. execCommand returns false (or throws) when the copy
+      // is blocked, so we surface that back to the caller.
+      const input = document.createElement("textarea");
+      input.value = text;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      input.select();
+      let copied = false;
+      try {
+        copied = document.execCommand("copy");
+      } catch {
+        copied = false;
+      }
+      document.body.removeChild(input);
+      return copied;
+    }
+  }
+
   document.querySelectorAll<HTMLButtonElement>("[data-ssh-copy]").forEach((button) => {
+    const status = button.querySelector<HTMLElement>("[data-ssh-status]");
     let timeout: ReturnType<typeof setTimeout> | undefined;
 
     button.addEventListener("click", async () => {
       const command = button.dataset.command ?? "";
 
-      try {
-        await navigator.clipboard.writeText(command);
-      } catch {
-        // Fallback for browsers without the async clipboard API.
-        const input = document.createElement("textarea");
-        input.value = command;
-        input.setAttribute("readonly", "");
-        input.style.position = "fixed";
-        input.style.opacity = "0";
-        document.body.appendChild(input);
-        input.select();
-        try {
-          document.execCommand("copy");
-        } catch {
-          /* nothing else we can do */
-        }
-        document.body.removeChild(input);
-      }
+      // Only celebrate if the copy actually succeeded — otherwise the check
+      // and "Copied" pill would lie to the user.
+      const copied = await copyText(command);
+      if (!copied) return;
+
+      // Announce success to assistive tech (the visual pill is aria-hidden).
+      if (status) status.textContent = `Copied "${command}" to clipboard`;
 
       // Re-trigger the flash animation cleanly if clicked repeatedly.
       button.classList.remove("is-copied");
@@ -199,7 +218,10 @@ const command = "ssh charliegleason.com";
       button.classList.add("is-copied");
 
       clearTimeout(timeout);
-      timeout = setTimeout(() => button.classList.remove("is-copied"), 1800);
+      timeout = setTimeout(() => {
+        button.classList.remove("is-copied");
+        if (status) status.textContent = "";
+      }, 1800);
     });
   });
 </script>
