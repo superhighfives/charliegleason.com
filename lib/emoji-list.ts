@@ -85,6 +85,9 @@ const requiredEmoji: string[] = [
   "🎮",
   "🍉",
   "🗺️",
+  "📦",
+  "🖥️",
+  "⚙️",
 ];
 
 export default requiredEmoji;
