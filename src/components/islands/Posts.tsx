@@ -36,7 +36,7 @@ export default function Posts({ error, posts, endpoint }: PostsProps) {
               <img
                 src={post.imageUrl}
                 alt=""
-                className="w-12 h-12 rounded-md object-cover shrink-0 shadow-md"
+                className="w-12 h-12 rounded-md object-cover shrink-0 shadow-md grayscale group-hover:grayscale-0 transition-all duration-500 ease-out"
                 loading="lazy"
               />
             )}
