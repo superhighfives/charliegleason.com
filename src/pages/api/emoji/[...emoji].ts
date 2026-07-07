@@ -10,6 +10,9 @@ const emojiToKey: Record<string, string> = emojiMap;
 // List of available emoji keys for random selection
 const emojiList = Object.keys(emojiToKey);
 
+// Shown when a requested emoji is unknown, or is known but has no rendered PNG.
+const FALLBACK_EMOJI = "❓";
+
 function sampleSize<T>(array: T[], n: number): T[] {
   const shuffled = [...array].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, n);
@@ -126,11 +129,9 @@ export const GET: APIRoute = async ({ params, request }) => {
   const emojiParam = params.emoji || "random";
   const emojis = parseEmoji(emojiParam);
 
-  // Fallback to random if no valid emoji found
-  const finalEmojis =
-    emojis.length > 0
-      ? emojis
-      : sampleSize(emojiList, Math.ceil(Math.random() * 3));
+  // A specific emoji was requested but none of it is known — show ❓ rather than
+  // a random emoji. (An empty or "random" request still returns random above.)
+  const finalEmojis = emojis.length > 0 ? emojis : [FALLBACK_EMOJI];
 
   // Get keys for primary emoji
   const primaryKeys = finalEmojis.map(getEmojiKey).filter(Boolean) as string[];
@@ -186,9 +187,17 @@ export const GET: APIRoute = async ({ params, request }) => {
       )
     : Effect.succeed([] as (string | null)[]);
 
-  const [primaryImages, supportingImages] = await Effect.runPromise(
-    Effect.all([fetchAllImages, fetchSupportingImages]),
-  );
+  // Fallback image (❓) used for any primary emoji that is in the map but whose
+  // PNG can't be fetched (e.g. glyphs the font can't render).
+  const fallbackKey = getEmojiKey(FALLBACK_EMOJI);
+  const fetchFallbackImage = fallbackKey
+    ? fetchImageToBase64Safe(fallbackKey, baseUrl)
+    : Effect.succeed(null);
+
+  const [primaryImages, supportingImages, fallbackImage] =
+    await Effect.runPromise(
+      Effect.all([fetchAllImages, fetchSupportingImages, fetchFallbackImage]),
+    );
 
   // Build mask definitions for slicing primary emoji
   let maskDefs = "";
@@ -242,9 +251,10 @@ export const GET: APIRoute = async ({ params, request }) => {
     svgParts.push("</g>");
   }
 
-  // Primary emoji
+  // Primary emoji (falling back to ❓ when a known emoji has no rendered PNG)
   primaryImages.forEach((base64, i) => {
-    if (base64) {
+    const image = base64 ?? fallbackImage;
+    if (image) {
       const animTag = animated
         ? generatePrimaryAnimation(supportingImages.length)
         : "";
@@ -256,7 +266,7 @@ export const GET: APIRoute = async ({ params, request }) => {
           y="${detailed ? "5" : "0"}"
           width="${detailed ? "90" : "100"}"
           height="${detailed ? "90" : "100"}"
-          href="data:image/png;charset=utf-8;base64,${base64}"
+          href="data:image/png;charset=utf-8;base64,${image}"
           mask="url(#slice-${i})"
         >${animTag}</image>
       `);
