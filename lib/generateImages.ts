@@ -11,7 +11,6 @@ import { createCanvas, Image } from "canvas";
 // @ts-expect-error node-emoji v1 has no type declarations
 import nodeEmoji from "node-emoji";
 import sharp from "sharp";
-import requiredEmoji from "./emoji-list.js";
 
 interface ExtendedGlyph extends Glyph {
   getImageForSize: (size: number) => { data: Buffer };
@@ -20,45 +19,31 @@ interface ExtendedGlyph extends Glyph {
 
 const VARIATION_SELECTOR = /️/g;
 
-// Reverse node-emoji's key -> char table into char -> key, registering both the
-// raw glyph and a variation-selector-stripped form so lookups succeed whether or
-// not the input carries U+FE0F.
+// Render the full node-emoji set so /api/emoji works for any emoji, not just the
+// handful used on the site. Build the emoji -> key map (consumed at runtime by
+// src/pages/api/emoji/[...emoji].ts) from node-emoji's key -> char table,
+// recording both the raw glyph and a variation-selector-stripped form so runtime
+// lookups hit whether or not the input carries U+FE0F. When several keys share a
+// glyph (aliases) the first key wins for the map; every key still gets a PNG.
 const nodeEmojiTable = nodeEmoji.emoji as Record<string, string>;
-const charToKey: Record<string, string> = {};
-for (const [key, char] of Object.entries(nodeEmojiTable)) {
-  if (!(char in charToKey)) charToKey[char] = key;
-  const stripped = char.replace(VARIATION_SELECTOR, "");
-  if (stripped && stripped !== char && !(stripped in charToKey)) {
-    charToKey[stripped] = key;
-  }
-}
-
-function keyForEmoji(emoji: string): string | undefined {
-  return charToKey[emoji] ?? charToKey[emoji.replace(VARIATION_SELECTOR, "")];
-}
-
-// Resolve every emoji we use to its key, and write out the emoji -> key map
-// consumed at runtime by src/pages/api/emoji/[...emoji].ts. Both the raw and the
-// variation-selector-stripped form are recorded so runtime lookups always hit.
 const emojiToKey: Record<string, string> = {};
 const toRender: { id: string; emoji: string }[] = [];
-for (const emoji of requiredEmoji) {
-  const key = keyForEmoji(emoji);
-  if (!key) {
-    console.warn(`⚠️  No node-emoji key for ${emoji}, skipping`);
-    continue;
+for (const [key, char] of Object.entries(nodeEmojiTable)) {
+  if (!(char in emojiToKey)) emojiToKey[char] = key;
+  const stripped = char.replace(VARIATION_SELECTOR, "");
+  if (stripped && stripped !== char && !(stripped in emojiToKey)) {
+    emojiToKey[stripped] = key;
   }
-  emojiToKey[emoji] = key;
-  const stripped = emoji.replace(VARIATION_SELECTOR, "");
-  if (stripped && stripped !== emoji) emojiToKey[stripped] = key;
-  toRender.push({ id: key, emoji });
+  toRender.push({ id: key, emoji: char });
 }
 
 writeFileSync(
   "src/data/emoji-map.json",
   `${JSON.stringify(emojiToKey, null, 2)}\n`,
 );
-console.log(`Wrote ${Object.keys(emojiToKey).length} emoji mappings`);
+console.log(
+  `Wrote ${Object.keys(emojiToKey).length} emoji mappings for ${toRender.length} glyphs`,
+);
 
 const font = fontkit.openSync(
   "/System/Library/Fonts/Apple Color Emoji.ttc",

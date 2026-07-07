@@ -38,14 +38,14 @@ export const projects: { title: string; data: Project[] } = {
       url: "https://www.npmjs.com/package/releasecast",
     },
     {
-      icon: "🔍",
+      icon: "📦",
       title: "Pack",
       property: "CLI",
       subtitle: "A tool to view the scripts in your package.json",
       url: "https://github.com/superhighfives/pack",
     },
     {
-      icon: "📔",
+      icon: "💻",
       title: "Code",
       property: "Blog",
       subtitle:
@@ -53,14 +53,14 @@ export const projects: { title: string; data: Project[] } = {
       url: "https://code.charliegleason.com",
     },
     {
-      icon: "💻",
+      icon: "🖥️",
       title: "SSH",
       property: "Terminal",
       subtitle: "Run ssh charliegleason.com in your terminal",
       url: "https://ssh.charliegleason.com",
     },
     {
-      icon: "🌱",
+      icon: "⚙️",
       title: "Dotfiles",
       property: "Config",
       subtitle: "Dotfiles and install script for a development environment",
