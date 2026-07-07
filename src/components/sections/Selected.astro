@@ -33,7 +33,7 @@ const { sections } = Astro.props;
       {section.data.map((entry) => (
         <div class="flex items-start">
           <img
-            class="relative mr-2 md:mr-4 rounded-full w-[24px] h-[24px] md:w-[30px] md:h-[30px]"
+            class="relative mr-2 md:mr-4 w-[24px] h-[24px] md:w-[30px] md:h-[30px]"
             src={`${EMOJI_URL}${entry.icon}?detailed=false&animated=false`}
             alt={`${entry.icon} emoji in a yellow circle`}
             width="30"
