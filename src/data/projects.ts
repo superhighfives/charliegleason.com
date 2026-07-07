@@ -38,6 +38,35 @@ export const projects: { title: string; data: Project[] } = {
       url: "https://www.npmjs.com/package/releasecast",
     },
     {
+      icon: "📦",
+      title: "Pack",
+      property: "CLI",
+      subtitle: "A tool to view the scripts in your package.json",
+      url: "https://github.com/superhighfives/pack",
+    },
+    {
+      icon: "💻",
+      title: "Code",
+      property: "Blog",
+      subtitle:
+        "A little code blog built on React Router 7 and Cloudflare Workers",
+      url: "https://code.charliegleason.com",
+    },
+    {
+      icon: "🖥️",
+      title: "SSH",
+      property: "Terminal",
+      subtitle: "Run ssh charliegleason.com in your terminal",
+      url: "https://ssh.charliegleason.com",
+    },
+    {
+      icon: "⚙️",
+      title: "Dotfiles",
+      property: "Config",
+      subtitle: "Dotfiles and install script for a development environment",
+      url: "https://github.com/superhighfives/dotfiles",
+    },
+    {
       icon: "⛱️",
       title: "Sandpit",
       property: "Library",
