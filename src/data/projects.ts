@@ -41,7 +41,7 @@ export const projects: { title: string; data: Project[] } = {
       icon: "📦",
       title: "Pack",
       property: "CLI",
-      subtitle: "A tool to view the scripts in your package.json",
+      subtitle: "A tiny tool to view the scripts in your package.json",
       url: "https://github.com/superhighfives/pack",
     },
     {
@@ -49,21 +49,22 @@ export const projects: { title: string; data: Project[] } = {
       title: "Code",
       property: "Blog",
       subtitle:
-        "A little code blog built on React Router 7 and Cloudflare Workers",
+        "An over-engineered code blog built on React Router 7 and Cloudflare Workers",
       url: "https://code.charliegleason.com",
     },
     {
       icon: "🖥️",
       title: "SSH",
       property: "Terminal",
-      subtitle: "Run ssh charliegleason.com in your terminal",
-      url: "https://ssh.charliegleason.com",
+      subtitle: "Run this site from the comfort of your very own terminal",
+      url: "https://github.com/superhighfives/ssh.charliegleason.com",
     },
     {
       icon: "⚙️",
       title: "Dotfiles",
       property: "Config",
-      subtitle: "Dotfiles and install script for a development environment",
+      subtitle:
+        "My personal dotfiles and idempotent install script for a development environment",
       url: "https://github.com/superhighfives/dotfiles",
     },
     {
@@ -78,7 +79,7 @@ export const projects: { title: string; data: Project[] } = {
       title: "Drag It Down On You",
       property: "Microsite",
       subtitle: "Lyric karaoke for Ceres, from the album of the same name",
-      url: "https://web.archive.org/web/20240812233528/http://www.dragitdownonyou.com/",
+      url: "https://dragitdownonyou.superhighfives.com/",
     },
     {
       icon: "🏉",
