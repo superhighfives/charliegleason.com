@@ -29,7 +29,7 @@ export const articles: { title: string; data: Article[] } = {
       property: "Heroku",
       title: "A Rock Solid, Modern Web Stack",
       subtitle: "Rails 5 API + ActiveAdmin + Create React App",
-      url: "https://blog.heroku.com/a-rock-solid-modern-web-stack",
+      url: "https://www.heroku.com/blog/a-rock-solid-modern-web-stack/",
     },
     {
       icon: "📚",
