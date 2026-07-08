@@ -16,47 +16,10 @@ import Links from "../components/sections/Links.astro";
 import { caseStudies, projects, articles, features } from "../data";
 import { sampleSize, random } from "lodash-es";
 import { fetchPosts, type Posts } from "../lib/posts";
+import emojiList from "../data/emoji-list";
 
-// Emoji list for random favicon selection
-const emojiList = [
-  "🌊",
-  "🎨",
-  "🎵",
-  "💻",
-  "🌈",
-  "🎭",
-  "🎪",
-  "🎯",
-  "🌟",
-  "🔮",
-  "🎸",
-  "🎹",
-  "🎺",
-  "🎻",
-  "🪗",
-  "🥁",
-  "🪘",
-  "🎤",
-  "🎧",
-  "🎼",
-  "🎬",
-  "📷",
-  "🖼️",
-  "🎨",
-  "🖌️",
-  "✏️",
-  "📝",
-  "💡",
-  "🔥",
-  "⚡",
-  "🌙",
-  "☀️",
-  "🌍",
-  "🌎",
-  "🌏",
-];
-
-// Generate random avatar and emoji for this request
+// Generate random avatar and emoji for this request, landing on the curated
+// original emoji list so the header's final frame stays consistent.
 const symbol = sampleSize(emojiList, Math.ceil(Math.random() * 3)).join("");
 const photo = String(random(1, 10)).padStart(2, "0");
 

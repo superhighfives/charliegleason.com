@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { EMOJI_URL } from "../lib/constants";
 import { sampleSize } from "lodash-es";
 import egg from "../lib/egg";
+import emojiList from "../data/emoji-list";
 import BackgroundGrid from "../components/BackgroundGrid.astro";
 import StatusPanel from "../components/StatusPanel.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
@@ -13,45 +14,6 @@ interface Props {
   image?: string;
   symbol?: string;
 }
-
-// Emoji list for random favicon selection
-const emojiList = [
-  "🌊",
-  "🎨",
-  "🎵",
-  "💻",
-  "🌈",
-  "🎭",
-  "🎪",
-  "🎯",
-  "🌟",
-  "🔮",
-  "🎸",
-  "🎹",
-  "🎺",
-  "🎻",
-  "🪗",
-  "🥁",
-  "🪘",
-  "🎤",
-  "🎧",
-  "🎼",
-  "🎬",
-  "📷",
-  "🖼️",
-  "🎨",
-  "🖌️",
-  "✏️",
-  "📝",
-  "💡",
-  "🔥",
-  "⚡",
-  "🌙",
-  "☀️",
-  "🌍",
-  "🌎",
-  "🌏",
-];
 
 const theme = Astro.locals.theme || "light";
 const themePreference = Astro.locals.themePreference || "auto";

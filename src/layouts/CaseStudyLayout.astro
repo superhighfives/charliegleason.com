@@ -6,6 +6,7 @@ import Footer from "../components/Footer.astro";
 import Link from "../components/ui/Link.astro";
 import { sampleSize, random } from "lodash-es";
 import Links from "../components/sections/Links.astro";
+import emojiList from "../data/emoji-list";
 
 export interface CaseStudyData {
   title: string;
@@ -27,8 +28,7 @@ interface Props {
 
 const { data } = Astro.props;
 
-// Generate random avatar and emoji
-const emojiList = ["🌊", "🎨", "🎵", "💻", "🌈", "🎭", "🎪", "🎯", "🌟", "🔮"];
+// Generate random avatar and emoji, landing on the curated original emoji list
 const symbol = sampleSize(emojiList, Math.ceil(Math.random() * 3)).join("");
 const photo = String(random(1, 10)).padStart(2, "0");
 
