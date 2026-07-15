@@ -10,13 +10,6 @@ export const projects: { title: string; data: Project[] } = {
   title: "Projects",
   data: [
     {
-      icon: "📻",
-      title: "We Are A Stream",
-      property: "Radio",
-      subtitle: "An endless realtime loop of Ceres' album We Are A Team",
-      url: "https://github.com/superhighfives/weareastream",
-    },
-    {
       icon: "🌊",
       title: "Lysterfield Lake",
       property: "Music Video",
@@ -80,6 +73,13 @@ export const projects: { title: string; data: Project[] } = {
       property: "Library",
       subtitle: "An open-source creative-coding library",
       url: "https://sandpitjs.com/",
+    },
+    {
+      icon: "📻",
+      title: "We Are A Stream",
+      property: "Radio",
+      subtitle: "An endless realtime loop of Ceres' album We Are A Team",
+      url: "https://github.com/superhighfives/weareastream",
     },
     {
       icon: "🎤",
