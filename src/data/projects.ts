@@ -53,6 +53,13 @@ export const projects: { title: string; data: Project[] } = {
       url: "https://code.charliegleason.com",
     },
     {
+      icon: "💿",
+      title: "Records",
+      property: "Collection",
+      subtitle: "A browsable catalogue of my vinyl collection",
+      url: "https://records.charliegleason.com",
+    },
+    {
       icon: "🖥️",
       title: "SSH",
       property: "Terminal",

@@ -287,15 +287,27 @@ const blocks: Block[] = [
       <ul
         class:list={[
           "grid grid-cols-1 gap-3 text-xs text-neutral-800 dark:text-neutral-300 auto-rows-min items-start",
+          // Multi-column (not a 2-col grid) so wide blocks read top to bottom,
+          // then top to bottom again, rather than left-right across rows
           block.wide &&
-            "sm:col-span-2 sm:grid-cols-2 sm:row-span-2 max-sm:[&>li:nth-child(n+10)]:hidden",
+            "sm:col-span-2 sm:row-span-2 sm:block sm:columns-2 max-sm:[&>li:nth-child(n+10)]:hidden",
         ]}
       >
-        <h2 class="tracking-widest text-xs font-display uppercase text-yellow-700 dark:text-yellow-500 col-span-full">
+        <h2
+          class:list={[
+            "tracking-widest text-xs font-display uppercase text-yellow-700 dark:text-yellow-500 col-span-full",
+            block.wide && "sm:[column-span:all] sm:mb-3",
+          ]}
+        >
           {block.title}
         </h2>
         {block.items?.map((item) => (
-          <li class="grid grid-cols-[2.5rem_1fr] leading-4.5">
+          <li
+            class:list={[
+              "grid grid-cols-[2.5rem_1fr] leading-4.5",
+              block.wide && "sm:break-inside-avoid sm:mb-3",
+            ]}
+          >
             {item.date && (
               <em class="not-italic font-mono text-neutral-600 dark:text-neutral-500">
                 {item.date}

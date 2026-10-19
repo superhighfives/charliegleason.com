@@ -6,3 +6,6 @@ AUTH_PASSWORD=your-secret-password-here
 
 # External blog posts endpoint (optional)
 CODE_ENDPOINT=https://code.charliegleason.com
+
+# External records collection endpoint (optional)
+RECORDS_ENDPOINT=https://records.charliegleason.com

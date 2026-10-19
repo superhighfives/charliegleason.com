@@ -16,6 +16,7 @@ import Links from "../components/sections/Links.astro";
 import { caseStudies, projects, articles, features } from "../data";
 import { sampleSize, random } from "lodash-es";
 import { fetchPosts, type Posts } from "../lib/posts";
+import { fetchRecords, type LatestRecords } from "../lib/records";
 import emojiList from "../data/emoji-list";
 
 // Generate random avatar and emoji for this request, landing on the curated
@@ -36,17 +37,36 @@ interface PostsState {
   error?: string;
 }
 
-const postsState: PostsState = await Effect.runPromise(
-  fetchPosts(codeEndpoint).pipe(
-    Effect.map((posts) => ({ posts })),
-    Effect.catchAll((error) =>
-      Effect.gen(function* () {
-        yield* Effect.logError(`Initial posts fetch failed: ${error._tag}`);
-        return { error: "Unable to load recent posts" };
-      })
+// Fetch latest records from the collection
+const recordsEndpoint =
+  import.meta.env.RECORDS_ENDPOINT || "https://records.charliegleason.com";
+
+const [postsState, records]: [
+  PostsState,
+  LatestRecords | undefined,
+] = await Promise.all([
+  Effect.runPromise(
+    fetchPosts(codeEndpoint, 4).pipe(
+      Effect.map((posts): PostsState => ({ posts })),
+      Effect.catchAll((error) =>
+        Effect.gen(function* () {
+          yield* Effect.logError(`Initial posts fetch failed: ${error._tag}`);
+          return { error: "Unable to load recent posts" };
+        })
+      )
     )
-  )
-);
+  ),
+  Effect.runPromise(
+    fetchRecords(recordsEndpoint, 4).pipe(
+      Effect.catchAll((error) =>
+        Effect.gen(function* () {
+          yield* Effect.logError(`Initial records fetch failed: ${error._tag}`);
+          return undefined;
+        })
+      )
+    )
+  ),
+]);
 ---
 
 <Layout symbol={symbol}>
@@ -57,6 +77,8 @@ const postsState: PostsState = await Effect.runPromise(
         posts={postsState.posts}
         postsError={postsState.error}
         endpoint={codeEndpoint}
+        records={records}
+        recordsEndpoint={recordsEndpoint}
       />
       <CaseStudies
         caseStudies={caseStudies}

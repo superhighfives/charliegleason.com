@@ -25,12 +25,20 @@ export default function Posts({ error, posts, endpoint }: PostsProps) {
           </a>
         </h2>
       </div>
-      <div className="space-y-4">
-        {posts.map((post) => (
+      {/* Stacked: 3 on mobile, 2 in the sidebar (lg+); a 2 × 2 grid when the
+          section spans the full width */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+        {posts.map((post, index) => (
           <a
             key={post.slug}
             href={`${post.url}/1`}
-            className="group flex gap-3 text-sm transition-colors hover:text-yellow-600 dark:hover:text-yellow-400"
+            className={`group gap-3 text-sm transition-colors hover:text-yellow-600 dark:hover:text-yellow-400 ${
+              index < 2
+                ? "flex"
+                : index < 3
+                  ? "flex lg:hidden"
+                  : "hidden sm:flex lg:hidden"
+            }`}
           >
             {post.imageUrl && (
               <img

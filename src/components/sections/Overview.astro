@@ -2,25 +2,33 @@
 import Events from "./Events.astro";
 import Introduction from "./Introduction.astro";
 import PostsIsland from "../islands/Posts.tsx";
+import RecordsIsland from "../islands/Records.tsx";
 import HR from "../ui/HR.astro";
 import type { Posts } from "../../lib/posts";
+import type { LatestRecords } from "../../lib/records";
 
 interface Props {
   posts?: Posts;
   postsError?: string;
   endpoint?: string;
+  records?: LatestRecords;
+  recordsEndpoint?: string;
 }
 
-const { posts, postsError, endpoint = "" } = Astro.props;
+const {
+  posts,
+  postsError,
+  endpoint = "",
+  records,
+  recordsEndpoint = "",
+} = Astro.props;
 ---
 
 <div class="space-y-12">
   <HR />
-  <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
-    <div class="lg:col-span-2 flex flex-col gap-8">
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-x-12 gap-y-10">
+    <div class="lg:col-span-2 flex flex-col gap-10">
       <Introduction />
-
-      <HR class="max-w-[4rem]" />
 
       {
         posts && (
@@ -30,6 +38,12 @@ const { posts, postsError, endpoint = "" } = Astro.props;
             error={postsError}
             endpoint={endpoint}
           />
+        )
+      }
+
+      {
+        records && records.length > 0 && (
+          <RecordsIsland records={records} endpoint={recordsEndpoint} />
         )
       }
     </div>
