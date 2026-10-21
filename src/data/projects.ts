@@ -17,6 +17,13 @@ export const projects: { title: string; data: Project[] } = {
       url: "https://lysterfieldlake.com",
     },
     {
+      icon: "🖊️",
+      title: "Aiplo",
+      property: "Plotter",
+      subtitle: "A browser sketchbook for the AxiDraw pen plotter",
+      url: "https://github.com/superhighfives/aiplo",
+    },
+    {
       icon: "🎨",
       title: "Pika",
       property: "macOS",
