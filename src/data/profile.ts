@@ -246,7 +246,7 @@ export const contact: ContactLink[] = [
   },
   {
     label: "Email",
-    url: "mailto:hello@charliegleason.com",
+    url: "mailto:hi@charliegleason.com",
     icon: "📧",
     description: "Get in touch",
   },
