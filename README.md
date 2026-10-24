@@ -16,7 +16,7 @@ To get up and running, fork the repo and install the dependencies:
 ```sh
 $ gh repo fork superhighfives/charliegleason.com
 $ cd charliegleason.com
-$ pnpm install
+$ bun install
 ```
 
 Copy and fill in the required environment variables:
@@ -28,7 +28,7 @@ $ cp .dev.vars.example .dev.vars
 Also, if you make any changes to the emoji images, or add new ones to the [emoji-list.ts](https://github.com/superhighfives/charliegleason.com/blob/main/lib/emoji-list.ts) file, you'll need to re-generate images:
 
 ```sh
-$ pnpm generate:images
+$ bun run generate:images
 ```
 
 You may also need to install the [dependencies for canvas](https://github.com/Automattic/node-canvas#installation) with homebrew:
@@ -37,11 +37,11 @@ You may also need to install the [dependencies for canvas](https://github.com/Au
 $ brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman
 ```
 
-This set up uses Wrangler for local development, to emulate the Cloudflare runtime. To get started, run `pnpm dev`:
+This set up uses Wrangler for local development, to emulate the Cloudflare runtime. To get started, run `bun run dev`:
 
 ```sh
 # start the astro dev server
-$ pnpm dev
+$ bun run dev
 ```
 
 Open up [http://localhost:4321](http://localhost:4321), then celebrate.
@@ -50,12 +50,12 @@ Open up [http://localhost:4321](http://localhost:4321), then celebrate.
 
 | Command | Action |
 |---------|--------|
-| `pnpm install` | Install dependencies |
-| `pnpm dev` | Start dev server at `localhost:4321` |
-| `pnpm build` | Build production site to `./dist/` |
-| `pnpm preview` | Preview build locally with Wrangler |
-| `pnpm deploy` | Build and deploy to Cloudflare Workers |
-| `pnpm generate:images` | Regenerate emoji images |
+| `bun install` | Install dependencies |
+| `bun run dev` | Start dev server at `localhost:4321` |
+| `bun run build` | Build production site to `./dist/` |
+| `bun run preview` | Preview build locally with Wrangler |
+| `bun run deploy` | Build and deploy to Cloudflare Workers |
+| `bun run generate:images` | Regenerate emoji images |
 
 ## Deployment
 
@@ -68,7 +68,7 @@ You'll also need to set up some environment variables in Cloudflare (handled loc
 For production, set `AUTH_PASSWORD` as a secret in Cloudflare Workers:
 
 ```sh
-$ pnpm wrangler secret put AUTH_PASSWORD
+$ bunx wrangler secret put AUTH_PASSWORD
 ```
 
 ## Interesting Bits
@@ -99,7 +99,7 @@ Examples:
 - [Cloudflare KV](https://developers.cloudflare.com/kv/) - Session storage
 - [Cloudflare Durable Objects](https://developers.cloudflare.com/durable-objects/) - Stateful edge compute
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
-- [pnpm](https://pnpm.io/) - Package manager
+- [Bun](https://bun.sh/) - Package manager
 
 ## Thanks
 

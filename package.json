@@ -37,12 +37,12 @@
     "@charliegleason/private": "workspace:*"
   },
   "engines": {
-    "node": "^20.19.1 || >=22.12.0"
+    "node": ">=24"
   },
   "devDependencies": {
     "@types/fontkit": "^2.0.7",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^22.0.0",
+    "@types/node": "^24.0.0",
     "@types/node-emoji": "^2.1.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

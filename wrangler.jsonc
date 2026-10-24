@@ -8,7 +8,7 @@
  * - Local secrets → .dev.vars file (gitignored)
  *
  * To set production secrets:
- *   pnpm wrangler secret put AUTH_PASSWORD
+ *   bunx wrangler secret put AUTH_PASSWORD
  *
  * For more details: https://developers.cloudflare.com/workers/wrangler/configuration/
  */
