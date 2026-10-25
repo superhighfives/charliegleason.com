@@ -6,6 +6,7 @@ interface Props {
     | "x-logo"
     | "dribbble-logo"
     | "github-logo"
+    | "linkedin-logo"
     | "envelope"
     | "magnifying-glass-plus"
     | "arrow-left"
@@ -41,6 +42,14 @@ const svgImports: Record<string, Record<IconWeight, () => Promise<string>>> = {
     light: () => import("@phosphor-icons/core/assets/light/github-logo-light.svg?raw").then(m => m.default),
     thin: () => import("@phosphor-icons/core/assets/thin/github-logo-thin.svg?raw").then(m => m.default),
     duotone: () => import("@phosphor-icons/core/assets/duotone/github-logo-duotone.svg?raw").then(m => m.default),
+  },
+  "linkedin-logo": {
+    fill: () => import("@phosphor-icons/core/assets/fill/linkedin-logo-fill.svg?raw").then(m => m.default),
+    bold: () => import("@phosphor-icons/core/assets/bold/linkedin-logo-bold.svg?raw").then(m => m.default),
+    regular: () => import("@phosphor-icons/core/assets/regular/linkedin-logo.svg?raw").then(m => m.default),
+    light: () => import("@phosphor-icons/core/assets/light/linkedin-logo-light.svg?raw").then(m => m.default),
+    thin: () => import("@phosphor-icons/core/assets/thin/linkedin-logo-thin.svg?raw").then(m => m.default),
+    duotone: () => import("@phosphor-icons/core/assets/duotone/linkedin-logo-duotone.svg?raw").then(m => m.default),
   },
   "envelope": {
     fill: () => import("@phosphor-icons/core/assets/fill/envelope-fill.svg?raw").then(m => m.default),

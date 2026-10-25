@@ -6,6 +6,7 @@ const iconMap = {
   twitter: "x-logo",
   dribbble: "dribbble-logo",
   github: "github-logo",
+  linkedin: "linkedin-logo",
   email: "envelope",
 } as const;
 
@@ -27,13 +28,18 @@ const socials: SocialLinkProps[] = [
     url: "https://dribbble.com/superhighfives",
   },
   { icon: "github", title: "GitHub", url: "https://github.com/superhighfives" },
+  {
+    icon: "linkedin",
+    title: "LinkedIn",
+    url: "https://www.linkedin.com/in/superhighfives/",
+  },
   { icon: "email", title: "Email", url: "mailto:hi@charliegleason.com" },
 ];
 ---
 
 <div class="space-y-12">
   <HR />
-  <div class="grid grid-cols-2 sm:flex gap-y-0 gap-x-16 mx-3">
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:flex gap-y-0 gap-x-16 mx-3">
     {
       socials.map((social) => (
         <a
