@@ -10,6 +10,7 @@ interface Entry {
   title: string;
   subtitle?: string;
   url: string;
+  badge?: string;
 }
 
 interface Section {
@@ -45,9 +46,16 @@ const { sections } = Astro.props;
                 {entry.property}
               </div>
             )}
-            <Link href={entry.url} class="-ml-1" size="large">
-              {entry.title}
-            </Link>
+            <div class="flex flex-wrap items-center gap-x-2">
+              <Link href={entry.url} class="-ml-1" size="large">
+                {entry.title}
+              </Link>
+              {entry.badge && (
+                <span class="text-[10px] leading-none uppercase tracking-widest font-medium text-yellow-700 dark:text-yellow-500 border border-yellow-500 dark:border-yellow-700 rounded-full px-2 py-1">
+                  {entry.badge}
+                </span>
+              )}
+            </div>
             {entry.subtitle && (
               <div class="text-sm text-neutral-700 dark:text-neutral-400">
                 {entry.subtitle}

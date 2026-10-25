@@ -4,6 +4,7 @@ export interface Project {
   property: string;
   subtitle: string;
   url: string;
+  badge?: string;
 }
 
 export const projects: { title: string; data: Project[] } = {
@@ -15,6 +16,14 @@ export const projects: { title: string; data: Project[] } = {
       property: "Music Video",
       subtitle: "An interactive AI-generated 3D fever dream",
       url: "https://lysterfieldlake.com",
+      badge: "Relaunched",
+    },
+    {
+      icon: "🏷️",
+      title: "Nowhere Forever",
+      property: "Stickers",
+      subtitle: "Stickers that say something, from the catalog or your own",
+      url: "https://nowhereforever.com",
     },
     {
       icon: "🖊️",
