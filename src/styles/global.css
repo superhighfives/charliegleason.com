@@ -8,6 +8,9 @@
 
 html {
   color-scheme: light;
+  /* Reserve the scrollbar's space on every page, so short pages (login) and long ones centre the
+     same way and the background grid's lines don't jump between them. */
+  scrollbar-gutter: stable;
 }
 
 body {

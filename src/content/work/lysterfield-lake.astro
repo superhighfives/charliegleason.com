@@ -2,10 +2,16 @@
 import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
 import Prose from "../../components/case-studies/Prose.astro";
 import Picture from "../../components/case-studies/Picture.astro";
+import Video from "../../components/case-studies/Video.astro";
+import Compare from "../../components/case-studies/Compare.astro";
 import Hero from "../../components/case-studies/Hero.astro";
 import Intro from "../../components/case-studies/Intro.astro";
 import Metadata from "../../components/case-studies/Metadata.astro";
+import Code from "../../components/case-studies/Code.astro";
 import PictureZoom from "../../components/islands/PictureZoom";
+
+const assets = "/assets/case-studies/lysterfield-lake";
+const repo = "https://github.com/superhighfives/lysterfield-lake";
 
 const data = {
   title: "Lysterfield Lake",
@@ -14,6 +20,7 @@ const data = {
   highlight: "before:bg-[#E45C87]",
   gradient: "from-[#E45C87] to-[#F8CD0D]",
   ogImage: "/assets/case-studies/lysterfield-lake/banner.jpg",
+  bannerDark: true,
   slug: "lysterfield-lake",
   metadata: [
     {
@@ -24,40 +31,50 @@ const data = {
       ],
     },
     { name: "Company", content: "Side project" },
-    { name: "Timeline", content: "Early 2023 - December 2023" },
+    { name: "Timeline", content: "2023, rebuilt 2026" },
     { name: "Platform", content: "Web" },
     { name: "Industry", content: "Music" },
-    { name: "Libraries", content: "Vite, React, Three.js, React Three Fiber" },
-    { name: "Tools", content: "Blender, After Effects" },
+    { name: "Libraries", content: "Vite, React, Three.js, React Three Fiber, media-chrome" },
+    { name: "Models and tools", content: "Deforum, DiffusionCLIP, Robust Video Matting, ZoeDepth, Bria, CLIP, Blender, After Effects, Replicate, Cog, Bun, Cloudflare Workers and R2" },
   ],
 };
 ---
 
 <CaseStudyLayout data={data}>
+  <aside class="not-prose rounded-lg border border-rose-300 dark:border-rose-500/40 bg-rose-50 dark:bg-rose-500/10 px-5 py-4 sm:px-6 sm:py-5 text-sm sm:text-base leading-relaxed text-rose-950 dark:text-rose-100">
+    <p class="font-mono text-xs uppercase tracking-wider text-rose-600 dark:text-rose-300 mb-2">Updated October 2026</p>
+    <p>
+      Lysterfield Lake has been rebuilt from the ground up and relaunched, with a new dream, a new player, and the whole
+      project, app, pipeline and models, in <a class="underline underline-offset-2 font-medium" href={repo}>one open-source repo</a>.
+      This write-up has been updated to match. <a class="underline underline-offset-2 font-medium" href="#three-years-later">Skip to what's new</a>,
+      or <a class="underline underline-offset-2 font-medium" href="#pick-up-the-source">get the code running</a>.
+    </p>
+  </aside>
+
   <Intro>
     <Hero gradient={data.gradient} hero={data.hero} />
 
-    <p>I don't remember exactly when I wrote it in much the same way I don't remember exactly when I started this project, which has spanned the better part of a year and has all but consumed the most creative bits of my brain.</p>
+    <p>I don't remember exactly when I wrote it in much the same way I don't remember exactly when I started this project, which spanned the better part of a year and all but consumed the most creative bits of my brain.</p>
 
-    <p>I think it all began when I came across <a href="https://replicate.com/">Replicate</a> (and by extention, their open-source container for running machine learning models, <a href="https://github.com/replicate/cog">Cog</a>.) I was so inspired by their <a href="https://replicate.com/explore">Explore</a> page, and, if I'm being totally honest, I was worried about the cost of experimenting with AI. I'd set up a gaming PC in the weird limbo of the 2020 lockdowns, and these tools made it effortless (and for the most part, free) to try, and test, and many, many times, fail.</p>
+    <p>I think it all began when I came across <a href="https://replicate.com/">Replicate</a> (and by extension, their open-source container for running machine learning models, <a href="https://github.com/replicate/cog">Cog</a>.) I was so inspired by their <a href="https://replicate.com/explore">Explore</a> page, and, if I'm being totally honest, I was worried about the cost of experimenting with AI. I'd set up a gaming PC in the weird limbo of the 2020 lockdowns, and these tools made it effortless (and for the most part, free) to try, and test, and many, many times, fail.</p>
   </Intro>
 
   <Metadata highlight={data.highlight} gradient={data.gradient} metadata={data.metadata} />
 
   <div class="full dark:border-neutral-800 max-sm:border-x">
-    <PictureZoom client:visible src="/assets/case-studies/lysterfield-lake/image-polaroids-full.webp" alt="A selection of dreams from the final video." />
+    <PictureZoom client:visible src={`${assets}/image-polaroids-full.webp`} alt="A selection of dreams from the final video." />
   </div>
 
   <Prose>
-    <p>When I decided to release new music (it's been seven years since <a href="https://wewerebrightly.com/">the last Brightly record</a>) I knew I wanted to build something with these bits and pieces I'd been noodling with. I knew I wasn't great at making traditional music videos, and I felt empowered by the flexibility of the browsers, and the creative opportunties afforded by using machine learning and AI. I think the result is something greater than the sum of its parts.</p>
+    <p>When I decided to release new music (it had been seven years since <a href="https://wewerebrightly.com/">the last Brightly record</a>) I knew I wanted to build something with these bits and pieces I'd been noodling with. I knew I wasn't great at making traditional music videos, and I've always felt empowered by the flexibility of the browser, and the creative opportunities afforded by using machine learning and AI. I think the result is something greater than the sum of its parts.</p>
 
     <p>And there are a lot of parts.</p>
 
     <p>(Also, if you haven't seen the video, <a href="https://lysterfieldlake.com/">you should go and check it out</a> before I ruin the magic by shining a very bright light on exactly how it all works.)</p>
   </Prose>
 
-  <div class="content">
-    <Picture shadow src="/assets/case-studies/lysterfield-lake/image-screencast-preview.gif" alt="A preview GIF of the experience." />
+  <div class="wide">
+    <Video shadow src={`${assets}/video-player.mp4`} alt="The relaunched player: pick a dream, and the polaroid develops into a painted, 3D version of the footage, with the lyrics written underneath. Grab the polaroid and it comes with you." />
   </div>
 
   <Prose>
@@ -65,7 +82,7 @@ const data = {
   </Prose>
 
   <div class="full">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-polaroid-three.webp" alt="Three polaroids containing the singer and lyrics overlaid." />
+    <Picture src={`${assets}/image-polaroid-three.webp`} alt="Three polaroids containing the singer and lyrics overlaid." />
   </div>
 
   <Prose>
@@ -73,33 +90,93 @@ const data = {
 
     <h1>What is it?</h1>
 
-    <p><a href="https://lysterfieldlake.com/">Lysterfield Lake</a> is a 3D generative interactive music video. It works in the browser, using <a href="https://threejs.org/">Three.js</a> and <a href="https://docs.pmnd.rs/react-three-fiber/getting-started/introduction">react-three-fiber</a> to stitch together seven feeds of video frame by frame, turning a single piece of footage shot on an iPhone into a three-dimensional fever dream. It uses the accelerometer in your phone, if it's available, or your mouse if you're on a computer. It shows and hides the protagonist as you watch depending on your actions, offering a myriad of ways to experience it. New dreams can be added at any time.</p>
+    <p><a href="https://lysterfieldlake.com/">Lysterfield Lake</a> is a 3D generative interactive music video. It works in the browser, using <a href="https://threejs.org/">Three.js</a> and <a href="https://r3f.docs.pmnd.rs/">React Three Fiber</a> to stitch together seven feeds of video frame by frame, turning a single piece of footage shot on an iPhone into a three-dimensional fever dream. It uses the accelerometer in your phone, if it's available, or your mouse if you're on a computer. It shows and hides the protagonist as you watch depending on your actions, offering a myriad of ways to experience it.</p>
 
-    <p>Behind the scenes it was modelled in <a href="https://www.blender.org/">Blender</a>, (using a polaroid model by <a href="https://sketchfab.com/edoardogalati">Edoardo Galati</a>), generated in python and shell scripts, and built in JavaScript. It is made up of entirely open-source projects that are freely available.</p>
+    <p>Each "dream" is a different painted world built from the same footage. There are twelve of them now, and since the relaunch you can swap between them mid-song, by grabbing the polaroid and flicking it away, without the music skipping a beat.</p>
+
+    <p>Behind the scenes it was modelled in <a href="https://www.blender.org/">Blender</a>, (using a polaroid model by <a href="https://sketchfab.com/edoardogalati">Edoardo Galati</a>), generated by a pipeline of open models, and built in JavaScript. It is made up of entirely open-source projects that are freely available, and so is it.</p>
   </Prose>
 
-  <div class="full">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-grid.webp" alt="A frame of each of the initial dreams." mobile />
+  <div class="wide">
+    <Picture src={`${assets}/image-dreams-grid-2026.webp`} alt="One moment of the song, on the boardwalk: the painted portrait, the background, the depth and the outline across the top, then each of the twelve dreams." />
+  </div>
+
+  <div class="wide">
+    <Video shadow src={`${assets}/video-chooser.mp4`} alt="Choosing a dream. Drag the top card aside and it tucks under the pile, then leave the pointer be and the scene drifts behind it." />
   </div>
 
   <Prose>
     <hr />
 
-    <h1>The process</h1>
+    <h1 id="three-years-later">Three years later</h1>
 
-    <p>So, how does it work? I made a diagram to help.</p>
-  </Prose>
+    <p>When I launched this in December 2023, I said new dreams could be added at any time. Then I didn't add a single one for almost three years.</p>
 
-  <div class="full">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-process-diagram.webp" alt="A diagram showing the process of how the technology works under the hood." themed mobile />
-  </div>
+    <p>It wasn't for lack of wanting to. The project shipped as two repos: a React app, and a pipeline I described, generously, as "not something that will work locally out of the box". In practice it was eight bash scripts chaining ffmpeg, three model servers and a custom PyTorch model running on the gaming PC under my desk, a hardcoded hostname for that PC, and a manual pass through Deforum and frame interpolation for every dream. Some of it only existed in my head, and my head had moved on.</p>
 
-  <Prose>
-    <p>First, a single video file, shot on an iPhone, is fed through a series of python and shell scripts. The initial one splits the video into individual frames. These frames then go through a bunch of processes depending on their final output.</p>
+    <p>So in August 2026 I started again. Ten weeks, 461 commits and 59 pull requests later, Lysterfield Lake lives in <a href={repo}>a single repo</a> with the app, the pipeline, and the models it runs. The original app's history came along for the ride, so the first commit from November 2023 is still in there. The old repos are archived. And on 23 October 2026 the site relaunched with the first new dream since launch, Sharp Edges, followed four days later by a second, Oil Slick.</p>
   </Prose>
 
   <div class="content">
-    <Picture shadow src="/assets/case-studies/lysterfield-lake/image-process-preview.gif" alt="A preview of the finished process." />
+    <Video shadow src={`${assets}/video-paper-planes.mp4`} alt="Paper Planes, one of the original ten, as it plays now: checked frame by frame, repaired, and put back together." />
+  </div>
+
+  <Prose>
+    <h2>Digging up 2023</h2>
+
+    <p>Before I could rebuild anything, I had to work out what I'd actually built. That meant an archaeological dig through an external hard drive, and then through a 202GB Linux backup, and it turned up some surprises. The matte had been a manual, undocumented step. The background wasn't a second shot, like I'd half remembered, but the same footage with me erased by three different models and a hand-placed click. And the prompts behind each dream were a time capsule of 2023: artist names, LoRA tags, and even Midjourney flags pasted in for good measure, none of which the model could possibly understand.</p>
+  </Prose>
+
+  <div class="wide">
+    <Picture shadow src={`${assets}/image-admin.webp`} alt="The new dream maker, started from Mood Lighting's original prompt. Note the LoRA tags, and the confident 'UHD, HDR, 8k'. It was a different time." />
+  </div>
+
+  <Prose>
+    <p>I also found where it all started: a test from March 2023, before I'd even gone to the lake. It's a selfie, two panels wide, run through the same watercolour model that ended up in the final video.</p>
+  </Prose>
+
+  <div class="content">
+    <Video shadow src={`${assets}/video-2023-experiment.mp4`} alt="An early experiment from March 2023: a painted portrait, and the matte that cuts it out." />
+  </div>
+
+  <Prose>
+    <p>Most of the rebuild was pair-programmed with <a href="https://claude.com/claude-code">Claude Code</a>. The repo carries a <code>CLAUDE.md</code> with the rules the project has learned the hard way, and a <code>plans</code> folder where every decision lives as a document, moving from backlog to done, with an honest record of what was actually built. It turns out the things that help an agent pick up a project are exactly the things that help a person do the same, including future me.</p>
+
+    <hr />
+
+    <h1>The process</h1>
+
+    <p>So, how does it work? I made a diagram to help. This is how it worked in 2023, and most of it still holds. Where something has changed, I've noted it.</p>
+  </Prose>
+
+  <div class="full">
+    <Picture src={`${assets}/image-process-diagram.webp`} alt="A diagram showing the process of how the technology works under the hood." themed mobile />
+  </div>
+
+  <Prose>
+    <p>First, a single video file, shot on an iPhone, is split into individual frames. These frames then go through a bunch of processes depending on their final output, and come out the other side as seven panels of the same moment.</p>
+  </Prose>
+
+  <div class="full">
+    <Video src={`${assets}/video-panels.mp4`} alt="Seven panels, one moment: the lyrics, the painted portrait, the background with me removed, the matte, the depth, the outline, and the dream." />
+  </div>
+
+  <Prose>
+    <ol>
+      <li><strong>Lyrics:</strong> handwritten, one line at a time.</li>
+      <li><strong>Portrait:</strong> the footage, repainted as watercolour.</li>
+      <li><strong>Background:</strong> the scene, with the person removed.</li>
+      <li><strong>Matte:</strong> a mask that cuts out the person.</li>
+      <li><strong>Depth:</strong> how far each part of the frame is from the camera.</li>
+      <li><strong>Outline:</strong> line art of the person.</li>
+      <li><strong>Dream:</strong> the whole scene reimagined as a painting, with no person in it.</li>
+    </ol>
+
+    <p>In 2023 those were a set of scripts. Now they're a single TypeScript command-line tool, with one step per panel that you can run on its own against a job folder. Most steps call a model on <a href="https://replicate.com/">Replicate</a>, and every step skips any output that already exists. That rule exists because model calls cost money, a song is thousands of frames, and early in the rebuild a retry loop hammered the API for minutes before I noticed. Lesson learned.</p>
+  </Prose>
+
+  <div class="content">
+    <Picture shadow src={`${assets}/image-process-preview.gif`} alt="A preview of the finished process." />
   </div>
 
   <Prose>
@@ -113,20 +190,35 @@ const data = {
   </Prose>
 
   <div class="full">
-    <PictureZoom client:visible src="/assets/case-studies/lysterfield-lake/image-avatar-diagram.webp" alt="A diagram of how the avatar is generated." themed mobile />
+    <PictureZoom client:visible src={`${assets}/image-avatar-diagram.webp`} alt="A diagram of how the avatar is generated." themed mobile />
   </div>
 
   <Prose>
     <ul>
-      <li><a href="https://replicate.com/gwang-kim/diffusionclip?input=form&output=preview">DiffusionCLIP</a> turns the image into a painted watercolour style.</li>
-      <li><a href="https://replicate.com/arielreplicate/robust_video_matting?input=form&output=preview">RobustVideoMatting</a> finds the subject in the video and creates an alpha mask of it.</li>
-      <li>In python, the mask is used with the original image and passed to <a href="https://replicate.com/cjwbw/zoedepth?input=form&output=preview">ZoeDepth</a>, which creates a depth mask.</li>
+      <li><a href="https://github.com/gwang-kim/DiffusionCLIP">DiffusionCLIP</a> turns the image into a painted watercolour style.</li>
+      <li><a href="https://replicate.com/arielreplicate/robust_video_matting">Robust Video Matting</a> finds the subject in the video and creates an alpha mask of it.</li>
+      <li>The mask is used with the original image and passed to <a href="https://replicate.com/cjwbw/zoedepth">ZoeDepth</a>, which creates a depth mask.</li>
       <li>These three elements (the watercolour image, the alpha mask, and the depth mask) are used to render the avatar.</li>
     </ul>
+
+    <p><strong>What changed:</strong> the models are the same, but DiffusionCLIP is now the project's own Cog model. The hosted version could take three hours to boot, and was quietly rebuilding gigabytes of model on every single frame, which is how it managed 72 seconds a frame. Loading it once brought that to about 8 seconds on my 4090. The rebuild also found a gap that had shipped since 2023: when I walk away down the boardwalk, about five and a half seconds of the depth panel were pure black, so the avatar went flat. Depth is now fitted to the subject, however far away I get.</p>
   </Prose>
 
   <div class="content">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-avatar-preview.webp" alt="A preview of the generated avatar, from frame to 3D avatar." themed mobile />
+    <Picture src={`${assets}/image-avatar-preview.webp`} alt="A preview of the generated avatar, from frame to 3D avatar." themed mobile />
+  </div>
+
+  <div class="content">
+    <Compare
+      video
+      left={`${assets}/video-depth-walkaway-before.mp4`}
+      right={`${assets}/video-depth-walkaway-after.mp4`}
+      leftLabel="2023"
+      rightLabel="Now"
+      width={720}
+      height={720}
+      alt="The depth panel on the walk away, from 1:58. In 2023 it kept dropping to black, and the avatar went flat with it; fitted to the subject, I'm there all the way down the boardwalk. Drag to move the line."
+    />
   </div>
 
   <Prose>
@@ -138,19 +230,25 @@ const data = {
   </Prose>
 
   <div class="full">
-    <PictureZoom client:visible src="/assets/case-studies/lysterfield-lake/image-background-diagram.webp" alt="A diagram showing how the background is generated." themed mobile />
+    <PictureZoom client:visible src={`${assets}/image-background-diagram.webp`} alt="A diagram showing how the background is generated." themed mobile />
   </div>
 
   <Prose>
     <ul>
       <li>Using the alpha mask and the original image, <a href="https://github.com/geekyutao/Inpaint-Anything">Inpaint Anything</a> creates a version of the scene without the avatar in it.</li>
-      <li>This inpainted image is then also painted in watercolour using <a href="https://replicate.com/gwang-kim/diffusionclip?input=form&output=preview">DiffusionCLIP</a>.</li>
+      <li>This inpainted image is then also painted in watercolour using DiffusionCLIP.</li>
       <li>This element is then used to render the background.</li>
     </ul>
+
+    <p><strong>What changed:</strong> this panel went through four approaches. Filling in single frames kept inventing people, huts, and signatures, and the scene flickered as whole trees changed species between frames. Video inpainting models either fell apart as the camera moved, or left ghosts wherever my arms moved fast. The winner was <a href="https://replicate.com/bria/video-erase-object">Bria's video eraser</a>, run over the song in 55 overlapping five-second chunks and crossfaded back together, for about $14. (One chunk did briefly add dark ghost arms to the sky, which a slightly bigger mask fixed.)</p>
   </Prose>
 
   <div class="content">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-background-preview.webp" alt="A preview of the background, from frame to watercolour background." themed mobile />
+    <Picture src={`${assets}/image-background-preview.webp`} alt="A preview of the background, from frame to watercolour background." themed mobile />
+  </div>
+
+  <div class="content">
+    <Video src={`${assets}/video-background-bria.mp4`} alt="1:24, the fast arms that used to leave ghosts: the painted portrait, and the background Bria makes without me in it." />
   </div>
 
   <Prose>
@@ -162,19 +260,34 @@ const data = {
   </Prose>
 
   <div class="full">
-    <PictureZoom client:visible src="/assets/case-studies/lysterfield-lake/image-outline-diagram.webp" alt="A diagram showing how the outline is generated." themed mobile />
+    <PictureZoom client:visible src={`${assets}/image-outline-diagram.webp`} alt="A diagram showing how the outline is generated." themed mobile />
   </div>
 
   <Prose>
     <ul>
-      <li>In python, the original image is combined with the alpha mask to create a version with no background.</li>
-      <li>This is then fed into <a href="https://github.com/Linzmin1927/Artline_torch">artline-torch</a>, which creates a rough outline sketch.</li>
-      <li>This sketch is then overlaid on the avatar during rendering (it also uses a bit of dithering in the custom shader in <a href="https://threejs.org/">Three.js</a>, which is what gives it the printed ink / slight comic book style).</li>
+      <li>The original image is combined with the alpha mask to create a version with no background.</li>
+      <li>This was fed into <a href="https://github.com/Linzmin1927/Artline_torch">artline-torch</a>, which created a rough outline sketch.</li>
+      <li>This sketch is then overlaid on the avatar during rendering (it also uses a bit of dithering in a custom shader, which is what gives it the printed ink / slight comic book style).</li>
     </ul>
+
+    <p><strong>What changed:</strong> ArtLine worked at 300 pixels and was stretched up, so outstretched arms would half disappear. After a bake-off it was replaced with a cleaned-up version of ControlNet's coarse line art. My favourite bug of the whole rebuild lived here, too: the outline model sat stuck in "starting" on Replicate for over a week. It was a 7GB GPU image for a model that draws lines on a 300-pixel square. I took the GPU away, and it ran in under a second.</p>
   </Prose>
 
   <div class="content">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-outline-preview.webp" alt="A preview of the diagram, from frame to outline." themed mobile />
+    <Picture src={`${assets}/image-outline-preview.webp`} alt="A preview of the outline, from frame to outline." themed mobile />
+  </div>
+
+  <div class="content">
+    <Compare
+      left={`${assets}/image-outline-artline.webp`}
+      right={`${assets}/image-outline-outline.webp`}
+      leftLabel="ArtLine"
+      rightLabel="Now"
+      seam="black"
+      width={1200}
+      height={1200}
+      alt="The fast arms at 1:24: ArtLine, which kept the hands and lost the rest of me, and the cleaned-up coarse line art that replaced it. Drag to move the line."
+    />
   </div>
 
   <Prose>
@@ -186,41 +299,43 @@ const data = {
   </Prose>
 
   <div class="full">
-    <PictureZoom client:visible src="/assets/case-studies/lysterfield-lake/image-dreams-diagram.webp" alt="A diagram showing the dreams." themed mobile />
+    <PictureZoom client:visible src={`${assets}/image-dreams-diagram.webp`} alt="A diagram showing the dreams." themed mobile />
   </div>
 
   <Prose>
-    <p>The original images are fed into <a href="https://replicate.com/deforum/deforum_stable_diffusion?input=form&output=preview">Deforum Stable Diffusion</a>, along with a prompt, creating unique scenes that mirror the subject matter. For example, trees and a lake that match the contours of the image.</p>
+    <p>The original images are fed into <a href="https://github.com/deforum-art/deforum-stable-diffusion">Deforum Stable Diffusion</a>, along with a prompt, creating unique scenes that mirror the subject matter. For example, trees and a lake that match the contours of the image.</p>
   </Prose>
 
   <div class="content">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-preview.webp" alt="A preview showing the dreams, from the original frames." themed mobile />
+    <Picture src={`${assets}/image-dreams-preview.webp`} alt="A preview showing the dreams, from the original frames." themed mobile />
   </div>
 
   <Prose>
-    <p>Each frame is then manually reviewed one by one and removed if not appropriate. (The primary reason for this is that Stable Diffusion models are trained on image sets that include a large amount of <a href="https://www.dictionary.com/e/fictional-characters/waifu/">waifus</a>. Which, because the input clearly contains the shape of a person, means a lot of waifus end up in the output, even when politely asking Stable Diffusion not to.)</p>
+    <p>In 2023, each frame was then manually reviewed one by one and removed if not appropriate. (The primary reason for this is that Stable Diffusion models are trained on image sets that include a large amount of <a href="https://www.dictionary.com/e/fictional-characters/waifu/">waifus</a>. Which, because the input clearly contains the shape of a person, means a lot of waifus end up in the output, even when politely asking Stable Diffusion not to.)</p>
   </Prose>
 
   <div class="content">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-dreams-waifu.webp" alt="An example of the tendency AI has toward waifu. Turns out every creative process eventually takes a sharp detour into the uncanniest valleys." />
+    <Picture src={`${assets}/image-dreams-waifu.webp`} alt="An example of the tendency AI has toward waifu. Turns out every creative process eventually takes a sharp detour into the uncanniest valleys." />
   </div>
 
   <Prose>
-    <p>The remaining images are fed into <a href="https://github.com/nihui/rife-ncnn-vulkan">rife-ncnn-vulkan</a>, which interpolates the missing frames and generates new ones to fill the gaps.</p>
+    <p>The remaining images were fed into <a href="https://github.com/nihui/rife-ncnn-vulkan">rife-ncnn-vulkan</a>, which interpolated the missing frames and generated new ones to fill the gaps.</p>
   </Prose>
 
   <div class="content">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-interpolation-diagram.webp" alt="A diagram showing the interpolation process." themed mobile />
+    <Picture src={`${assets}/image-interpolation-diagram.webp`} alt="A diagram showing the interpolation process." themed mobile />
   </div>
 
   <Prose>
+    <p>That manual review is the part that had to change most, and it gets <a href="#the-dreams-revisited">its own section below</a>.</p>
+
     <hr />
 
     <h2>The Lyrics</h2>
   </Prose>
 
   <div class="full">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-lyrics.webp" alt="The lyrics that get overlaid on the polaroids." mobile />
+    <Picture src={`${assets}/image-lyrics.webp`} alt="The lyrics that get overlaid on the polaroids." mobile />
   </div>
 
   <Prose>
@@ -234,17 +349,17 @@ const data = {
   </Prose>
 
   <div class="main">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-frames-overlaid.webp" alt="An example of each frame, with the different dream for each." themed mobile />
+    <Picture src={`${assets}/image-frames-overlaid.webp`} alt="An example of each frame, with the different dream for each." themed mobile />
   </div>
 
   <Prose>
-    <p>This gets stitched together into an ultra-wide video with 7 square images side-by-side. Originally I tried using a single video for each element, but it's impossible to guarantee frame sync across multiple videos in the browser. Fortunately, much like how there's no rule against eating a candy bar on a dance floor, there's no rule that videos need to be 16x9. Using custom shaders in the browser, you can simply grab the crop of footage you need for each element in real time.</p>
+    <p>In 2023, this got stitched together into an ultra-wide video with 7 square images side-by-side. Originally I tried using a single video for each element, but it's impossible to guarantee frame sync across multiple videos in the browser. Fortunately, much like how there's no rule against eating a candy bar on a dance floor, there's no rule that videos need to be 16x9. Using custom shaders in the browser, you can simply grab the crop of footage you need for each element in real time.</p>
 
     <p>And having all of these elements in the one shader affords new opportunities. By passing the depth mask, alpha mask, and the watercolour scene, I was able to generate a rough 3D model.</p>
   </Prose>
 
   <div class="content">
-    <Picture src="/assets/case-studies/lysterfield-lake/image-stack-diagram.webp" alt="An example of how the elements of the avatar are stitched together." themed mobile />
+    <Picture src={`${assets}/image-stack-diagram.webp`} alt="An example of how the elements of the avatar are stitched together." themed mobile />
   </div>
 
   <Prose>
@@ -252,25 +367,214 @@ const data = {
   </Prose>
 
   <div class="content">
-    <Picture shadow src="/assets/case-studies/lysterfield-lake/image-depth-animation.gif" alt="Frame-by-frame animation of the AI-generated depth filters. AI interprets the depth mask from a video, because we live in the future. (Also, I hand painted a lot of these frames, because technology is, sadly, fallible.)" />
+    <Picture shadow src={`${assets}/image-depth-animation.gif`} alt="Frame-by-frame animation of the AI-generated depth filters. AI interprets the depth mask from a video, because we live in the future. (Also, I hand painted a lot of these frames, because technology is, sadly, fallible.)" />
   </div>
 
   <Prose>
-    <p>Each frame of each video includes the handwritten lyrics, the watercolour scene, the watercolour scene with the background removed, the alpha mask, the depth mask, the sketch, and the dream. And those ultra-wide videos form the backbone of the project.</p>
+    <p><strong>What changed:</strong> that single ultra-wide video had a cost. Every dream was its own seven-panel file, so switching dreams meant throwing away a video that was six-sevenths identical, cutting the music, and starting again. Now there's one shared video of panels one to six, with the song, and each dream is a small silent video of its own. Keeping two videos in sync is exactly the problem I'd avoided in 2023, so the player watches the drift: under a quarter of a second, it nudges the dream's playback speed up or down by 5% until they line up, and over that, it seeks. (Seeking is slow on iPhones, so it saves that for emergencies.)</p>
+
+    <hr />
+
+    <h1 id="the-dreams-revisited">The dreams, revisited</h1>
+
+    <p>The first plan for the rebuild was to swap Deforum for something newer. Three years is a geological age in AI, and surely a modern video model would do it better, faster, and cheaper.</p>
+
+    <p>It didn't. Every new model I tried either kept me in the frame, or invented a whole new person standing in my pose. What makes the original dreams work, it turns out, is the subject's shape without the subject. A raised pair of hands becomes rock spires. A walking figure becomes a jetty. Head and shoulders become a red rock and its reflection in the lake. The newer models were too good at understanding what they were looking at.</p>
+
+    <p>So I rebuilt the exact Deforum setup from 2023, recovered from that backup down to the commit and the hand edits, and packaged it as the project's own model. It runs on Replicate, or on the 4090 PC in my house for free. The dreams can't be rendered in parallel, because each frame grows out of the one before it, so a full song is about 2,580 frames and six hours of patience.</p>
+  </Prose>
+
+  <div class="full">
+    <Video src={`${assets}/video-dreams-grid.mp4`} alt="The same eight seconds, twelve ways. Across the top, the painted portrait, the background, the depth and the outline; then Oil Slick, Sharp Edges, Watercolour, Paper Planes, Clouds of Air, Dirty Palette, Horizon Storm, Lush and Light, Ghibli's Dream, Mood Lighting, Ink Flight, and Charcoal." />
+  </div>
+
+  <Prose>
+    <h2>Counting the waifus</h2>
+
+    <p>Then came the uncomfortable bit. The new dreams kept showing a person, and I assumed I'd broken something. I hadn't. Replaced frames in the 2023 folders have later file dates than the rest, which meant I could count exactly how much hand-curation the originals needed: 1,322 of 21,480 frames, deleted and patched over by interpolation. Ink Flight needed none. Lush and Light needed nearly 17%, in 131 separate stretches.</p>
+
+    <p>The rebuild was faithful. What was missing was me, in 2023, squinting at thousands of frames.</p>
+
+    <p>So now that part is automated, and it learned from me. The person check is a small classifier on top of <a href="https://github.com/openai/CLIP">CLIP</a>, trained on my own keep-or-replace decisions from 2023. It catches 97% of the frames I replaced, while flagging 1% of the ones I kept, and it checks a whole song in about six minutes on a laptop. Any stretch it flags gets rendered again with new seeds, never blended over, because interpolation smears the stop-motion look the dreams depend on. The first repaired frame turned a clear figure from behind into a lake and a tree, in the dream's own palette. On the walk away down the boardwalk, there's now just the jetty where I was.</p>
+  </Prose>
+
+  <div class="content">
+    <Compare
+      left={`${assets}/image-repair-1735-before.webp`}
+      right={`${assets}/image-repair-1735-after.webp`}
+      leftLabel="2023"
+      rightLabel="Repaired"
+      width={1200}
+      height={1200}
+      alt="Lush and Light, frame 1735: me from behind, as it shipped in 2023, and the same frame rendered again. Drag to move the line."
+    />
+  </div>
+
+  <div class="wide">
+    <Picture src={`${assets}/image-reroll-walkaway.webp`} alt="Sharp Edges on the walk away, rendered with the person check rerolling as it goes: just the jetty, where I used to be." />
+  </div>
+
+  <Prose>
+    <p>It learned from me a little too well. In 2023 I'd kept the ink-wash busts in Ink Flight and Charcoal, so the classifier learned that a face painted onto a bust was fine. Sharp Edges shipped with a woman's face in about half its frames, and the check passed every one of them. Worse, the repairs kept painting her back in. The culprit was the style image I'd chosen for Sharp Edges: a portrait of a woman, carrying its look onto every frame at full strength. Every new seed politely painted the same face.</p>
+  </Prose>
+
+  <div class="full">
+    <Picture src={`${assets}/image-face-audit-sharp-edges.webp`} alt="Sixty frames of Sharp Edges, the twenty the person check scored highest and forty spread through the song. It found no one. The faces it missed, in 27 of them, are circled." />
+  </div>
+
+  <Prose>
+    <p>So there's a second check now, a face detector trained on real and illustrated faces, picked from a bake-off on a few hundred frames I labelled by hand. A frame fails if either check flags it. The face detector never decides a re-render, only reports for review, because rerolling until a detector stops seeing a face just finds the faces it can't see. And there's a new rule: never a face in a style image. Re-rendered with a frame of Sharp Edges itself as the style image, the faces in its loop came back as the faceless bust that's meant to be there.</p>
+  </Prose>
+
+  <div class="wide">
+    <Picture src={`${assets}/image-style-face.webp`} alt="Sharp Edges' style image, the face it painted into frame 1229, and the same frame rendered again with a frame of Sharp Edges as the style image instead." />
+  </div>
+
+  <Prose>
+    <p>With both checks in place, I went back through all of the original ten, stretch by stretch, and repaired, held, or kept each one. (Charcoal's bust stays. That one's on purpose.)</p>
+
+    <h2>Making a dream now</h2>
+
+    <p>The other lesson came with a receipt: early in the rebuild I paid for two dream takes before noticing that both of them had a person in them. So a new dream is now made in stages, in a development-only page of the app, and each stage has to be approved before the next one costs anything.</p>
+  </Prose>
+
+  <Prose>
+    <ol>
+      <li><strong>Describe a look.</strong> A prompt, a palette image the colours are matched to, and optionally a style image, whose look (but not its content) carries over.</li>
+      <li><strong>Review five samples</strong> from the hardest moments in the song: the wide intro, fast arms, the walk away, a shouting close-up, and right after a cut.</li>
+      <li><strong>Review a 15-second clip</strong> in the real player. About $1.50, or free on the 4090.</li>
+      <li><strong>Generate the full song.</strong> About $20 and six hours, then the person check, any repairs, and the final videos.</li>
+    </ol>
+
+    <p>All in, a new dream costs about $22, which makes "new dreams can be added at any time" true for the first time.</p>
+  </Prose>
+
+  <div class="wide">
+    <Picture src={`${assets}/image-style-look.webp`} alt="The same stretch with a style image of a wooden house. On top, its look and content: its rooftops end up on the boardwalk. Below, its look alone." />
+  </div>
+
+  <div class="wide">
+    <Picture src={`${assets}/image-samples.webp`} alt="The five moments every new dream is tried on first, in the footage and as Oil Slick's samples." />
+  </div>
+
+  <div class="wide">
+    <Picture shadow src={`${assets}/image-admin-take.webp`} alt="Oil Slick in the dream maker: its settings, its five samples with the footage inset, and the people check on its 15-second clip." />
+  </div>
+
+  <Prose>
+
+    <hr />
+
+    <h1>The new player</h1>
+
+    <p>The app got the same treatment, starting with a title that plays the dreams through its letters.</p>
+  </Prose>
+
+  <div class="wide">
+    <Picture shadow themed src={`${assets}/image-relaunch-title.webp`} alt="The new title screen, in whichever mode you're reading this in." />
+  </div>
+
+  <Prose>
+    <p>Underneath, it's on React 19 now, with a loading screen where the stack of polaroids builds as the scene loads, and a dream chooser you can toss cards around in. Once you're in, the polaroid itself is the remote: grab it and flick it away, and a blank print develops into the next dream. Flick quickly, and it skips past the ones in between.</p>
+  </Prose>
+
+  <div class="full">
+    <Video shadow src={`${assets}/video-switch.mp4`} alt="Swapping dreams mid-song. The music keeps playing, and the stipple follows the pointer across the avatar." />
+  </div>
+
+  <Prose>
+    <p>Touch got a proper pass too, tested on my own phone: the same cursor ring under your finger, tilt that eases instead of snapping, and water that ripples as you tilt. Every dream also has its own link now, like <a href="https://lysterfieldlake.com/dream/sharp-edges">lysterfieldlake.com/dream/sharp-edges</a>.</p>
+  </Prose>
+
+  <Prose>
+    <h2>Light and dark</h2>
+
+    <p>The 2023 version only came in one shade. Now there's a light mode and a dark mode, built from scratch, that follow your system or a three-way toggle in the corner. It's more than swapping the background. The polaroid goes from black card to white paper, the handwritten ink flips from black to white, and the little lights drifting around the scene change species: fireflies at night, gnats during the day.</p>
+  </Prose>
+
+  <div class="wide">
+    <Compare
+      left={`${assets}/image-theme-dark.webp`}
+      right={`${assets}/image-theme-light.webp`}
+      leftLabel="Dark"
+      rightLabel="Light"
+      width={1600}
+      height={1111}
+      alt="The same paused moment, at 1:23, in dark mode and light mode. Drag to move the line."
+    />
+  </div>
+
+  <div class="full">
+    <Video shadow src={`${assets}/video-light.mp4`} alt="Light mode, flicking the polaroid both ways to move through the dreams." />
+  </div>
+
+  <Prose>
+    <p>Under the hood, the site moved from Cloudflare Pages to a Cloudflare Worker, and the videos now stream from R2.</p>
+
+    <h2>Things I learned</h2>
+
+    <ul>
+      <li>The "clean" originals weren't. They were hand-curated, and the rebuild only worked once I'd measured how much.</li>
+      <li>Newer models aren't always better for a specific creative job. Sometimes the old one's flaws are the point.</li>
+      <li>Removing a GPU can fix a model.</li>
+      <li>On Replicate, every model needs its exact version pinned, or it simply isn't there.</li>
+      <li>Never write a retry loop against an API that charges per call.</li>
+      <li>A visible flaw can ship for three years without anybody noticing, including the person who made it.</li>
+      <li>Write down your decisions. Future you is a stranger with none of your context.</li>
+    </ul>
+
+    <hr />
+
+    <h1 id="pick-up-the-source">Pick up the source</h1>
+
+    <p>Everything is in <a href={repo}>github.com/superhighfives/lysterfield-lake</a>: the app, the pipeline, the models, and every plan. You need <a href="https://bun.sh/">Bun</a>, and you can have the app running in a couple of minutes.</p>
+
+  </Prose>
+
+  <Code code={`git clone https://github.com/superhighfives/lysterfield-lake
+cd lysterfield-lake
+bun install
+
+# Run the app against the published videos
+VITE_APP_DREAMS=https://dreams.lysterfieldlake.com bun run --cwd apps/client dev`} />
+
+  <Prose>
+
+    <p>The videos aren't in git (the main one alone is hundreds of megabytes), so pointing the app at the published ones is the quickest way in. To make your own, give the pipeline a video and a <code>REPLICATE_API_TOKEN</code> in <code>apps/pipeline/.env</code>, and run it a step at a time:</p>
+
+  </Prose>
+
+  <Code code={`bun run --cwd apps/pipeline cli init --job .jobs/my-video --source ~/Movies/my-video.mov
+bun run --cwd apps/pipeline cli matte --job .jobs/my-video`} />
+
+  <Prose>
+
+    <p>Some useful places to start:</p>
+
+    <ul>
+      <li><code>apps/client</code>: the app, in Vite, React, and React Three Fiber. <code>src/materials/video-material.tsx</code> is where the panels get cut apart and put back together.</li>
+      <li><code>apps/pipeline</code>: the command-line tool, one step per panel.</li>
+      <li><code>models</code>: the project's own Cog models (Deforum, DiffusionCLIP, line art) and the local person check.</li>
+      <li><code>plans</code>: every decision, from the first model audit to the relaunch, including what didn't work.</li>
+    </ul>
+
+    <p>The two original repos, <a href="https://github.com/superhighfives/lysterfield-lake-client">lysterfield-lake-client</a> and <a href="https://github.com/superhighfives/lysterfield-lake-pipeline">lysterfield-lake-pipeline</a>, are archived but still there if you want to see how it was done the first time.</p>
 
     <hr />
 
     <h2>The Conclusion</h2>
 
-    <p>The selected dream, represented by one of these videos, is then chopped up and stitched back together in real time in the browser, using <a href="https://github.com/pmndrs/react-three-fiber">react-three-fiber</a>, and many of the incredible resources provided <a href="https://github.com/pmndrs/drei/">as part of the drei project</a>. You can explore each dream one by one, wandering through a landscape that has been imagined by a computer, listening to a song about a time that sits on the very edge of my consciousness. Memory, like AI, is funny like that.</p>
+    <p>The selected dream is chopped up and stitched back together in real time in the browser, using <a href="https://github.com/pmndrs/react-three-fiber">React Three Fiber</a>, and many of the incredible resources provided <a href="https://github.com/pmndrs/drei/">as part of the drei project</a>. You can explore each dream one by one, wandering through a landscape that has been imagined by a computer, listening to a song about a time that sits on the very edge of my consciousness. Memory, like AI, is funny like that.</p>
   </Prose>
 
   <div class="wide">
-    <Picture shadow src="/assets/case-studies/lysterfield-lake/image-screencast-frame.webp" alt="The rendered final output." />
+    <Picture shadow themed src={`${assets}/image-relaunch-chooser.webp`} alt="Where are we going?" />
   </div>
 
   <Prose>
-    <p>This is probably a good time to mention that, while this is the conclusion, this project took every possible detour, hit every possible technical hitch, and explored every possible weird twist and turn. What I've ended up with is absolutely nothing like what I imagined, because I didn't really know what I was going to get at the end. Which makes it a sort-of love letter to the creative process, and to the joys of pursuing something purely for the “what-if” of it. There are so many ways that sticking with something can truly surprise you, and that doesn't have to involve making weird music videos — it could be baking, or cross stitch, or learning a language, or dance. Things you can experiment with, be creative with, grow with. Things that make you feel like you did something you previously couldn't. Maybe even something great. That might be the greatest feeling there is.</p>
+    <p>This is probably a good time to mention that, while this is the conclusion, this project took every possible detour, hit every possible technical hitch, and explored every possible weird twist and turn. What I ended up with was absolutely nothing like what I imagined, because I didn't really know what I was going to get at the end. Which makes it a sort-of love letter to the creative process, and to the joys of pursuing something purely for the "what-if" of it. There are so many ways that sticking with something can truly surprise you, and that doesn't have to involve making weird music videos. It could be baking, or cross stitch, or learning a language, or dance. Things you can experiment with, be creative with, grow with. Things that make you feel like you did something you previously couldn't. Maybe even something great. That might be the greatest feeling there is.</p>
+
+    <p>Coming back to it three years later was its own version of that. Like the song says, the tiny changes add up, and you don't notice them until you look back.</p>
 
     <p>I hope you find it inspiring, or at the very least, mildly interesting, and I appreciate you taking the time to learn more about how the project works.</p>
   </Prose>
@@ -280,19 +584,16 @@ const data = {
 
     <h1>Okay, how do I find out more?</h1>
 
-    <Picture shadow src="/assets/case-studies/lysterfield-lake/image-cover-art.webp" alt="" />
+    <Picture shadow src={`${assets}/image-cover-art.webp`} alt="" />
 
     <p>If you'd like to check it out, you can do so here:<br />
     <a href="https://lysterfieldlake.com/">https://lysterfieldlake.com/</a></p>
 
-    <p>If you'd like to share this project, that would be greatly appreciated. The project itself is entirely open-source, and available at the following GitHub repositories:</p>
+    <p>If you'd like to share this project, that would be greatly appreciated. The project itself is entirely open-source:</p>
 
-    <p>👉 <a href="https://github.com/superhighfives/lysterfield-lake"><strong>Client App</strong></a><br />
-    A React app, powered by React and react-three-fiber.</p>
+    <p>👉 <a href={repo}><strong>lysterfield-lake</strong></a><br />
+    The app, the pipeline, the models, and the plans, all in one place.</p>
 
-    <p>👉 <a href="https://github.com/superhighfives/lysterfield-lake-pipeline"><strong>Pipeline</strong></a><br />
-    The pipeline that generates the video used by the app, powered by python and shell-scripts.</p>
-
-    <p class="text-sm leading-relaxed">(<strong>Author's note:</strong> Fair warning—it's not the cleanest code, and in the case of the pipeline, it's not something that will work locally out of the box. I definitely intended open-sourcing this to be educational, in the sense of “oh, that's how he did that!”, as opposed to aspirational, like “oh, that's how he thinks React should be written??” Plausable deniability and all that. Cheers. 😅)</p>
+    <p class="text-sm leading-relaxed">(<strong>Author's note:</strong> In 2023 I warned that it wasn't the cleanest code, and that the pipeline wouldn't work locally out of the box. The second part is fixed, and the first part is better. It's still a passion project rather than an example of how React should be written, but this time it's one you can actually pick up and run. Cheers. 😅)</p>
   </Prose>
 </CaseStudyLayout>

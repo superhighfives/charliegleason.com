@@ -1,0 +1,63 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  poster?: string;
+  class?: string;
+  shadow?: boolean;
+}
+
+const { src, alt, poster = src.replace(/\.mp4$/, ".webp"), class: className = "", shadow = false } = Astro.props;
+---
+
+<figure class="relative text-center font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose">
+  <div class:list={["overflow-hidden rounded-lg inline-flex align-top", shadow && "shadow-xl", className]}>
+    <video
+      data-case-study-video
+      src={src}
+      poster={poster}
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-label={alt}
+      class="w-full h-auto"
+    ></video>
+  </div>
+
+  <div class="flex flex-col mx-auto justify-center items-center gap-4 px-8 mt-8">
+    <figcaption class="max-w-lg leading-relaxed text-balance flex-shrink px-8">
+      {alt}
+    </figcaption>
+  </div>
+</figure>
+
+<script>
+  // Videos only load and play while they're on screen. With reduced motion,
+  // they stay on their poster and get controls instead.
+  const videos = document.querySelectorAll<HTMLVideoElement>("video[data-case-study-video]");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    for (const video of videos) {
+      video.controls = true;
+    }
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {
+              video.controls = true;
+            });
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+    for (const video of videos) {
+      observer.observe(video);
+    }
+  }
+</script>

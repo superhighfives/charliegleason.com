@@ -1,0 +1,13 @@
+---
+// A code block whose background runs the full width of the page, with the code itself starting on
+// the same line as the prose around it and scrolling out to the right edge.
+interface Props {
+  code: string;
+}
+
+const { code } = Astro.props;
+---
+
+<div class="full not-prose grid grid-cols-subgrid -my-2 xl:-my-8 bg-neutral-100 dark:bg-neutral-950 border-y border-neutral-200 dark:border-neutral-800 max-sm:border-x max-sm:rounded-lg">
+  <pre class="col-[rail-start/main-end] sm:col-[rail-start/full-end] xl:col-[main-start/full-end] overflow-x-auto py-8 pr-8 max-sm:py-5 max-sm:px-4 font-mono text-sm leading-7 text-neutral-800 dark:text-neutral-200"><code>{code}</code></pre>
+</div>

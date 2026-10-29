@@ -15,6 +15,8 @@ export interface CaseStudyData {
   highlight: string;
   gradient: string;
   ogImage?: string;
+  // Has a banner-dark.webp beside banner.webp, shown in dark mode.
+  bannerDark?: boolean;
   slug: string;
   metadata: Array<{
     name: string;
@@ -49,16 +51,24 @@ const user = Astro.locals.user;
   <img
     src={`/assets/case-studies/${data.slug}/banner.webp`}
     height="540"
-    class="max-w-full mx-auto rounded hidden sm:block shadow-md border border-neutral-200 dark:border-neutral-700"
+    class:list={["max-w-full mx-auto rounded hidden sm:block shadow-md border border-neutral-200 dark:border-neutral-700", data.bannerDark && "dark:sm:hidden"]}
     alt=""
   />
+  {data.bannerDark && (
+    <img
+      src={`/assets/case-studies/${data.slug}/banner-dark.webp`}
+      height="540"
+      class="max-w-full mx-auto rounded hidden dark:sm:block shadow-md border border-neutral-700"
+      alt=""
+    />
+  )}
 
   <Container variant="full">
     <main
-      class="max-sm:pt-16 rounded-lg bg-white dark:bg-neutral-900 mx-px shadow-2xl shadow-black/5"
+      class="max-sm:pt-16 max-sm:px-4 rounded-lg bg-white dark:bg-neutral-900 mx-px shadow-2xl shadow-black/5"
     >
       <div
-        class="grid grid-cols-prose-sm sm:grid-cols-prose pt-0 xl:pt-16 pb-2 xl:pb-16 xl:gap-x-8 gap-y-8 rounded-md bg-white dark:bg-neutral-900 relative"
+        class="grid grid-cols-prose-sm sm:grid-cols-prose pt-0 xl:pt-16 pb-12 sm:pb-8 xl:pb-16 xl:gap-x-8 gap-y-8 rounded-md bg-white dark:bg-neutral-900 relative"
       >
         <div
           class="col-span-full sm:col-span-2 sm:col-start-2 lg:col-span-1 lg:col-start-2 sm:-mt-12 xl:mt-0 xl:-mr-4"
@@ -91,13 +101,13 @@ const user = Astro.locals.user;
       </div>
 
       <div
-        class="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-8 gap-y-8 xl:gap-y-16 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:py-8 [&>.sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:ml-4 [&>.content]:xl:col-content [&>.lg-content]:xl:col-lg-content max-w-none overflow-hidden"
+        class="grid grid-cols-prose-sm sm:grid-cols-prose xl:gap-x-8 gap-y-8 xl:gap-y-16 [&>*]:col-main [&>*]:xl:col-content [&>.full]:sm:col-full [&>.main]:sm:col-main [&>.wide]:sm:col-wide [&>.sidebar]:py-8 [&>.sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:col-sidebar [&>.lg-sidebar]:xl:ml-4 [&>.content]:xl:col-content [&>.lg-content]:xl:col-lg-content max-w-none overflow-hidden pb-16 xl:pb-24"
       >
         <slot />
       </div>
     </main>
     
-    <div class="max-w-screen-2xl mx-auto lg:px-7 space-y-12">
+    <div class="max-w-screen-2xl mx-auto lg:px-8 space-y-12">
       <Links />
       <Footer user={user} />
     </div>

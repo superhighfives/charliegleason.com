@@ -1,0 +1,150 @@
+---
+interface Props {
+  left: string;
+  right: string;
+  leftLabel: string;
+  rightLabel: string;
+  alt: string;
+  width: number;
+  height: number;
+  class?: string;
+  /** `left` and `right` are .mp4 clips (with .webp posters of the same name), played in step. */
+  video?: boolean;
+  /** Where the line starts, 0-100 from the left (50 by default): put it where the difference shows. */
+  start?: number;
+  /** The divider's colour: black for a slider over white images. */
+  seam?: "white" | "black";
+}
+
+const { left, right, leftLabel, rightLabel, alt, width, height, class: className = "", video = false, start = 50, seam = "white" } = Astro.props;
+const poster = (src: string) => src.replace(/\.mp4$/, ".webp");
+---
+
+<figure class="relative text-center font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose">
+  <div
+    data-compare
+    class:list={[
+      "group relative overflow-hidden rounded-lg shadow-xl select-none touch-pan-y cursor-ew-resize",
+      className,
+    ]}
+    style={`--pos: ${start}%; --skew: 7%`}
+  >
+    {video ? (
+      <>
+        <video data-compare-video src={right} poster={poster(right)} width={width} height={height} muted loop playsinline preload="none" class="block w-full h-auto"></video>
+        <video
+          data-compare-video
+          data-compare-lead
+          src={left}
+          poster={poster(left)}
+          width={width}
+          height={height}
+          muted
+          loop
+          playsinline
+          preload="none"
+          class="absolute inset-0 w-full h-full"
+          style="clip-path: polygon(0 0, calc(var(--pos) + var(--skew)) 0, calc(var(--pos) - var(--skew)) 100%, 0 100%)"
+        ></video>
+      </>
+    ) : (
+      <>
+        <img src={right} alt="" width={width} height={height} draggable="false" class="block w-full h-auto" />
+        <img
+          src={left}
+          alt=""
+          width={width}
+          height={height}
+          draggable="false"
+          class="absolute inset-0 w-full h-full"
+          style="clip-path: polygon(0 0, calc(var(--pos) + var(--skew)) 0, calc(var(--pos) - var(--skew)) 100%, 0 100%)"
+        />
+      </>
+    )}
+    <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <line data-compare-seam x1={start + 7} y1="0" x2={start - 7} y2="100" stroke={seam} stroke-width="2" vector-effect="non-scaling-stroke" />
+    </svg>
+    <span class="absolute top-3 left-3 rounded-full bg-black/60 text-white px-2.5 py-1 uppercase tracking-wider text-[10px]">{leftLabel}</span>
+    <span class="absolute top-3 right-3 rounded-full bg-white/80 text-black px-2.5 py-1 uppercase tracking-wider text-[10px]">{rightLabel}</span>
+    <span
+      data-compare-handle
+      class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none flex flex-col items-center justify-center gap-1 size-16 sm:size-20 rounded-full border border-white/80 bg-black/20 backdrop-blur-sm text-white shadow-lg transition-transform group-active:scale-90 group-has-[:focus-visible]:outline group-has-[:focus-visible]:outline-2 group-has-[:focus-visible]:outline-yellow-400"
+      style="left: var(--pos)"
+      aria-hidden="true"
+    >
+      <span class="flex items-center gap-3 text-sm leading-none"><span>‹</span><span class="size-1.5 rounded-full bg-white"></span><span>›</span></span>
+      <span class="rounded-full bg-black/70 px-1.5 py-0.5 text-[9px] tracking-wider">DRAG</span>
+    </span>
+    <input
+      type="range"
+      min="0"
+      max="100"
+      value={start}
+      step="1"
+      aria-label={`Drag to compare ${leftLabel.toLowerCase()} and ${rightLabel.toLowerCase()}`}
+      class="sr-only"
+    />
+  </div>
+
+  <div class="flex flex-col mx-auto justify-center items-center gap-4 px-8 mt-8">
+    <figcaption class="max-w-lg leading-relaxed text-balance flex-shrink px-8">
+      {alt}
+    </figcaption>
+  </div>
+</figure>
+
+<script>
+  // A diagonal before-and-after: the left image sits on top, clipped along a
+  // "/" line that follows the pointer while dragging. The range input carries
+  // the same position for keyboards and screen readers.
+  const SKEW = 7;
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-compare]")) {
+    const input = root.querySelector<HTMLInputElement>("input[type=range]");
+    const seam = root.querySelector<SVGLineElement>("[data-compare-seam]");
+    if (!input || !seam) continue;
+
+    const set = (pos: number) => {
+      const clamped = Math.min(100, Math.max(0, pos));
+      root.style.setProperty("--pos", `${clamped}%`);
+      seam.setAttribute("x1", String(clamped + SKEW));
+      seam.setAttribute("x2", String(clamped - SKEW));
+      input.value = String(Math.round(clamped));
+    };
+
+    // Keep the seam under the pointer at its height, not just at the middle.
+    const fromPointer = (event: PointerEvent) => {
+      const rect = root.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = (event.clientY - rect.top) / rect.height;
+      set(x - SKEW + 2 * SKEW * y);
+    };
+
+    root.addEventListener("pointerdown", (event) => {
+      root.setPointerCapture(event.pointerId);
+      fromPointer(event);
+    });
+    root.addEventListener("pointermove", (event) => {
+      if (root.hasPointerCapture(event.pointerId)) fromPointer(event);
+    });
+    input.addEventListener("input", () => set(Number(input.value)));
+
+    // Clips: both play while on screen, the right one kept in step with the left. With reduced motion
+    // they stay on their posters, and the slider still compares those.
+    const lead = root.querySelector<HTMLVideoElement>("video[data-compare-lead]");
+    const follow = [...root.querySelectorAll<HTMLVideoElement>("video[data-compare-video]")].find((v) => v !== lead);
+    if (!lead || !follow || window.matchMedia("(prefers-reduced-motion: reduce)").matches) continue;
+    lead.addEventListener("timeupdate", () => {
+      if (Math.abs(follow.currentTime - lead.currentTime) > 0.1) follow.currentTime = lead.currentTime;
+    });
+    new IntersectionObserver(
+      ([entry]) => {
+        for (const v of [lead, follow]) {
+          if (entry.isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        }
+      },
+      { rootMargin: "200px 0px" },
+    ).observe(root);
+  }
+</script>
