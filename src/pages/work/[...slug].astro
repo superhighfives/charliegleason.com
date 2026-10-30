@@ -13,16 +13,16 @@ if (!slug) {
   return Astro.redirect("/404");
 }
 
-// Try to dynamically import the content component
-const modules = import.meta.glob("../../content/work/*.astro");
+// Eager, so the dev server sees the content components as static imports and collects their scoped CSS
+// (the layout's background grid among it); a lazy glob left those styles off the page in dev.
+const modules = import.meta.glob<{ default: astroHTML.JSX.Element }>("../../content/work/*.astro", { eager: true });
 const modulePath = `../../content/work/${slug}.astro`;
 
 if (!modules[modulePath]) {
   return Astro.redirect("/404");
 }
 
-const module = await modules[modulePath]() as { default: astroHTML.JSX.Element };
-const ContentComponent = module.default;
+const ContentComponent = modules[modulePath].default;
 ---
 
 <ContentComponent />

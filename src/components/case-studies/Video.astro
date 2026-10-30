@@ -5,24 +5,34 @@ interface Props {
   poster?: string;
   class?: string;
   shadow?: boolean;
+  // Also has a `-dark` version beside it (video-x-dark.mp4 and its .webp poster), shown in dark mode.
+  themed?: boolean;
 }
 
-const { src, alt, poster = src.replace(/\.mp4$/, ".webp"), class: className = "", shadow = false } = Astro.props;
+const { src, alt, poster = src.replace(/\.mp4$/, ".webp"), class: className = "", shadow = false, themed = false } = Astro.props;
+const variants = themed
+  ? [
+      { src, poster, class: "dark:hidden" },
+      { src: src.replace(/\.mp4$/, "-dark.mp4"), poster: poster.replace(/\.(\w+)$/, "-dark.$1"), class: "hidden dark:block" },
+    ]
+  : [{ src, poster, class: "" }];
 ---
 
 <figure class="relative text-center font-mono text-neutral-600 dark:text-neutral-400 text-xs not-prose">
   <div class:list={["overflow-hidden rounded-lg inline-flex align-top", shadow && "shadow-xl", className]}>
-    <video
-      data-case-study-video
-      src={src}
-      poster={poster}
-      muted
-      loop
-      playsinline
-      preload="none"
-      aria-label={alt}
-      class="w-full h-auto"
-    ></video>
+    {variants.map((v) => (
+      <video
+        data-case-study-video
+        src={v.src}
+        poster={v.poster}
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-label={alt}
+        class:list={["w-full h-auto", v.class]}
+      ></video>
+    ))}
   </div>
 
   <div class="flex flex-col mx-auto justify-center items-center gap-4 px-8 mt-8">

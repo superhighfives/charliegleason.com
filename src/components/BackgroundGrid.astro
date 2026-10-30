@@ -24,12 +24,15 @@
 <style>
   .background-grid {
     --body-padding: 2rem;
+    /* Container variant="full" has lg:px-2, so below the max width the article panel starts that far in;
+       the line follows the panel's edge rather than the body's. */
+    --panel-padding: 0px;
     --content-padding: 2.5rem; /* lg:px-10 */
     --max-content: calc(1600px - var(--content-padding) * 2);
     /* Distance from edge to container = (viewport - content) / 2, but at least body-padding.
        100%, not 100vw: the page centres in the width without the scrollbar, and so must the lines. */
     --container-inset: max(
-      var(--body-padding),
+      calc(var(--body-padding) + var(--panel-padding)),
       calc((100% - var(--max-content)) / 2)
     );
     /* Gutter width = container-inset - body-padding, but at least 0 */
@@ -43,6 +46,12 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
+  }
+
+  @media (min-width: 1024px) {
+    .background-grid {
+      --panel-padding: 0.5rem;
+    }
   }
 
   /* Hatched pattern in the gutters */

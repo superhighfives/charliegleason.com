@@ -101,6 +101,10 @@ const data = {
     <Picture src={`${assets}/image-dreams-grid-2026.webp`} alt="One moment of the song, on the boardwalk: the painted portrait, the background, the depth and the outline across the top, then each of the twelve dreams." />
   </div>
 
+  <Prose>
+    <p>It starts with choosing one. The dreams are a pile of polaroids, and dragging the top card aside tucks it under the pile to show the next.</p>
+  </Prose>
+
   <div class="wide">
     <Video shadow src={`${assets}/video-chooser.mp4`} alt="Choosing a dream. Drag the top card aside and it tucks under the pile, then leave the pointer be and the scene drifts behind it." />
   </div>
@@ -200,13 +204,15 @@ const data = {
       <li>The mask is used with the original image and passed to <a href="https://replicate.com/cjwbw/zoedepth">ZoeDepth</a>, which creates a depth mask.</li>
       <li>These three elements (the watercolour image, the alpha mask, and the depth mask) are used to render the avatar.</li>
     </ul>
-
-    <p><strong>What changed:</strong> the models are the same, but DiffusionCLIP is now the project's own Cog model. The hosted version could take three hours to boot, and was quietly rebuilding gigabytes of model on every single frame, which is how it managed 72 seconds a frame. Loading it once brought that to about 8 seconds on my 4090. The rebuild also found a gap that had shipped since 2023: when I walk away down the boardwalk, about five and a half seconds of the depth panel were pure black, so the avatar went flat. Depth is now fitted to the subject, however far away I get.</p>
   </Prose>
 
   <div class="content">
     <Picture src={`${assets}/image-avatar-preview.webp`} alt="A preview of the generated avatar, from frame to 3D avatar." themed mobile />
   </div>
+
+  <Prose>
+    <p><strong>What changed:</strong> the models are the same, but DiffusionCLIP is now the project's own Cog model. The hosted version could take three hours to boot, and was quietly rebuilding gigabytes of model on every single frame, which is how it managed 72 seconds a frame. Loading it once brought that to about 8 seconds on my 4090. The rebuild also found a gap that had shipped since 2023: when I walk away down the boardwalk, about five and a half seconds of the depth panel were pure black, so the avatar went flat. Depth is now fitted to the subject, however far away I get.</p>
+  </Prose>
 
   <div class="content">
     <Compare
@@ -239,13 +245,15 @@ const data = {
       <li>This inpainted image is then also painted in watercolour using DiffusionCLIP.</li>
       <li>This element is then used to render the background.</li>
     </ul>
-
-    <p><strong>What changed:</strong> this panel went through four approaches. Filling in single frames kept inventing people, huts, and signatures, and the scene flickered as whole trees changed species between frames. Video inpainting models either fell apart as the camera moved, or left ghosts wherever my arms moved fast. The winner was <a href="https://replicate.com/bria/video-erase-object">Bria's video eraser</a>, run over the song in 55 overlapping five-second chunks and crossfaded back together, for about $14. (One chunk did briefly add dark ghost arms to the sky, which a slightly bigger mask fixed.)</p>
   </Prose>
 
   <div class="content">
     <Picture src={`${assets}/image-background-preview.webp`} alt="A preview of the background, from frame to watercolour background." themed mobile />
   </div>
+
+  <Prose>
+    <p><strong>What changed:</strong> this panel went through four approaches. Filling in single frames kept inventing people, huts, and signatures, and the scene flickered as whole trees changed species between frames. Video inpainting models either fell apart as the camera moved, or left ghosts wherever my arms moved fast. The winner was <a href="https://replicate.com/bria/video-erase-object">Bria's video eraser</a>, run over the song in 55 overlapping five-second chunks and crossfaded back together, for about $14. (One chunk did briefly add dark ghost arms to the sky, which a slightly bigger mask fixed.)</p>
+  </Prose>
 
   <div class="content">
     <Video src={`${assets}/video-background-bria.mp4`} alt="1:24, the fast arms that used to leave ghosts: the painted portrait, and the background Bria makes without me in it." />
@@ -269,13 +277,15 @@ const data = {
       <li>This was fed into <a href="https://github.com/Linzmin1927/Artline_torch">artline-torch</a>, which created a rough outline sketch.</li>
       <li>This sketch is then overlaid on the avatar during rendering (it also uses a bit of dithering in a custom shader, which is what gives it the printed ink / slight comic book style).</li>
     </ul>
-
-    <p><strong>What changed:</strong> ArtLine worked at 300 pixels and was stretched up, so outstretched arms would half disappear. After a bake-off it was replaced with a cleaned-up version of ControlNet's coarse line art. My favourite bug of the whole rebuild lived here, too: the outline model sat stuck in "starting" on Replicate for over a week. It was a 7GB GPU image for a model that draws lines on a 300-pixel square. I took the GPU away, and it ran in under a second.</p>
   </Prose>
 
   <div class="content">
     <Picture src={`${assets}/image-outline-preview.webp`} alt="A preview of the outline, from frame to outline." themed mobile />
   </div>
+
+  <Prose>
+    <p><strong>What changed:</strong> ArtLine worked at 300 pixels and was stretched up, so outstretched arms would half disappear. After a bake-off it was replaced with a cleaned-up version of ControlNet's coarse line art. My favourite bug of the whole rebuild lived here, too: the outline model sat stuck in "starting" on Replicate for over a week. It was a 7GB GPU image for a model that draws lines on a 300-pixel square. I took the GPU away, and it ran in under a second.</p>
+  </Prose>
 
   <div class="content">
     <Compare
@@ -320,13 +330,7 @@ const data = {
 
   <Prose>
     <p>The remaining images were fed into <a href="https://github.com/nihui/rife-ncnn-vulkan">rife-ncnn-vulkan</a>, which interpolated the missing frames and generated new ones to fill the gaps.</p>
-  </Prose>
 
-  <div class="content">
-    <Picture src={`${assets}/image-interpolation-diagram.webp`} alt="A diagram showing the interpolation process." themed mobile />
-  </div>
-
-  <Prose>
     <p>That manual review is the part that had to change most, and it gets <a href="#the-dreams-revisited">its own section below</a>.</p>
 
     <hr />
@@ -395,7 +399,9 @@ const data = {
 
     <p>The rebuild was faithful. What was missing was me, in 2023, squinting at thousands of frames.</p>
 
-    <p>So now that part is automated, and it learned from me. The person check is a small classifier on top of <a href="https://github.com/openai/CLIP">CLIP</a>, trained on my own keep-or-replace decisions from 2023. It catches 97% of the frames I replaced, while flagging 1% of the ones I kept, and it checks a whole song in about six minutes on a laptop. Any stretch it flags gets rendered again with new seeds, never blended over, because interpolation smears the stop-motion look the dreams depend on. The first repaired frame turned a clear figure from behind into a lake and a tree, in the dream's own palette. On the walk away down the boardwalk, there's now just the jetty where I was.</p>
+    <p>So now that part is automated, and it learned from me. The person check is a small classifier on top of <a href="https://github.com/openai/CLIP">CLIP</a>, trained on my own keep-or-replace decisions from 2023. It catches 97% of the frames I replaced, while flagging 1% of the ones I kept, and it checks a whole song in about six minutes on a laptop. Any stretch it flags gets rendered again with new seeds, never blended over, because interpolation smears the stop-motion look the dreams depend on.</p>
+
+    <p>The first repaired frame turned a clear figure from behind into a lake and a tree, in the dream's own palette.</p>
   </Prose>
 
   <div class="content">
@@ -409,6 +415,10 @@ const data = {
       alt="Lush and Light, frame 1735: me from behind, as it shipped in 2023, and the same frame rendered again. Drag to move the line."
     />
   </div>
+
+  <Prose>
+    <p>It holds up over long stretches, too. The walk away down the boardwalk is about ten seconds of me heading away from the camera, and the dream renders it with the check running the whole way. There's now just the jetty where I was.</p>
+  </Prose>
 
   <div class="wide">
     <Picture src={`${assets}/image-reroll-walkaway.webp`} alt="Sharp Edges on the walk away, rendered with the person check rerolling as it goes: just the jetty, where I used to be." />
@@ -441,21 +451,35 @@ const data = {
   <Prose>
     <ol>
       <li><strong>Describe a look.</strong> A prompt, a palette image the colours are matched to, and optionally a style image, whose look (but not its content) carries over.</li>
-      <li><strong>Review five samples</strong> from the hardest moments in the song: the wide intro, fast arms, the walk away, a shouting close-up, and right after a cut.</li>
-      <li><strong>Review a 15-second clip</strong> in the real player. About $1.50, or free on the 4090.</li>
-      <li><strong>Generate the full song.</strong> About $20 and six hours, then the person check, any repairs, and the final videos.</li>
     </ol>
 
-    <p>All in, a new dream costs about $22, which makes "new dreams can be added at any time" true for the first time.</p>
+    <p>That "but not its content" took some finding. Copied whole, a style image brings its subject along with its look, so a picture of a wooden house puts rooftops on the boardwalk. Copying only its look keeps the dream's own scene.</p>
   </Prose>
 
   <div class="wide">
     <Picture src={`${assets}/image-style-look.webp`} alt="The same stretch with a style image of a wooden house. On top, its look and content: its rooftops end up on the boardwalk. Below, its look alone." />
   </div>
 
+  <Prose>
+    <ol start="2">
+      <li><strong>Review five samples</strong> from the hardest moments in the song: the wide intro, fast arms, the walk away, a shouting close-up, and right after a cut.</li>
+    </ol>
+
+    <p>Those five are where a look tends to fall apart, so they're the quickest way to find out whether one holds up before anything else gets made.</p>
+  </Prose>
+
   <div class="wide">
     <Picture src={`${assets}/image-samples.webp`} alt="The five moments every new dream is tried on first, in the footage and as Oil Slick's samples." />
   </div>
+
+  <Prose>
+    <ol start="3">
+      <li><strong>Review a 15-second clip</strong> in the real player. About $1.50, or free on the 4090.</li>
+      <li><strong>Generate the full song.</strong> About $20 and six hours, then the person check, any repairs, and the final videos.</li>
+    </ol>
+
+    <p>All in, a new dream costs about $22, which makes "new dreams can be added at any time" true for the first time. Every stage of a take lives on one card in the dream maker, so its whole history is in one place.</p>
+  </Prose>
 
   <div class="wide">
     <Picture shadow src={`${assets}/image-admin-take.webp`} alt="Oil Slick in the dream maker: its settings, its five samples with the footage inset, and the people check on its 15-second clip." />
@@ -471,7 +495,7 @@ const data = {
   </Prose>
 
   <div class="wide">
-    <Picture shadow themed src={`${assets}/image-relaunch-title.webp`} alt="The new title screen, in whichever mode you're reading this in." />
+    <Video shadow themed src={`${assets}/video-title.mp4`} alt="The new title screen, in whichever mode you're reading this in." />
   </div>
 
   <Prose>
@@ -503,6 +527,10 @@ const data = {
       alt="The same paused moment, at 1:23, in dark mode and light mode. Drag to move the line."
     />
   </div>
+
+  <Prose>
+    <p>Everything else works the same in either mode, including flicking the polaroid to move through the dreams.</p>
+  </Prose>
 
   <div class="full">
     <Video shadow src={`${assets}/video-light.mp4`} alt="Light mode, flicking the polaroid both ways to move through the dreams." />
@@ -544,7 +572,7 @@ VITE_APP_DREAMS=https://dreams.lysterfieldlake.com bun run --cwd apps/client dev
 
   </Prose>
 
-  <Code code={`bun run --cwd apps/pipeline cli init --job .jobs/my-video --source ~/Movies/my-video.mov
+  <Code code={`bun run --cwd apps/pipeline cli init --job .jobs/my-video --source ~/development/lysterfield/movies/my-video.mov
 bun run --cwd apps/pipeline cli matte --job .jobs/my-video`} />
 
   <Prose>
@@ -568,7 +596,7 @@ bun run --cwd apps/pipeline cli matte --job .jobs/my-video`} />
   </Prose>
 
   <div class="wide">
-    <Picture shadow themed src={`${assets}/image-relaunch-chooser.webp`} alt="Where are we going?" />
+    <Video shadow themed src={`${assets}/video-where.mp4`} alt="Where are we going?" />
   </div>
 
   <Prose>
