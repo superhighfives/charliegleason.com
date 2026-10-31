@@ -6,16 +6,23 @@ interface Props {
   photo?: string | false;
   small?: boolean;
   flip?: boolean;
+  // false when it sits inside a bigger link (the header): no link of its own, and it reacts to the
+  // surrounding .group's hover and focus instead.
+  linked?: boolean;
 }
 
-const { symbol = '🙈', photo = false, small = false, flip = false } = Astro.props;
+const { symbol = '🙈', photo = false, small = false, flip = false, linked = true } = Astro.props;
+const Tag = linked ? 'a' : 'span';
 ---
 
 <>
-  <a
-    href="/"
+  <Tag
+    href={linked ? '/' : undefined}
     class:list={[
-      'block focus-visible:outline outline-2 outline-offset-2 outline-yellow-500 bg-yellow-300 rounded-full relative overflow-hidden transform motion-safe:transition-transform hover:scale-110 focus:scale-110 hover:rotate-[-10deg] focus:rotate-[-10deg]',
+      'block bg-yellow-300 rounded-full relative overflow-hidden transform motion-safe:transition-transform',
+      linked
+        ? 'focus-visible:outline outline-2 outline-offset-2 outline-yellow-500 hover:scale-110 focus:scale-110 hover:rotate-[-10deg] focus:rotate-[-10deg]'
+        : 'group-hover:scale-110 group-focus-visible:scale-110 group-hover:rotate-[-10deg] group-focus-visible:rotate-[-10deg]',
       'shadow-[0_0_15px_0_rgba(250,204,21,0.15),0_0_25px_0_rgba(250,204,21,0.5),0_0_50px_0_rgba(250,204,21,0.25)]',
       'dark:shadow-[0_0_15px_0_rgba(250,204,21,0.25),0_0_25px_0_rgba(250,204,21,0.5),0_0_50px_0_rgba(250,204,21,0.25)]',
       small && 'hover:translate-y-2 focus:translate-y-2',
@@ -28,7 +35,7 @@ const { symbol = '🙈', photo = false, small = false, flip = false } = Astro.pr
       width="80"
       height="80"
     />
-  </a>
+  </Tag>
   {photo && (
     <div class="rounded-full overflow-hidden -ml-4">
       <img

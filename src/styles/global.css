@@ -13,6 +13,11 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Anchor jumps (#three-years-later) stop short of the fixed bar along the top of the window. */
+[id] {
+  scroll-margin-top: 4rem;
+}
+
 body {
   color: theme("colors.neutral.900");
   background: theme("colors.white");

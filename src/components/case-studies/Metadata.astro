@@ -1,4 +1,6 @@
 ---
+import Icon from "../ui/Icon.astro";
+
 interface MetadataItem {
   name: string;
   content: string | string[][];
@@ -8,18 +10,33 @@ interface Props {
   gradient: string;
   highlight: string;
   metadata: MetadataItem[];
+  // A link to the project itself, shown as a button in place of the heading (Hero's bar is centred on it).
+  link?: { href: string; label: string; gradient?: string };
 }
 
-const { gradient, highlight, metadata } = Astro.props;
+const { gradient, highlight, metadata, link } = Astro.props;
 ---
 
-<div class="lg-sidebar not-prose space-y-4">
-  <h3 class:list={[
-    'text-sm font-display uppercase tracking-wider text-transparent bg-clip-text inline-block bg-gradient-to-l',
-    gradient
-  ]}>
-    Project Metadata
-  </h3>
+<div class:list={['lg-sidebar not-prose', link ? 'space-y-6' : 'space-y-4']}>
+  {link ? (
+    <a
+      href={link.href}
+      class:list={[
+        'group inline-flex items-center gap-2 rounded-full bg-gradient-to-r px-5 py-3 font-display text-sm uppercase tracking-wider text-neutral-950 shadow-lg shadow-black/10 outline outline-2 outline-offset-2 outline-transparent motion-safe:transition hover:brightness-110 focus-visible:outline-neutral-400',
+        link.gradient ?? gradient
+      ]}
+    >
+      {link.label}
+      <Icon name="arrow-right" weight="bold" class="w-4 h-4 motion-safe:transition-transform group-hover:translate-x-0.5" />
+    </a>
+  ) : (
+    <h3 class:list={[
+      'text-sm font-display uppercase tracking-wider text-transparent bg-clip-text inline-block bg-gradient-to-l',
+      gradient
+    ]}>
+      Project Metadata
+    </h3>
+  )}
   <dl class="grid justify-start grid-cols-2 md:grid-cols-4 xl:grid-cols-2 gap-4">
     {metadata.map((data) => {
       if (Array.isArray(data.content)) {

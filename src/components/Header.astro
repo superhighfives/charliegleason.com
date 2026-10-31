@@ -8,30 +8,57 @@ interface Props {
   photo: string | false;
   back?: boolean;
   small?: boolean;
+  // The case studies' header: one row, a small avatar beside the name, under the status pills.
+  compact?: boolean;
 }
 
-const { symbol, photo, back = false, small = false } = Astro.props;
+const { symbol, photo, back = false, small = false, compact = false } = Astro.props;
 const subtitleText = "Designer, developer, creative coder, and\u00a0musician";
 ---
 
+{compact ? (
+  <div class="pt-14">
+    <a
+      href="/"
+      class="group inline-flex items-center gap-4 rounded-lg outline-2 outline-offset-4 focus-visible:outline focus-visible:outline-yellow-600 focus-visible:dark:outline-yellow-400"
+    >
+      <span class="flex items-center shrink-0">
+        <span class="relative block w-32 sm:w-40 -ml-2 sm:-ml-8 lg:-ml-12 opacity-90 motion-safe:transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+          <img alt="" src="/assets/signatures/signature-dark.png" width="700" height="260" class="block dark:hidden" />
+          <img alt="" src="/assets/signatures/signature-light.png" width="700" height="260" class="hidden dark:block" />
+        </span>
+        <span class="relative z-10 flex items-center -ml-10 sm:-ml-[3.5rem] [&_img]:w-12 [&_img]:h-12">
+          <Avatar symbol={symbol} photo={photo} linked={false} />
+        </span>
+      </span>
+      <hgroup class="font-display uppercase tracking-wider text-xs">
+        <h1>Charlie Gleason</h1>
+        <h2 class="mt-1 bg-yellow-800 dark:bg-yellow-300 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 dark:from-yellow-500 to-transparent text-pretty">
+          {subtitleText}
+        </h2>
+      </hgroup>
+    </a>
+  </div>
+) : (
 <div
   class:list={[
     "space-y-4",
-    !small ? "pt-[10vh]" : "-mt-[4rem] sm:-mt-[5.5rem]",
+    small ? "-mt-[4rem] sm:-mt-[5.5rem]" : "pt-[10vh]",
   ]}
 >
-  <div class="flex items-center">
-    <Avatar symbol={symbol} photo={photo} small={small} />
-  </div>
-  <div class="space-y-4 md:space-y-0 sm:flex justify-between items-end">
-    <hgroup class="font-display uppercase tracking-wider text-xs w-full">
-      <a
-        href="/"
-        class="relative block transition-opacity opacity-90 rounded-lg
+  {/* One link home: the avatar tilts and the signature brightens together. */}
+  <a
+    href="/"
+    class="group block space-y-4 rounded-lg outline-2 outline-offset-4 focus-visible:outline focus-visible:outline-yellow-600 focus-visible:dark:outline-yellow-400"
+  >
+  <span class="flex items-center">
+    <Avatar symbol={symbol} photo={photo} small={small} linked={false} />
+  </span>
+    <hgroup class="block font-display uppercase tracking-wider text-xs w-full">
+      <span
+        class="relative block motion-safe:transition-opacity opacity-90 rounded-lg
                w-64 sm:w-80 z-10 -mt-6 sm:-mt-8 ml-0 sm:-ml-4 lg:-ml-12 mb-2 lg:mb-0 max-w-full
-               hover:opacity-100 active:opacity-100 focus:opacity-100
-               outline-2 outline-offset-2
-               focus-visible:outline focus-visible:outline-yellow-600 focus-visible:dark:outline-yellow-400"
+               group-hover:opacity-100 group-active:opacity-100 group-focus-visible:opacity-100"
       >
         <img
           alt=""
@@ -47,7 +74,7 @@ const subtitleText = "Designer, developer, creative coder, and\u00a0musician";
           height="260"
           class="hidden dark:block"
         />
-      </a>
+      </span>
       <h1>Charlie Gleason</h1>
       <div class="relative mt-1" data-pretext-wrapper>
         <noscript>
@@ -69,6 +96,7 @@ const subtitleText = "Designer, developer, creative coder, and\u00a0musician";
         </div>
       </div>
     </hgroup>
+  </a>
     {
       back && (
         <Link
@@ -82,5 +110,5 @@ const subtitleText = "Designer, developer, creative coder, and\u00a0musician";
         </Link>
       )
     }
-  </div>
 </div>
+)}

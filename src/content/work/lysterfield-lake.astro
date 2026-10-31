@@ -8,6 +8,7 @@ import Hero from "../../components/case-studies/Hero.astro";
 import Intro from "../../components/case-studies/Intro.astro";
 import Metadata from "../../components/case-studies/Metadata.astro";
 import Code from "../../components/case-studies/Code.astro";
+import Changed from "../../components/case-studies/Changed.astro";
 import PictureZoom from "../../components/islands/PictureZoom";
 
 const assets = "/assets/case-studies/lysterfield-lake";
@@ -41,25 +42,24 @@ const data = {
 ---
 
 <CaseStudyLayout data={data}>
-  <aside class="not-prose rounded-lg border border-rose-300 dark:border-rose-500/40 bg-rose-50 dark:bg-rose-500/10 px-5 py-4 sm:px-6 sm:py-5 text-sm sm:text-base leading-relaxed text-rose-950 dark:text-rose-100">
-    <p class="font-mono text-xs uppercase tracking-wider text-rose-600 dark:text-rose-300 mb-2">Updated October 2026</p>
-    <p>
-      Lysterfield Lake has been rebuilt from the ground up and relaunched, with a new dream, a new player, and the whole
-      project, app, pipeline and models, in <a class="underline underline-offset-2 font-medium" href={repo}>one open-source repo</a>.
-      This write-up has been updated to match. <a class="underline underline-offset-2 font-medium" href="#three-years-later">Skip to what's new</a>,
-      or <a class="underline underline-offset-2 font-medium" href="#pick-up-the-source">get the code running</a>.
-    </p>
-  </aside>
-
   <Intro>
     <Hero gradient={data.gradient} hero={data.hero} />
+
+    <aside class="not-prose my-10 rounded-lg border border-rose-300 dark:border-rose-500/40 bg-rose-50 dark:bg-rose-500/10 px-5 py-4 sm:px-6 sm:py-5 text-sm sm:text-base leading-relaxed text-rose-950 dark:text-rose-100">
+      <p class="font-mono text-xs uppercase tracking-wider text-rose-600 dark:text-rose-300 mb-2">Updated October 2026</p>
+      <p>
+        Lysterfield Lake has been rebuilt from the ground up, in <a class="underline underline-offset-2 font-medium" href={repo}>one open-source repo</a>.
+        This write-up has been updated to match. <a class="underline underline-offset-2 font-medium" href="#three-years-later">Skip to what's new</a>,
+        or <a class="underline underline-offset-2 font-medium" href="#pick-up-the-source">get the code running</a>.
+      </p>
+    </aside>
 
     <p>I don't remember exactly when I wrote it in much the same way I don't remember exactly when I started this project, which spanned the better part of a year and all but consumed the most creative bits of my brain.</p>
 
     <p>I think it all began when I came across <a href="https://replicate.com/">Replicate</a> (and by extension, their open-source container for running machine learning models, <a href="https://github.com/replicate/cog">Cog</a>.) I was so inspired by their <a href="https://replicate.com/explore">Explore</a> page, and, if I'm being totally honest, I was worried about the cost of experimenting with AI. I'd set up a gaming PC in the weird limbo of the 2020 lockdowns, and these tools made it effortless (and for the most part, free) to try, and test, and many, many times, fail.</p>
   </Intro>
 
-  <Metadata highlight={data.highlight} gradient={data.gradient} metadata={data.metadata} />
+  <Metadata highlight={data.highlight} gradient={data.gradient} metadata={data.metadata} link={{ href: "https://lysterfieldlake.com/", label: "View the project", gradient: "from-[#E45C87] to-[#F7924A]" }} />
 
   <div class="full dark:border-neutral-800 max-sm:border-x">
     <PictureZoom client:visible src={`${assets}/image-polaroids-full.webp`} alt="A selection of dreams from the final video." />
@@ -206,15 +206,11 @@ const data = {
     </ul>
   </Prose>
 
-  <div class="content">
+  <Changed gradient={data.gradient}>
     <Picture src={`${assets}/image-avatar-preview.webp`} alt="A preview of the generated avatar, from frame to 3D avatar." themed mobile />
-  </div>
-
-  <Prose>
-    <p><strong>What changed:</strong> the models are the same, but DiffusionCLIP is now the project's own Cog model. The hosted version could take three hours to boot, and was quietly rebuilding gigabytes of model on every single frame, which is how it managed 72 seconds a frame. Loading it once brought that to about 8 seconds on my 4090. The rebuild also found a gap that had shipped since 2023: when I walk away down the boardwalk, about five and a half seconds of the depth panel were pure black, so the avatar went flat. Depth is now fitted to the subject, however far away I get.</p>
-  </Prose>
-
-  <div class="content">
+    <Prose>
+      <p>The depth panel is what lifts the avatar off the page, and in 2023 it had a habit of giving up. On the walk away it dropped to black for about half the stretch, and I went flat with it.</p>
+    </Prose>
     <Compare
       video
       left={`${assets}/video-depth-walkaway-before.mp4`}
@@ -225,7 +221,8 @@ const data = {
       height={720}
       alt="The depth panel on the walk away, from 1:58. In 2023 it kept dropping to black, and the avatar went flat with it; fitted to the subject, I'm there all the way down the boardwalk. Drag to move the line."
     />
-  </div>
+    <p slot="note">The models are the same, but DiffusionCLIP is now the project's own Cog model. The hosted version could take three hours to boot, and was quietly rebuilding gigabytes of model on every single frame, which is how it managed 72 seconds a frame. Loading it once brought that to about 8 seconds on my 4090. The rebuild also found a gap that had shipped since 2023: when I walk away down the boardwalk, about five and a half seconds of the depth panel were pure black, so the avatar went flat. Depth is now fitted to the subject, however far away I get.</p>
+  </Changed>
 
   <Prose>
     <hr />
@@ -247,24 +244,21 @@ const data = {
     </ul>
   </Prose>
 
-  <div class="content">
+  <Changed gradient={data.gradient}>
     <Picture src={`${assets}/image-background-preview.webp`} alt="A preview of the background, from frame to watercolour background." themed mobile />
-  </div>
-
-  <Prose>
-    <p><strong>What changed:</strong> this panel went through four approaches. Filling in single frames kept inventing people, huts, and signatures, and the scene flickered as whole trees changed species between frames. Video inpainting models either fell apart as the camera moved, or left ghosts wherever my arms moved fast. The winner was <a href="https://replicate.com/bria/video-erase-object">Bria's video eraser</a>, run over the song in 55 overlapping five-second chunks and crossfaded back together, for about $14. (One chunk did briefly add dark ghost arms to the sky, which a slightly bigger mask fixed.)</p>
-  </Prose>
-
-  <div class="content">
+    <Prose>
+      <p>The hardest moment for the background is at 1:24, where my arms move fast enough to smear across anything that guesses frame by frame. Here's the painted portrait beside the background Bria makes for the same seconds, with me nowhere in it.</p>
+    </Prose>
     <Video src={`${assets}/video-background-bria.mp4`} alt="1:24, the fast arms that used to leave ghosts: the painted portrait, and the background Bria makes without me in it." />
-  </div>
+    <p slot="note">This panel went through four approaches. Filling in single frames kept inventing people, huts, and signatures, and the scene flickered as whole trees changed species between frames. Video inpainting models either fell apart as the camera moved, or left ghosts wherever my arms moved fast. The winner was <a href="https://replicate.com/bria/video-erase-object">Bria's video eraser</a>, run over the song in 55 overlapping five-second chunks and crossfaded back together, for about $14. (One chunk did briefly add dark ghost arms to the sky, which a slightly bigger mask fixed.)</p>
+  </Changed>
 
   <Prose>
     <hr />
 
     <h2>The Outline</h2>
 
-    <p>A comic-book style sketch of the subject matter.</p>
+    <p>A comic-book style sketch of the subject matter. It's the ink that sits over the painted avatar, so the figure keeps a hard edge against the background instead of melting into it, and it's what makes the 3D version read as a drawing rather than a render.</p>
   </Prose>
 
   <div class="full">
@@ -279,15 +273,11 @@ const data = {
     </ul>
   </Prose>
 
-  <div class="content">
+  <Changed gradient={data.gradient}>
     <Picture src={`${assets}/image-outline-preview.webp`} alt="A preview of the outline, from frame to outline." themed mobile />
-  </div>
-
-  <Prose>
-    <p><strong>What changed:</strong> ArtLine worked at 300 pixels and was stretched up, so outstretched arms would half disappear. After a bake-off it was replaced with a cleaned-up version of ControlNet's coarse line art. My favourite bug of the whole rebuild lived here, too: the outline model sat stuck in "starting" on Replicate for over a week. It was a 7GB GPU image for a model that draws lines on a 300-pixel square. I took the GPU away, and it ran in under a second.</p>
-  </Prose>
-
-  <div class="content">
+    <Prose>
+      <p>The same fast arms are where the old outline struggled most, and where the swap shows best.</p>
+    </Prose>
     <Compare
       left={`${assets}/image-outline-artline.webp`}
       right={`${assets}/image-outline-outline.webp`}
@@ -298,7 +288,8 @@ const data = {
       height={1200}
       alt="The fast arms at 1:24: ArtLine, which kept the hands and lost the rest of me, and the cleaned-up coarse line art that replaced it. Drag to move the line."
     />
-  </div>
+    <p slot="note">ArtLine worked at 300 pixels and was stretched up, so outstretched arms would half disappear. After a bake-off it was replaced with a cleaned-up version of ControlNet's coarse line art. My favourite bug of the whole rebuild lived here, too: the outline model sat stuck in "starting" on Replicate for over a week. It was a 7GB GPU image for a model that draws lines on a 300-pixel square. I took the GPU away, and it ran in under a second.</p>
+  </Changed>
 
   <Prose>
     <hr />
@@ -370,12 +361,12 @@ const data = {
     <p>Custom shaders essentially let you paint with pixels in real time, and it's an incredibly exciting medium once you start to explore the possibilities. It is how I can use the pixels from the depth mask to directly impact how close or far each fragment of the 3D avatar is. And, if you'd like to learn more, <a href="https://thebookofshaders.com/">The Book of Shaders</a> is a great resource.</p>
   </Prose>
 
-  <div class="content">
+  <Changed gradient={data.gradient}>
     <Picture shadow src={`${assets}/image-depth-animation.gif`} alt="Frame-by-frame animation of the AI-generated depth filters. AI interprets the depth mask from a video, because we live in the future. (Also, I hand painted a lot of these frames, because technology is, sadly, fallible.)" />
-  </div>
+    <p slot="note">That single ultra-wide video had a cost. Every dream was its own seven-panel file, so switching dreams meant throwing away a video that was six-sevenths identical, cutting the music, and starting again. Now there's one shared video of panels one to six, with the song, and each dream is a small silent video of its own. Keeping two videos in sync is exactly the problem I'd avoided in 2023, so the player watches the drift: under a quarter of a second, it nudges the dream's playback speed up or down by 5% until they line up, and over that, it seeks. (Seeking is slow on iPhones, so it saves that for emergencies.)</p>
+  </Changed>
 
   <Prose>
-    <p><strong>What changed:</strong> that single ultra-wide video had a cost. Every dream was its own seven-panel file, so switching dreams meant throwing away a video that was six-sevenths identical, cutting the music, and starting again. Now there's one shared video of panels one to six, with the song, and each dream is a small silent video of its own. Keeping two videos in sync is exactly the problem I'd avoided in 2023, so the player watches the drift: under a quarter of a second, it nudges the dream's playback speed up or down by 5% until they line up, and over that, it seeks. (Seeking is slow on iPhones, so it saves that for emergencies.)</p>
 
     <hr />
 
@@ -576,6 +567,8 @@ VITE_APP_DREAMS=https://dreams.lysterfieldlake.com bun run --cwd apps/client dev
 bun run --cwd apps/pipeline cli matte --job .jobs/my-video`} />
 
   <Prose>
+
+    <p>That's as far as it goes out of the box, though. Each step runs on its own, but making a whole video is more than a dozen of them in the right order, plus things no command does for you: a public R2 bucket for Bria's inputs, a lyrics panel (mine was hand-lettered in After Effects), a bucket of your own to serve the videos from, and swapping my song out of the app. That's the part to hand to an agent. Point <a href="https://claude.com/claude-code">Claude Code</a> or similar at the repo and ask it to take a video of yours through the pipeline. The repo's <code>CLAUDE.md</code> and its plans were written for exactly that, including the rules that keep it from spending your Replicate credit twice.</p>
 
     <p>Some useful places to start:</p>
 

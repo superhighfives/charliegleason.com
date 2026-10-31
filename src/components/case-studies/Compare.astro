@@ -68,12 +68,18 @@ const poster = (src: string) => src.replace(/\.mp4$/, ".webp");
     <span class="absolute top-3 right-3 rounded-full bg-white/80 text-black px-2.5 py-1 uppercase tracking-wider text-[10px]">{rightLabel}</span>
     <span
       data-compare-handle
-      class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none flex flex-col items-center justify-center gap-1 size-16 sm:size-20 rounded-full border border-white/80 bg-black/20 backdrop-blur-sm text-white shadow-lg transition-transform group-active:scale-90 group-has-[:focus-visible]:outline group-has-[:focus-visible]:outline-2 group-has-[:focus-visible]:outline-yellow-400"
+      class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center size-16 sm:size-20 rounded-full border border-white/80 bg-black/20 backdrop-blur-sm text-white shadow-lg transition-transform group-active:scale-90 group-has-[:focus-visible]:outline group-has-[:focus-visible]:outline-2 group-has-[:focus-visible]:outline-yellow-400"
       style="left: var(--pos)"
       aria-hidden="true"
     >
       <span class="flex items-center gap-3 text-sm leading-none"><span>‹</span><span class="size-1.5 rounded-full bg-white"></span><span>›</span></span>
-      <span class="rounded-full bg-black/70 px-1.5 py-0.5 text-[9px] tracking-wider">DRAG</span>
+      {/* Slid along the slanted line to where it is at this height: the seam leans 14% of the width over the
+          full height, and --dy is how far below the handle's centre the label's centre sits. */}
+      <span
+        data-compare-label
+        class="absolute top-full left-1/2 -translate-x-1/2 mt-2 opacity-0 transition-opacity duration-200 rounded-full bg-black/70 px-1.5 py-0.5 text-[9px] tracking-wider [--dy:49.5px] sm:[--dy:57.5px]"
+        style={`margin-left: calc(var(--dy) * ${(-0.14 * width / height).toFixed(4)})`}
+      >DRAG</span>
     </span>
     <input
       type="range"
@@ -102,7 +108,30 @@ const poster = (src: string) => src.replace(/\.mp4$/, ".webp");
   for (const root of document.querySelectorAll<HTMLElement>("[data-compare]")) {
     const input = root.querySelector<HTMLInputElement>("input[type=range]");
     const seam = root.querySelector<SVGLineElement>("[data-compare-seam]");
+    const label = root.querySelector<HTMLElement>("[data-compare-label]");
     if (!input || !seam) continue;
+
+    // The DRAG label only shows while the circle is in play: hovered, dragged, or focused from the
+    // keyboard. It fades out within 10px of either edge either way, rather than being cut off by it.
+    const handle = root.querySelector<HTMLElement>("[data-compare-handle]");
+    let overCircle = false;
+    let dragging = false;
+    const fadeLabel = () => {
+      if (!label) return;
+      const box = root.getBoundingClientRect();
+      const r = label.getBoundingClientRect();
+      const nearEdge = r.left - box.left < 10 || box.right - r.right < 10;
+      const inPlay = overCircle || dragging || input.matches(":focus-visible");
+      label.style.opacity = inPlay && !nearEdge ? "1" : "0";
+    };
+    const hoverCircle = (event: PointerEvent) => {
+      if (!handle) return;
+      const h = handle.getBoundingClientRect();
+      const dx = event.clientX - (h.left + h.width / 2);
+      const dy = event.clientY - (h.top + h.height / 2);
+      overCircle = Math.hypot(dx, dy) <= h.width / 2;
+      fadeLabel();
+    };
 
     const set = (pos: number) => {
       const clamped = Math.min(100, Math.max(0, pos));
@@ -110,6 +139,7 @@ const poster = (src: string) => src.replace(/\.mp4$/, ".webp");
       seam.setAttribute("x1", String(clamped + SKEW));
       seam.setAttribute("x2", String(clamped - SKEW));
       input.value = String(Math.round(clamped));
+      fadeLabel();
     };
 
     // Keep the seam under the pointer at its height, not just at the middle.
@@ -122,12 +152,27 @@ const poster = (src: string) => src.replace(/\.mp4$/, ".webp");
 
     root.addEventListener("pointerdown", (event) => {
       root.setPointerCapture(event.pointerId);
+      dragging = true;
       fromPointer(event);
     });
     root.addEventListener("pointermove", (event) => {
       if (root.hasPointerCapture(event.pointerId)) fromPointer(event);
+      else hoverCircle(event);
     });
+    const release = (event: PointerEvent) => {
+      dragging = false;
+      hoverCircle(event);
+    };
+    root.addEventListener("pointerup", release);
+    root.addEventListener("pointercancel", release);
+    root.addEventListener("pointerleave", () => {
+      overCircle = false;
+      fadeLabel();
+    });
+    input.addEventListener("focus", fadeLabel);
+    input.addEventListener("blur", fadeLabel);
     input.addEventListener("input", () => set(Number(input.value)));
+    new ResizeObserver(fadeLabel).observe(root);
 
     // Clips: both play while on screen, the right one kept in step with the left. With reduced motion
     // they stay on their posters, and the slider still compares those.

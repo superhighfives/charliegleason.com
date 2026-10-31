@@ -7,8 +7,8 @@ interface Props {
 const { gradient, hero } = Astro.props;
 ---
 
-<div class="space-y-8">
-  <div class:list={['h-2 bg-gradient-to-r rounded-full relative top-2', gradient]} />
+<div class="space-y-14">
+  <div class:list={['h-2 bg-gradient-to-r rounded-full relative top-[18px]', gradient]} />
   <p class="text-xl font-medium sm:text-3xl leading-relaxed dark:text-white">
     {hero}
   </p>
