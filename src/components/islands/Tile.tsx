@@ -21,12 +21,19 @@ function isTouchDevice(): boolean {
   );
 }
 
-function useMousePosition(ref: React.RefObject<HTMLDivElement | null>) {
+// Tracks the mouse across the tile itself, or across the enclosing link when
+// the tile is part of a larger clickable card.
+function useMousePosition(
+  ref: React.RefObject<HTMLDivElement | null>,
+  trackEnclosingLink: boolean,
+) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const reference = ref.current;
     if (!reference) return;
+    const area: HTMLElement =
+      (trackEnclosingLink && reference.closest("a")) || reference;
 
     let counter = 0;
     const updateRate = 5;
@@ -34,28 +41,26 @@ function useMousePosition(ref: React.RefObject<HTMLDivElement | null>) {
 
     const setFromEvent = (e: MouseEvent) => {
       if (isTimeToUpdate()) {
-        const rect = (e.target as HTMLDivElement).getBoundingClientRect();
-        const _x = reference.offsetLeft + Math.floor(reference.offsetWidth / 2);
-        const _y = reference.offsetTop + Math.floor(reference.offsetHeight / 2);
-        const x = e.clientX - rect.left - _x;
-        const y = (e.clientY - rect.top - _y) * -1;
+        const rect = area.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = (e.clientY - rect.top - rect.height / 2) * -1;
 
         setPosition({
-          x: y / (reference.offsetHeight / 2),
-          y: x / (reference.offsetWidth / 2),
+          x: y / (rect.height / 2),
+          y: x / (rect.width / 2),
         });
       }
     };
 
     const setToZero = () => setPosition({ x: 0, y: 0 });
 
-    reference.addEventListener("mousemove", setFromEvent);
-    reference.addEventListener("mouseleave", setToZero);
+    area.addEventListener("mousemove", setFromEvent);
+    area.addEventListener("mouseleave", setToZero);
     return () => {
-      reference.removeEventListener("mousemove", setFromEvent);
-      reference.removeEventListener("mouseleave", setToZero);
+      area.removeEventListener("mousemove", setFromEvent);
+      area.removeEventListener("mouseleave", setToZero);
     };
-  }, [ref]);
+  }, [ref, trackEnclosingLink]);
 
   return position;
 }
@@ -63,7 +68,9 @@ function useMousePosition(ref: React.RefObject<HTMLDivElement | null>) {
 interface TileProps {
   id: string;
   title: string;
-  href: string;
+  // Omit when the tile sits inside a larger link; it then renders as a div and
+  // still responds to the enclosing `group`'s hover and focus.
+  href?: string;
   color: ColorType;
   type: "case-studies" | "work";
   format?: "png" | "webp";
@@ -108,7 +115,7 @@ export default function Tile({
   format = "png",
 }: TileProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const position = useMousePosition(ref);
+  const position = useMousePosition(ref, !href);
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
@@ -138,8 +145,10 @@ export default function Tile({
     };
   }, []);
 
+  const Root = href ? "a" : "div";
+
   return (
-    <a
+    <Root
       href={href}
       className={`group block space-y-4 outline-none ${inView ? "inframe" : ""}`}
     >
@@ -179,6 +188,6 @@ export default function Tile({
           </h2>
         )}
       </div>
-    </a>
+    </Root>
   );
 }
