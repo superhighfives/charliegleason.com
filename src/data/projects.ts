@@ -11,6 +11,14 @@ export const projects: { title: string; data: Project[] } = {
   title: "Projects",
   data: [
     {
+      icon: "📷",
+      title: "Mark One",
+      property: "macOS Camera App",
+      subtitle: "Turns an original Olympus OM-D E-M5 into a Mac webcam",
+      url: "https://superhighfives.com/mark-one",
+      badge: "New",
+    },
+    {
       icon: "🌊",
       title: "Lysterfield Lake",
       property: "Experimental Music Video",
@@ -32,7 +40,6 @@ export const projects: { title: string; data: Project[] } = {
       property: "Generative Art Tool",
       subtitle: "A browser sketchbook for the AxiDraw pen plotter",
       url: "https://github.com/superhighfives/aiplo",
-      badge: "New",
     },
     {
       icon: "🎨",
