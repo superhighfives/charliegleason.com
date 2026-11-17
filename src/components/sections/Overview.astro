@@ -4,6 +4,8 @@ import Introduction from "./Introduction.astro";
 import PostsIsland from "../islands/Posts.tsx";
 import RecordsIsland from "../islands/Records.tsx";
 import HR from "../ui/HR.astro";
+import WorkingOn from "./WorkingOn.astro";
+import type { WorkingOn as WorkingOnItems } from "../../lib/nylon";
 import type { Posts } from "../../lib/posts";
 import type { LatestRecords } from "../../lib/records";
 
@@ -13,6 +15,7 @@ interface Props {
   endpoint?: string;
   records?: LatestRecords;
   recordsEndpoint?: string;
+  workingOn?: WorkingOnItems;
 }
 
 const {
@@ -21,34 +24,39 @@ const {
   endpoint = "",
   records,
   recordsEndpoint = "",
+  workingOn,
 } = Astro.props;
 ---
 
 <div class="space-y-12">
   <HR />
   <div class="grid grid-cols-1 lg:grid-cols-5 gap-x-12 gap-y-10">
-    <div class="lg:col-span-2 flex flex-col gap-10">
+    <div class="lg:col-span-2">
       <Introduction />
-
-      {
-        posts && (
-          <PostsIsland
-            client:load
-            posts={posts}
-            error={postsError}
-            endpoint={endpoint}
-          />
-        )
-      }
-
-      {
-        records && records.length > 0 && (
-          <RecordsIsland records={records} endpoint={recordsEndpoint} />
-        )
-      }
     </div>
     <div class="lg:col-span-3">
       <Events />
     </div>
+  </div>
+  <HR />
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-y-10 gap-x-12">
+    <WorkingOn items={workingOn} />
+
+    {
+      posts && (
+        <PostsIsland
+          client:load
+          posts={posts}
+          error={postsError}
+          endpoint={endpoint}
+        />
+      )
+    }
+
+    {
+      records && records.length > 0 && (
+        <RecordsIsland records={records} endpoint={recordsEndpoint} />
+      )
+    }
   </div>
 </div>

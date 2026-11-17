@@ -9,3 +9,7 @@ CODE_ENDPOINT=https://code.charliegleason.com
 
 # External records collection endpoint (optional)
 RECORDS_ENDPOINT=https://records.charliegleason.com
+
+# Nylon Impossible API token for the homepage's "Working on" list (optional)
+# Create one in Nylon → Settings → API token
+NYLON_TOKEN=nyl_your-token-here

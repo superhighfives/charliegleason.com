@@ -1,0 +1,68 @@
+---
+import {
+  FEED_IMAGE_CLASS,
+  FEED_LINK_CLASS,
+  FEED_META_CLASS,
+  FEED_TITLE_CLASS,
+  tilt,
+} from "../../lib/feed";
+import SourceLink from "../ui/SourceLink";
+import type { WorkingOn } from "../../lib/nylon";
+
+interface Props {
+  items?: WorkingOn;
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items && items.length > 0 && (
+    <div class="space-y-3">
+      <h2 class="tracking-widest text-xs font-display uppercase text-yellow-700 dark:text-yellow-500">
+        Active projects{" "}
+        <SourceLink href="https://nylonimpossible.com" label="nylonimpossible.com" />
+      </h2>
+      <ul class="grid gap-4 text-sm">
+        {items.map((item) => {
+          const Tag = item.url ? "a" : "div";
+          return (
+            <li>
+              <Tag
+                href={item.url}
+                class={item.url ? FEED_LINK_CLASS : "flex gap-3"}
+              >
+                {item.icon && (
+                  <img
+                    src={item.icon}
+                    alt=""
+                    class:list={[FEED_IMAGE_CLASS, "rounded-xl"]}
+                    style={tilt(item.title)}
+                    loading="lazy"
+                  />
+                )}
+                <span class="flex flex-col items-start gap-1 min-w-0">
+                  <span class="block">
+                    <span class={item.url ? FEED_TITLE_CLASS : "text-pretty"}>
+                      {item.title}
+                    </span>
+                  </span>
+                  {item.notes && (
+                    <span class="text-xs text-pretty text-neutral-600 dark:text-neutral-400">
+                      {item.notes}
+                    </span>
+                  )}
+                  {item.host && (
+                    <span class={FEED_META_CLASS}>
+                      {item.host}
+                    </span>
+                  )}
+                </span>
+              </Tag>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  )
+}

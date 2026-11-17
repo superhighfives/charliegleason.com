@@ -47,9 +47,11 @@ const { sections } = Astro.props;
               </div>
             )}
             <div class="flex flex-wrap items-center gap-x-2">
-              <Link href={entry.url} class="-ml-1" size="large">
-                {entry.title}
-              </Link>
+              <span>
+                <Link href={entry.url} class="-ml-1" size="large">
+                  {entry.title}
+                </Link>
+              </span>
               {entry.badge && (
                 <span class="text-[10px] leading-none uppercase tracking-widest font-medium text-yellow-700 dark:text-yellow-500 border border-yellow-500 dark:border-yellow-700 rounded-full px-2 py-1">
                   {entry.badge}

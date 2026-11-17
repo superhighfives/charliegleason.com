@@ -1,4 +1,5 @@
 ---
+import { env } from "cloudflare:workers";
 import { Effect } from "effect";
 import Layout from "../layouts/Layout.astro";
 import Container from "../components/ui/Container.astro";
@@ -17,6 +18,7 @@ import { caseStudies, projects, articles, features } from "../data";
 import { sampleSize, random } from "lodash-es";
 import { fetchPosts, type Posts } from "../lib/posts";
 import { fetchRecords, type LatestRecords } from "../lib/records";
+import { fetchWorkingOn, type WorkingOn } from "../lib/nylon";
 import emojiList from "../data/emoji-list";
 
 // Generate random avatar and emoji for this request, landing on the curated
@@ -41,9 +43,13 @@ interface PostsState {
 const recordsEndpoint =
   import.meta.env.RECORDS_ENDPOINT || "https://records.charliegleason.com";
 
-const [postsState, records]: [
+// What I'm working on, from my Nylon list (cached; hides if unavailable)
+const cfContext = Astro.locals.cfContext;
+
+const [postsState, records, workingOn]: [
   PostsState,
   LatestRecords | undefined,
+  WorkingOn | undefined,
 ] = await Promise.all([
   Effect.runPromise(
     fetchPosts(codeEndpoint, 4).pipe(
@@ -57,7 +63,7 @@ const [postsState, records]: [
     )
   ),
   Effect.runPromise(
-    fetchRecords(recordsEndpoint, 4).pipe(
+    fetchRecords(recordsEndpoint, 6).pipe(
       Effect.catchAll((error) =>
         Effect.gen(function* () {
           yield* Effect.logError(`Initial records fetch failed: ${error._tag}`);
@@ -65,6 +71,12 @@ const [postsState, records]: [
         })
       )
     )
+  ),
+  Effect.runPromise(
+    fetchWorkingOn(env.NYLON_TOKEN, {
+      limit: 4,
+      waitUntil: cfContext ? (p) => cfContext.waitUntil(p) : undefined,
+    })
   ),
 ]);
 ---
@@ -79,6 +91,7 @@ const [postsState, records]: [
         endpoint={codeEndpoint}
         records={records}
         recordsEndpoint={recordsEndpoint}
+        workingOn={workingOn}
       />
       <CaseStudies
         caseStudies={caseStudies}

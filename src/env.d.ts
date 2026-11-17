@@ -8,6 +8,8 @@
 declare namespace Cloudflare {
   interface Env {
     AUTH_PASSWORD: string;
+    /** Nylon Impossible API token (read-only); unset hides "Working on" */
+    NYLON_TOKEN: string;
   }
 }
 
