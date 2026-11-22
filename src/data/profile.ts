@@ -88,6 +88,10 @@ export const metadata: Metadata = {
 
 export const awards: Award[] = [
   {
+    year: "2026",
+    title: "MacPip Awards, Nomination for Best Open Source App, Pika",
+  },
+  {
     year: "2024",
     title: "AWWWARDS, Nomination for Typography Honors, Lysterfield Lake",
   },
